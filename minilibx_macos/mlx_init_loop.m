@@ -182,3 +182,12 @@ int mlx_loop_hook(mlx_ptr_t *mlx_ptr, void (*fct)(void *), void *param)
 
   return (0);
 }
+
+void	mlx_destroy(void *mlx_ptr)
+{
+	mlx_ptr_t	*ptr;
+
+	ptr = mlx_ptr;
+	mlx_destroy_image(ptr, ptr->font);
+	free(ptr);
+}

@@ -139,4 +139,10 @@ int	mlx_do_key_autorepeatoff(void *mlx_ptr);
 int	mlx_do_key_autorepeaton(void *mlx_ptr);
 int	mlx_do_sync(void *mlx_ptr);
 
+/*
+**  Extra function to destroy mlx and solve mlx leaks
+*/
+
+void	*mlx_destroy(void *mlx_ptr);
+
 #endif /* MLX_H */
