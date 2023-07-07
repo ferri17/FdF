@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 22:39:23 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/05 22:39:44 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/07 21:24:26 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	escape_key_hook(int keycode, void *param)
 		close_program(param);
 	return (0);
 }
+
 int	close_program(void *param)
 {
 	t_mlx	*data;

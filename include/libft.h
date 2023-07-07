@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 23:12:44 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/02 16:45:24 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/06 23:46:28 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,5 +107,6 @@ int		ft_print_hexa(unsigned int nb, int is_upper);
 int		ft_strcmp(const char *s1, const char *s2);
 void	ft_free_malloc_array(char **arr, int i);
 int		ft_array_len(char **arr);
+char	**ft_split_str(char const *s, char *sep);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 19:36:01 by fbosch            #+#    #+#              #
-#    Updated: 2023/07/06 01:14:14 by fbosch           ###   ########.fr        #
+#    Updated: 2023/07/07 17:50:43 by fbosch           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ BONUS_OBJ = $(patsubst $(SRC_DIR)%.c,$(BUILD_DIR)%.o,$(BONUS_FILES))
 DEP = $(OBJ:%.o=%.d) $(BONUS_OBJ:%.o=%.d)
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g3
 DEPFLAGS = -I$(INCLUDE_DIR) -I$(MLX_DIR) -MMD -MP
 MLXFLGS = -L$(MLX_DIR) -lmlx -framework OpenGL -framework AppKit
 DIR_DUP = mkdir -p $(@D)

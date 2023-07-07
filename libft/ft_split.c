@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 21:22:29 by fbosch            #+#    #+#             */
-/*   Updated: 2023/05/08 18:56:37 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/06 23:45:45 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static char	*split_words(char const **str, char c)
 	word_len = 0;
 	while (str[0][word_len] != c && str[0][word_len] != '\0')
 		word_len++;
-	word = (char *)malloc(sizeof(char) * word_len + 1);
+	word = (char *)malloc(sizeof(char) * (word_len + 1));
 	if (word == NULL)
 		return (NULL);
 	i = 0;

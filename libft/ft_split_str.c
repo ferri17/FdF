@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_str.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 21:07:55 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/06 21:09:14 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/06 23:45:34 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static char	*ft_strchr(const char *s, int c)
+static char	*ft_strchr_mod(const char *s, int c)
 {
 	while (*s)
 	{
@@ -20,8 +20,6 @@ static char	*ft_strchr(const char *s, int c)
 			return ((char *) s);
 		s++;
 	}
-	/* if ((char) c == '\0')
-		return ((char *) s); */
 	return (NULL);
 }
 
@@ -30,13 +28,13 @@ static unsigned int	word_count(char const *s, char *sep)
 	unsigned int	words;
 
 	words = 0;
-	if (ft_strchr(sep, *s) == NULL && *s != '\0')
+	if (ft_strchr_mod(sep, *s) == NULL && *s != '\0')
 		words++;
 	while (*s)
 	{
-		if (ft_strchr(sep, *s) != NULL)
+		if (ft_strchr_mod(sep, *s) != NULL)
 		{
-			while (ft_strchr(sep, *s) != NULL)
+			while (ft_strchr_mod(sep, *s) != NULL)
 				s++;
 			if (*s != '\0')
 				words++;
@@ -52,18 +50,18 @@ static char	*split_words(char const **str, char *sep)
 {
 	char			*word;
 	unsigned int	i;
-	size_t			word_len;
+	size_t			len;
 
-	while (ft_strchr(sep, **str) != NULL)
+	while (ft_strchr_mod(sep, **str) != NULL)
 		*str = *str + 1;
-	word_len = 0;
-	while (ft_strchr(sep, str[0][word_len]) == NULL && str[0][word_len] != '\0')
-		word_len++;
-	word = (char *)malloc(sizeof(char) * word_len + 1);
+	len = 0;
+	while (ft_strchr_mod(sep, str[0][len]) == NULL && str[0][len] != '\0')
+		len++;
+	word = (char *)malloc(sizeof(char) * (len + 1));
 	if (word == NULL)
 		return (NULL);
 	i = 0;
-	while (i < word_len)
+	while (i < len)
 	{
 		word[i++] = **str;
 		*str = *str + 1;
@@ -82,11 +80,8 @@ static void	free_malloc(char **arr, int i)
 	free(arr);
 }
 
-char	**ft_split_str(char const *s, char c)
+char	**ft_split_str(char const *s, char *sep)
 {
-	char			sep[2];
-	sep[0] = c;
-	sep[1] = 0;
 	char			**arr;
 	unsigned int	words;
 	unsigned int	i;
