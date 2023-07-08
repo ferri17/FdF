@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:50:15 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/07 21:23:12 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/08 11:47:56 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # define UNEXPECTED_ERR "Unexpected error, please run the program again."
 /*#define ERROR(number) "Error [" #number "]" */
 
-# define WIDTH 1350
-# define HEIGHT 800
+# define WIN_W 1000
+# define WIN_H 700
 # define ESC_KEY 53
 # define CROSS_EVENT 17
 
@@ -33,6 +33,15 @@
 # define ROCKET "\xF0\x9F\x9A\x80"	
 
 # include <fcntl.h>
+
+typedef struct s_image
+{
+	void	*ptr;
+	int		pixel_bits;
+	int		line_bytes;
+	int		endian;
+	char	*buffer;
+}	t_image;
 
 typedef struct s_mlx
 {
@@ -54,7 +63,14 @@ typedef struct s_map
 	t_point *terrain;
 }	t_map;
 
-/*###	UTILS	###*/
+/*###   PARSING MAP   ###*/
+void	init_map(t_map *map);
+void	load_map(char *map_dir, t_map *map);
+
+/*###   UTILS   ###*/
+int		compare_str_end(char *str, char *end);
+
+/*###	EVENTS	###*/
 int		escape_key_hook(int keycode, void *param);
 int		close_program(void *param);
 
