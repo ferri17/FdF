@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:50:15 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/08 11:47:56 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/11 00:43:30 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,12 @@
 # define Y 1
 # define Z 2
 
-# define ROCKET "\xF0\x9F\x9A\x80"	
+# define WHITE 0xFFFFFF	
+# define BLACK 0x0
+# define ACQUA 0x36FFDD
 
 # include <fcntl.h>
+# include <math.h> //CHECK IF IT HAS TO BE INCLUDED AS MAKEFILE FLAG
 
 typedef struct s_image
 {
@@ -69,10 +72,11 @@ void	load_map(char *map_dir, t_map *map);
 
 /*###   UTILS   ###*/
 int		compare_str_end(char *str, char *end);
+void	free_and_close(t_mlx *data, t_map *map, t_image *img, int exit_code);
 
 /*###	EVENTS	###*/
 int		escape_key_hook(int keycode, void *param);
-int		close_program(void *param);
+int		close_program(void *param, int exit_code);
 
 /*###	ERRORS	###*/
 void	error_exit(char *mssg);

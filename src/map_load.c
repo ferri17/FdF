@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 22:15:25 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/08 11:29:09 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/11 00:43:28 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ static void	fill_terrain(char *line, int y, t_map *map)
 		i++;
 		x++;
 	}
+	ft_free_malloc_array(args, ft_array_len(args));
 }
 
 static void	get_map_info(char *map_dir, t_map *map)
@@ -121,6 +122,7 @@ void	load_map(char *map_dir, t_map *map)
 		if (line == NULL)
 			break ;
 		fill_terrain(line, i, map);
+		free(line);
 		i++;
 	}
 	ft_printf("\r ✅ Read a total of %i / %i points \n", map->size, map->size);
