@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 22:15:25 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/11 00:43:28 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/12 00:08:47 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	init_map(t_map *map)
 	map->x_size = 0;
 	map->y_size = 0;
 	map->size = 0;
+	map->zoom = 2;
 	map->terrain = NULL;
 }
 

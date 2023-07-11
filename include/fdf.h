@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:50:15 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/11 00:43:30 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/12 00:48:27 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef struct s_map
 	int	x_size;
 	int	y_size;
 	int	size;
+	int	zoom;
 	t_point *terrain;
 }	t_map;
 
@@ -73,6 +74,13 @@ void	load_map(char *map_dir, t_map *map);
 /*###   UTILS   ###*/
 int		compare_str_end(char *str, char *end);
 void	free_and_close(t_mlx *data, t_map *map, t_image *img, int exit_code);
+
+/*###   DRAW   ###*/
+void	print_line(t_image *img, int x0, int y0, int x1, int y1);
+int		my_put_pixel(t_image *img, int x, int y, int color);
+void	set_color(t_image *img, int pixel, int color);
+void	fill_background(t_mlx *data, t_image *img, int color);
+
 
 /*###	EVENTS	###*/
 int		escape_key_hook(int keycode, void *param);

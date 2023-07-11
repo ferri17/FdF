@@ -6,7 +6,7 @@
 #    By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 19:36:01 by fbosch            #+#    #+#              #
-#    Updated: 2023/07/10 23:28:23 by fbosch           ###   ########.fr        #
+#    Updated: 2023/07/12 00:10:50 by fbosch           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ BONUS_NAME = fdf_bonus
 LIBFT = libft.a
 LIBFT_DIR = libft/
 
-SRC = main.c events.c errors.c utils.c map_load.c
+SRC = main.c events.c errors.c utils.c map_load.c draw.c
 
 BONUS_SRC =
 
