@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 00:03:56 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/13 01:25:36 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/13 14:27:32 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	my_put_pixel(t_image *img, int x, int y, int color)
 {
 	int	pixel;
 
-	if(x >= WIN_W || y >= WIN_H)
+	if(x >= WIN_W || y >= WIN_H || x < 0 || y < 0)
 		return (1);
 	pixel = (img->line_bytes * y) + (x * img->pixel_bits / 8);
 	set_color(img, pixel, color);

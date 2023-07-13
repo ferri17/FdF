@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:50:15 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/13 01:12:44 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/13 14:34:11 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,12 @@
 
 # define WIN_W 1000
 # define WIN_H 700
-# define ESC_KEY 53
 # define CROSS_EVENT 17
+# define ESC_KEY 53
+# define PLUS_KEY 0x45
+# define MINUS_KEY 0x4E
+# define O_KEY 0x12
+# define P_KEY 0x13
 
 # define X 0
 # define Y 1
@@ -45,13 +49,6 @@ typedef struct s_image
 	char	*buffer;
 }	t_image;
 
-typedef struct s_mlx
-{
-	void	*mlx;
-	void	*mlx_win;
-	t_image	img;
-}	t_mlx;
-
 typedef struct s_point
 {
 	int z;
@@ -60,17 +57,28 @@ typedef struct s_point
 
 typedef struct s_map
 {
-	int	fd;
-	int	x_size;
-	int	y_size;
-	int	size;
-	int	zoom;
-	int	x0;
-	int	y0;
-	int	x1;
-	int	y1;
-	t_point **terrain;
+	int		fd;
+	int		x_size;
+	int		y_size;
+	int		size;
+	float	zoom;
+	int		x0;
+	int		y0;
+	int		x1;
+	int		y1;
+	t_point	**terrain;
 }	t_map;
+
+typedef struct s_mlx
+{
+	void	*mlx;
+	void	*mlx_win;
+	t_map	map;
+	t_image	img;
+
+}	t_mlx;
+
+
 
 typedef struct s_bresenh
 {
@@ -108,6 +116,7 @@ int		compare_str_end(char *str, char *end);
 void	free_and_close(t_mlx *data, t_map *map, t_image *img, int exit_code);
 
 /*###   DRAW   ###*/
+void	init_visualization(t_mlx *data, t_map *map);
 void	draw_map(t_mlx *data, t_map *map);
 void	bresenham(t_map *map, t_image *img);
 int		my_put_pixel(t_image *img, int x, int y, int color);
@@ -118,6 +127,8 @@ void	fill_background(t_mlx *data, int color);
 /*###	EVENTS	###*/
 int		key_hook(int keycode, void *param);
 int		close_program(void *param, int exit_code);
+void	zoom_in(void *param);
+void	zoom_out(void *param);
 
 /*###	ERRORS	###*/
 void	error_exit(char *mssg);

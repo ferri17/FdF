@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+         #
+#    By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 19:36:01 by fbosch            #+#    #+#              #
-#    Updated: 2023/07/13 02:07:33 by fbosch           ###   ########.fr        #
+#    Updated: 2023/07/13 12:31:01 by fbosch           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ DEP = $(OBJ:%.o=%.d) $(BONUS_OBJ:%.o=%.d)
 
 CC = cc
 CFLAGS = #-Wall -Wextra -Werror
-DEPFLAGS = -I$(INCLUDE_DIR) -I$(MLX_DIR) -MMD -MP
+DEPFLAGS = -I $(INCLUDE_DIR) -I $(MLX_DIR) -MMD -MP
 MLXFLGS = -L$(MLX_DIR) -lmlx -framework OpenGL -framework AppKit
 DIR_DUP = mkdir -p $(@D)
 
