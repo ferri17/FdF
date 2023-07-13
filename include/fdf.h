@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:50:15 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/12 00:48:27 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/13 01:12:44 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@
 
 # define X 0
 # define Y 1
-# define Z 2
 
 # define WHITE 0xFFFFFF	
 # define BLACK 0x0
@@ -50,9 +49,42 @@ typedef struct s_mlx
 {
 	void	*mlx;
 	void	*mlx_win;
+	t_image	img;
 }	t_mlx;
 
 typedef struct s_point
+{
+	int z;
+	int	color;
+}	t_point;
+
+typedef struct s_map
+{
+	int	fd;
+	int	x_size;
+	int	y_size;
+	int	size;
+	int	zoom;
+	int	x0;
+	int	y0;
+	int	x1;
+	int	y1;
+	t_point **terrain;
+}	t_map;
+
+typedef struct s_bresenh
+{
+	int	start[2];
+	int	end[2];
+	int	dx;
+	int	dy;
+	int	sx;
+	int	sy;
+	int	err;
+	int	err2;
+}	t_bresenh;
+
+/* typedef struct s_point
 {
 	int pos[3];
 }	t_point;
@@ -65,7 +97,7 @@ typedef struct s_map
 	int	size;
 	int	zoom;
 	t_point *terrain;
-}	t_map;
+}	t_map; */
 
 /*###   PARSING MAP   ###*/
 void	init_map(t_map *map);
@@ -76,17 +108,22 @@ int		compare_str_end(char *str, char *end);
 void	free_and_close(t_mlx *data, t_map *map, t_image *img, int exit_code);
 
 /*###   DRAW   ###*/
-void	print_line(t_image *img, int x0, int y0, int x1, int y1);
+void	draw_map(t_mlx *data, t_map *map);
+void	bresenham(t_map *map, t_image *img);
 int		my_put_pixel(t_image *img, int x, int y, int color);
 void	set_color(t_image *img, int pixel, int color);
-void	fill_background(t_mlx *data, t_image *img, int color);
+void	fill_background(t_mlx *data, int color);
 
 
 /*###	EVENTS	###*/
-int		escape_key_hook(int keycode, void *param);
+int		key_hook(int keycode, void *param);
 int		close_program(void *param, int exit_code);
 
 /*###	ERRORS	###*/
 void	error_exit(char *mssg);
+
+/*###	UTILS TO BE DELETED	###*/
+void	error_exit(char *mssg);
+void	print_loaded_map(t_map *map);
 
 #endif

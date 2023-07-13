@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 22:39:23 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/11 00:43:24 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/12 20:54:06 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "fdf.h"
 #include "mlx.h"
 
-int	escape_key_hook(int keycode, void *param)
+int	key_hook(int keycode, void *param)
 {
 	if (keycode == ESC_KEY)
 		close_program(param, EXIT_SUCCESS);

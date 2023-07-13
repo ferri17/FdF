@@ -6,7 +6,7 @@
 #    By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 19:36:01 by fbosch            #+#    #+#              #
-#    Updated: 2023/07/12 00:10:50 by fbosch           ###   ########.fr        #
+#    Updated: 2023/07/13 02:07:33 by fbosch           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ BONUS_NAME = fdf_bonus
 LIBFT = libft.a
 LIBFT_DIR = libft/
 
-SRC = main.c events.c errors.c utils.c map_load.c draw.c
+SRC = main.c events.c errors.c utils.c map_load.c draw.c bresenham.c
 
 BONUS_SRC =
 
@@ -43,7 +43,7 @@ BONUS_OBJ = $(patsubst $(SRC_DIR)%.c,$(BUILD_DIR)%.o,$(BONUS_FILES))
 DEP = $(OBJ:%.o=%.d) $(BONUS_OBJ:%.o=%.d)
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = #-Wall -Wextra -Werror
 DEPFLAGS = -I$(INCLUDE_DIR) -I$(MLX_DIR) -MMD -MP
 MLXFLGS = -L$(MLX_DIR) -lmlx -framework OpenGL -framework AppKit
 DIR_DUP = mkdir -p $(@D)

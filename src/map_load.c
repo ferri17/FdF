@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 22:15:25 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/12 00:08:47 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/13 01:45:40 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	init_map(t_map *map)
 	map->x_size = 0;
 	map->y_size = 0;
 	map->size = 0;
-	map->zoom = 2;
+	map->zoom = 30;
 	map->terrain = NULL;
 }
 
@@ -65,14 +65,23 @@ static void	fill_terrain(char *line, int y, t_map *map)
 		close(map->fd);
 		error_exit(UNEXPECTED_ERR);
 	}
+	map->terrain[y] = (t_point *)malloc(sizeof(t_point) * map->x_size);
+//	if (!map->terrain[i]
+//	{
+//		free.....
+//	}
 	x = 0;
 	while (args[x])
 	{
 		if (ft_strcmp(args[x], "\n") == 0)
 			break ;
-		map->terrain[i].pos[X] = x;
-		map->terrain[i].pos[Y] = y;
-		map->terrain[i].pos[Z] = ft_atoi(args[x]);
+		/* map->terrain[i].pos[X] = x;
+		map->terrain[i].pos[Y] = y; */
+		map->terrain[y][x].z = ft_atoi(args[x]);
+		if (map->terrain[y][x].z != 0)
+			map->terrain[y][x].color = ACQUA;
+		else
+			map->terrain[y][x].color = WHITE;
 		ft_printf("\r 🚀 Reading points... %i / %i", i + 1, map->size);
 		i++;
 		x++;
@@ -110,7 +119,7 @@ void	load_map(char *map_dir, t_map *map)
 	map->fd = open(map_dir, O_RDONLY);
 	if (map->fd < 0)
 		error_exit(FILE_ERROR);
-	map->terrain = (t_point *)malloc(sizeof(t_point) * map->size);
+	map->terrain = (t_point **)malloc(sizeof(t_point *) * map->y_size);
 	if (!map->terrain)
 	{
 		close(map->fd);

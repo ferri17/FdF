@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 00:03:56 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/12 00:48:32 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/13 01:25:36 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,45 @@
 #include "libft.h"
 #include "mlx.h"
 
-void	fill_background(t_mlx *data, t_image *img, int color)
+void	draw_map(t_mlx *data, t_map *map)
 {
-	if (!data)
-		return;
-	int	pixel;
 	int	x;
 	int	y;
 
-	if (img->pixel_bits != 32)
+	y = 0;
+	while (y < map->y_size)
+	{
+		x = 0;
+		while (x < map->x_size)
+		{
+			map->x0 = x;
+			map->y0 = y;
+			map->x1 = x;
+			map->y1 = y;
+			if (x != map->x_size -1)
+			{
+				map->x1 += 1;
+				bresenham(map, &data->img);
+			}
+			map->x1 = x;
+			if (y != map->y_size -1)
+			{
+				map->y1 += 1;
+				bresenham(map, &data->img);			
+			}
+			//ft_printf("X0, Y0: %i, %i ----- X1, Y1: %i, %i\n", map->line[X0], map->line[Y0], map->line[X1], map->line[Y1]);
+			x++;
+		}
+		y++;
+	}
+}
+
+void	fill_background(t_mlx *data, int color)
+{
+	int	x;
+	int	y;
+
+	if (data->img.pixel_bits != 32)
    		color = mlx_get_color_value(data->mlx, color);
 	y = 0;
 	while(y < WIN_H)
@@ -30,8 +60,7 @@ void	fill_background(t_mlx *data, t_image *img, int color)
 		x = 0;
 		while(x < WIN_W)
 		{
-			pixel = (y * img->line_bytes) + (x * img->pixel_bits / 8);
-			set_color(img, pixel, color);
+			my_put_pixel(&data->img, x, y, color);
 			x++;
 		}
 		y++;
@@ -67,61 +96,22 @@ int	my_put_pixel(t_image *img, int x, int y, int color)
 	return (0);
 }
 
-void	print_line(t_image *img, int x0, int y0, int x1, int y1)
+void	print_loaded_map(t_map *map)
 {
-	x0 *= 40;
-	y0 *= 40;
-	x1 *= 40;
-	y1 *= 40;
-	int dx = abs(x1 - x0);
-    int dy = abs(y1 - y0);
-    int sx = (x0 < x1) ? 1 : -1;
-    int sy = (y0 < y1) ? 1 : -1;
-    int err = dx - dy;
+	int	x;
+	int	y;
 
-    while (x0 != x1 || y0 != y1) {
-        my_put_pixel(img, x0, y0, WHITE);
-
-        int err2 = 2 * err;
-        if (err2 > -dy) {
-            err -= dy;
-            x0 += sx;
-        }
-        if (err2 < dx) {
-            err += dx;
-            y0 += sy;
-        }
-    }
-
-    my_put_pixel(img, x1, y1, WHITE);
-}
-
-/* void	print_loaded_map(t_map *map)
-{
-	int	i;
-
-	i = 0;
-	while (i < map->size)
+	y = 0;
+	while (y < map->y_size)
 	{
-		ft_printf("%i,%i,%i   ", map->terrain[i].pos[X], map->terrain[i].pos[Y],
-			map->terrain[i].pos[Z]);
-		if (map->terrain[i].pos[X] == map->x_size - 1)
-			ft_printf("\n");
-		i++;
+		x = 0;
+		while (x < map->x_size)
+		{
+			ft_printf("%i,%i,%i   ", x, y, map->terrain[y][x].z);
+			x++;
+		}
+		ft_printf("\n");
+		y++;
 	}
 	ft_printf("\n");
-	ft_printf("%i,%i,%i   ", map->terrain[i].pos[X], map->terrain[i].pos[Y],
-		map->terrain[i].pos[Z]);
-} */
-
-/* void	print_square(t_image *img, int size, int xo, int yo)
-{
-	for (int i = 0; i < size; i++)
-	{
-		for (int j = 0; j < size; j++)
-		{
-			if ((i == 0 || i == size - 1|| j == 0 || j == size - 1))
-				my_put_pixel(img, xo + j, yo + i, ACQUA);
-		}
-	}
-} */
+}
