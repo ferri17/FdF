@@ -2,6 +2,7 @@
 	"files.associations": {
 		"libft.h": "c",
 		"__locale": "c",
-		"mlx.h": "c"
+		"mlx.h": "c",
+		"stdbool.h": "c"
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:50:15 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/13 14:34:11 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/13 19:16:52 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,24 +21,47 @@
 # define UNEXPECTED_ERR "Unexpected error, please run the program again."
 /*#define ERROR(number) "Error [" #number "]" */
 
+/*###	WINDOW SIZE	###*/
 # define WIN_W 1000
 # define WIN_H 700
-# define CROSS_EVENT 17
+
+/*###	KEY MAPPING	###*/
 # define ESC_KEY 53
 # define PLUS_KEY 0x45
 # define MINUS_KEY 0x4E
-# define O_KEY 0x12
-# define P_KEY 0x13
+# define O_KEY 0x1F
+# define P_KEY 0x23
+
+/*###	X11 EVENTS SUPPORTED BY MINILIBX	###*/
+# define KEYDOWN 2
+# define KEYUP 3
+# define MOUSEDOWN 4
+# define MOUSEUP 5
+# define MOUSEMOVE 6
+# define EXPOSE 12
+# define DESTROY 17
+
+/*###	MOUSE EVENTS	###*/
+# define MID_CLICK 3
+# define SCROLL_UP 4
+# define SCROLL_DOWN 5
 
 # define X 0
 # define Y 1
 
+/*###	COLORS	###*/
 # define WHITE 0xFFFFFF	
 # define BLACK 0x0
 # define ACQUA 0x36FFDD
 
 # include <fcntl.h>
 # include <math.h> //CHECK IF IT HAS TO BE INCLUDED AS MAKEFILE FLAG
+# include <stdbool.h>
+
+typedef struct s_key
+{
+	bool	mid_clicked;
+}	t_key;
 
 typedef struct s_image
 {
@@ -66,6 +89,7 @@ typedef struct s_map
 	int		y0;
 	int		x1;
 	int		y1;
+	int		translate[2];
 	t_point	**terrain;
 }	t_map;
 
@@ -75,10 +99,8 @@ typedef struct s_mlx
 	void	*mlx_win;
 	t_map	map;
 	t_image	img;
-
+	t_key	key;
 }	t_mlx;
-
-
 
 typedef struct s_bresenh
 {
@@ -92,23 +114,8 @@ typedef struct s_bresenh
 	int	err2;
 }	t_bresenh;
 
-/* typedef struct s_point
-{
-	int pos[3];
-}	t_point;
-
-typedef struct s_map
-{
-	int	fd;
-	int	x_size;
-	int	y_size;
-	int	size;
-	int	zoom;
-	t_point *terrain;
-}	t_map; */
-
 /*###   PARSING MAP   ###*/
-void	init_map(t_map *map);
+void	init_data(t_mlx *data);
 void	load_map(char *map_dir, t_map *map);
 
 /*###   UTILS   ###*/
@@ -125,10 +132,15 @@ void	fill_background(t_mlx *data, int color);
 
 
 /*###	EVENTS	###*/
-int		key_hook(int keycode, void *param);
+int		key_down(int keycode, void *param);
+int		mouse_down(int button, int x,int y, void *param);
+int		mouse_up(int button, int x,int y, void *param);
+int		mouse_move(int x, int y, void *param);
 int		close_program(void *param, int exit_code);
 void	zoom_in(void *param);
 void	zoom_out(void *param);
+void	height_up(void *param);
+void	height_down(void *param);
 
 /*###	ERRORS	###*/
 void	error_exit(char *mssg);

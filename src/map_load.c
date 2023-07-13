@@ -6,21 +6,22 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 22:15:25 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/13 12:24:37 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/13 15:34:25 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include "libft.h"
 
-void	init_map(t_map *map)
+void	init_data(t_mlx *data)
 {
-	map->fd = 0;
-	map->x_size = 0;
-	map->y_size = 0;
-	map->size = 0;
-	map->zoom = 5;
-	map->terrain = NULL;
+	data->map.fd = 0;
+	data->map.x_size = 0;
+	data->map.y_size = 0;
+	data->map.size = 0;
+	data->map.zoom = 5;
+	data->map.terrain = NULL;
+	data->img.ptr = NULL;
 }
 
 static void	count_width_map(char *line, t_map *map)
