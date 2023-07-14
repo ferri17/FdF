@@ -3,21 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 22:39:23 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/13 19:18:15 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/14 19:21:13 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "fdf.h"
+#include "libft.h"
 #include "mlx.h"
 
 int	mouse_move(int x, int y, void *param)
 {
-	t_mlx	*data = (t_mlx *)param;
+	t_mlx	*data;
 
+	data = (t_mlx *)param;
 	if (data->key.mid_clicked)
 		ft_printf("%i, %i\n", x, y);
 	return (0);
@@ -28,43 +29,41 @@ int	key_down(int keycode, void *param)
 	if (keycode == ESC_KEY)
 		close_program(param, EXIT_SUCCESS);
 	if (keycode == PLUS_KEY)
-		zoom_in(param);
+		zoom_screen(param, 1.2);
 	if (keycode == MINUS_KEY)
-		zoom_out(param);
- 	if (keycode == O_KEY)
-		height_down(param);
+		zoom_screen(param, 0.8);
+	if (keycode == O_KEY)
+		change_height(param, -1);
 	if (keycode == P_KEY)
-		height_up(param);
+		change_height(param, 1);
 	return (0);
 }
 
-int	mouse_down(int button, int x,int y, void *param)
+int	mouse_down(int button, int x, int y, void *param)
 {
-	t_mlx	*data = (t_mlx *)param;
-	
+	t_mlx	*data;
+
+	data = (t_mlx *)param;
 	if (button == SCROLL_DOWN)
-		zoom_in(param);
+		zoom_screen(param, 1.2);
 	if (button == SCROLL_UP)
-		zoom_out(param);
+		zoom_screen(param, 0.8);
 	if (button == MID_CLICK)
-	{
 		data->key.mid_clicked = 1;
-	}
 	return (0);
 }
 
-int	mouse_up(int button, int x,int y, void *param)
+int	mouse_up(int button, int x, int y, void *param)
 {
-	t_mlx	*data = (t_mlx *)param;
-	
+	t_mlx	*data;
+
+	data = (t_mlx *)param;
 	if (button == MID_CLICK)
-	{
 		data->key.mid_clicked = 0;
-	}
 	return (0);
 }
 
-void	iterate_terrain(t_map *map, int	delta)
+void	iterate_terrain(t_map *map, int delta)
 {
 	int		x;
 	int		y;
@@ -82,42 +81,23 @@ void	iterate_terrain(t_map *map, int	delta)
 		}
 		y++;
 	}
-	
 }
 
-void	height_up(void *param)
+void	change_height(void *param, int delta)
 {
 	t_mlx	*data;
 
 	data = (t_mlx *)param;
-	iterate_terrain(&data->map, 1);
+	iterate_terrain(&data->map, delta);
 	init_visualization(data, &data->map);
 }
 
-void	height_down(void *param)
+void	zoom_screen(void *param, float zoom)
 {
 	t_mlx	*data;
 
 	data = (t_mlx *)param;
-	iterate_terrain(&data->map, -1);
-	init_visualization(data, &data->map);
-}
-
-void	zoom_in(void *param)
-{
-	t_mlx	*data;
-
-	data = (t_mlx *)param;
-	data->map.zoom *= 1.2;
-	init_visualization(data, &data->map);
-}
-
-void	zoom_out(void *param)
-{
-	t_mlx	*data;
-
-	data = (t_mlx *)param;
-	data->map.zoom /= 1.2;
+	data->map.zoom *= zoom;
 	init_visualization(data, &data->map);
 }
 
@@ -128,5 +108,6 @@ int	close_program(void *param, int exit_code)
 	data = (t_mlx *)param;
 	mlx_destroy_window(data->mlx, data->mlx_win);
 	mlx_destroy(data->mlx);
+	free_terrain(&data->map, data->map.y_size - 1);
 	exit(exit_code);
 }

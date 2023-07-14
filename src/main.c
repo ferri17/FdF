@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:08:24 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/13 19:24:29 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/14 19:18:42 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,19 @@
 
 void	init_visualization(t_mlx *data, t_map *map)
 {
-	void	*aux_img;
-	//print_loaded_map(map);
-	aux_img = NULL;
+	void	*aux_ptr;
+
+	aux_ptr = NULL;
 	if (data->img.ptr != NULL)
-		aux_img = data->img.ptr;
+		aux_ptr = data->img.ptr;
 	data->img.ptr = mlx_new_image(data->mlx, WIN_W, WIN_H);
-	data->img.buffer = mlx_get_data_addr(data->img.ptr, &data->img.pixel_bits,\
+	data->img.buffer = mlx_get_data_addr(data->img.ptr, &data->img.pixel_bits,
 			&data->img.line_bytes, &data->img.endian);
 	fill_background(data, WHITE);
 	draw_map(data, map);
 	mlx_put_image_to_window(data->mlx, data->mlx_win, data->img.ptr, 0, 0);
-	if (aux_img != NULL)
-		mlx_destroy_image(data->mlx, aux_img);
+	if (aux_ptr != NULL)
+		mlx_destroy_image(data->mlx, aux_ptr);
 }
 
 int	main(int ac, char **av)

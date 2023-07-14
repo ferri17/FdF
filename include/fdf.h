@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:50:15 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/13 19:16:52 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/14 19:01:21 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,14 @@ typedef struct s_point
 	int	color;
 }	t_point;
 
+typedef struct s_line
+{
+	int	x0;
+	int	y0;
+	int	x1;
+	int	y1;
+}	t_line;
+
 typedef struct s_map
 {
 	int		fd;
@@ -85,11 +93,8 @@ typedef struct s_map
 	int		y_size;
 	int		size;
 	float	zoom;
-	int		x0;
-	int		y0;
-	int		x1;
-	int		y1;
 	int		translate[2];
+	t_line	line;
 	t_point	**terrain;
 }	t_map;
 
@@ -104,8 +109,8 @@ typedef struct s_mlx
 
 typedef struct s_bresenh
 {
-	int	start[2];
-	int	end[2];
+	//int	start[2];
+	//int	end[2];
 	int	dx;
 	int	dy;
 	int	sx;
@@ -119,13 +124,14 @@ void	init_data(t_mlx *data);
 void	load_map(char *map_dir, t_map *map);
 
 /*###   UTILS   ###*/
+void	free_terrain(t_map *map, int i);
 int		compare_str_end(char *str, char *end);
 void	free_and_close(t_mlx *data, t_map *map, t_image *img, int exit_code);
 
 /*###   DRAW   ###*/
 void	init_visualization(t_mlx *data, t_map *map);
 void	draw_map(t_mlx *data, t_map *map);
-void	bresenham(t_map *map, t_image *img);
+void	bresenham(t_mlx *data, t_line line);
 int		my_put_pixel(t_image *img, int x, int y, int color);
 void	set_color(t_image *img, int pixel, int color);
 void	fill_background(t_mlx *data, int color);
@@ -137,10 +143,8 @@ int		mouse_down(int button, int x,int y, void *param);
 int		mouse_up(int button, int x,int y, void *param);
 int		mouse_move(int x, int y, void *param);
 int		close_program(void *param, int exit_code);
-void	zoom_in(void *param);
-void	zoom_out(void *param);
-void	height_up(void *param);
-void	height_down(void *param);
+void	change_height(void *param, int delta);
+void	zoom_screen(void *param, float zoom);
 
 /*###	ERRORS	###*/
 void	error_exit(char *mssg);

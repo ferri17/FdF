@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bresenham.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 21:50:09 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/13 14:23:56 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/14 19:19:46 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,70 +21,66 @@ static int	find_biggest(int n1, int n2)
 	return (-1);
 }
 
-static void	get_zoom(t_bresenh *info, t_map *map, int *z0, int *z1)
+static void	get_zoom(t_line *line, t_mlx *data, int *z0, int *z1)
 {
-	info->start[X] *= map->zoom;
-	info->start[Y] *= map->zoom;
-	info->end[X] *= map->zoom;
-	info->end[Y] *= map->zoom;
-	*z0 *= map->zoom;
-	*z1 *= map->zoom;
+	line->x0 *= data->map.zoom;
+	line->y0 *= data->map.zoom;
+	line->x1 *= data->map.zoom;
+	line->y1 *= data->map.zoom;
+	*z0 *= data->map.zoom;
+	*z1 *= data->map.zoom;
 }
 
 void	isometric(int *x, int *y, int z)
 {
-	int previous_x;
-    int previous_y;
+	int	previous_x;
+	int	previous_y;
 
-    previous_x = *x;
-    previous_y = *y;
-    *x = (previous_x - previous_y) * cos(0.523599);
-    *y = (previous_x + previous_y) * sin(0.523599) - z;
+	previous_x = *x;
+	previous_y = *y;
+	*x = (previous_x - previous_y) * cos(0.523599);
+	*y = (previous_x + previous_y) * sin(0.523599) - z;
 }
-static t_bresenh	init_bresenham_variables(t_map *map)
+
+static t_bresenh	init_bresenham_variables(t_mlx *data, t_line *line)
 {
 	t_bresenh	info;
+	int			z0;
+	int			z1;
 
-	int x0 = info.start[X] = map->x0;
-	int y0 = info.start[Y] = map->y0;
-	int x1 = info.end[X] = map->x1;
-	int y1 = info.end[Y] = map->y1;
-	//ft_printf("start: %i, %i      end: %i, %i\n", info.start[X], info.start[Y], info.end[X], info.end[Y]);
-	//ft_printf("start: %i, %i      end: %i, %i\n", info.start[X], info.start[Y], info.end[X], info.end[Y]);
-	//ft_printf("start: %i, %i      end: %i, %i\n", info.start[X], info.start[Y], info.end[X], info.end[Y]);
-	int	z0 = map->terrain[y0][x0].z;
-	int	z1 = map->terrain[y1][x1].z;
-	get_zoom(&info, map, &z0, &z1);
-	isometric(&info.start[X], &info.start[Y], z0);
-	isometric(&info.end[X], &info.end[Y], z1);
-	info.dx = abs(info.end[X] - info.start[X]);
-    info.dy = abs(info.end[Y] - info.start[Y]);
-	info.sx = find_biggest(info.start[X], info.end[X]);
-	info.sy = find_biggest(info.start[Y], info.end[Y]);
-    info.err = info.dx - info.dy;
+	z0 = data->map.terrain[line->y0][line->x0].z;
+	z1 = data->map.terrain[line->y1][line->x1].z;
+	get_zoom(line, data, &z0, &z1);
+	isometric(&line->x0, &line->y0, z0);
+	isometric(&line->x1, &line->y1, z1);
+	info.dx = abs(line->x1 - line->x0);
+	info.dy = abs(line->y1 - line->y0);
+	info.sx = find_biggest(line->x0, line->x1);
+	info.sy = find_biggest(line->y0, line->y1);
+	info.err = info.dx - info.dy;
 	return (info);
 }
 
-void	bresenham(t_map *map, t_image *img)
+void	bresenham(t_mlx *data, t_line line)
 {
 	t_bresenh	info;
-	
-	info = init_bresenham_variables(map);
-    while (info.start[X] != info.end[X] || info.start[Y] != info.end[Y]) 
+
+	info = init_bresenham_variables(data, &line);
+	while ((line.x0 != line.x1 || line.y0 != line.y1))
 	{
-		//ft_printf("start: %i, %i      end: %i, %i\n", info.start[X], info.start[Y], info.end[X], info.end[Y]);
-        my_put_pixel(img, info.start[X] + 400, info.start[Y] + 200, BLACK);
-        info.err2 = 2 * info.err;
-        if (info.err2 > -info.dy) 
+		my_put_pixel(&data->img, line.x0 + 400, line.y0 + 200, BLACK);
+		info.err2 = 2 * info.err;
+		if (info.err2 > -info.dy)
 		{
-            info.err -= info.dy;
-            info.start[X] += info.sx;
-        }
-        if (info.err2 < info.dx) 
+			info.err -= info.dy;
+			line.x0 += info.sx;
+		}
+		if (info.err2 < info.dx)
 		{
-            info.err += info.dx;
-            info.start[Y] += info.sy;
-        }
-    }
-	my_put_pixel(img, info.end[X] + 400, info.end[Y] + 200, BLACK);
+			info.err += info.dx;
+			line.y0 += info.sy;
+		}
+	}
+	my_put_pixel(&data->img, line.x1 + 400, line.y1 + 200, BLACK);
+		// CHECK IF ITS NEDEED OR IT CREATES DOUBLE LINES
 }

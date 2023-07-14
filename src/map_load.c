@@ -3,26 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   map_load.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 22:15:25 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/13 15:34:25 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/14 19:11:00 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include "libft.h"
-
-void	init_data(t_mlx *data)
-{
-	data->map.fd = 0;
-	data->map.x_size = 0;
-	data->map.y_size = 0;
-	data->map.size = 0;
-	data->map.zoom = 5;
-	data->map.terrain = NULL;
-	data->img.ptr = NULL;
-}
 
 static void	count_width_map(char *line, t_map *map)
 {
@@ -47,7 +36,7 @@ static void	count_width_map(char *line, t_map *map)
 		i++;
 	}
 	free(line);
-	ft_free_malloc_array(args, ft_array_len(args));
+	ft_free_malloc_array(args, ft_array_len(args) - 1);
 	if (map->x_size != 0 && map->x_size != aux)
 		error_exit(ERROR_MAP_LENGTH);
 	map->x_size = aux;
@@ -60,34 +49,24 @@ static void	fill_terrain(char *line, int y, t_map *map)
 	int			x;
 
 	args = ft_split_str(line, "\t ");
-	if (!args)
+	map->terrain[y] = (t_point *)malloc(sizeof(t_point) * map->x_size);
+	if (!map->terrain[y] || !args)
 	{
 		free(line);
+		free_terrain(map, y);
 		close(map->fd);
 		error_exit(UNEXPECTED_ERR);
 	}
-	map->terrain[y] = (t_point *)malloc(sizeof(t_point) * map->x_size);
-//	if (!map->terrain[i]
-//	{
-//		free.....
-//	}
 	x = 0;
 	while (args[x])
 	{
 		if (ft_strcmp(args[x], "\n") == 0)
 			break ;
-		/* map->terrain[i].pos[X] = x;
-		map->terrain[i].pos[Y] = y; */
 		map->terrain[y][x].z = ft_atoi(args[x]);
-		if (map->terrain[y][x].z != 0)
-			map->terrain[y][x].color = ACQUA;
-		else
-			map->terrain[y][x].color = WHITE;
-		ft_printf("\r 🚀 Reading points... %i / %i", i + 1, map->size);
-		i++;
+		ft_printf("\r 🚀 Reading points... %i / %i", ++i + 1, map->size);
 		x++;
 	}
-	ft_free_malloc_array(args, ft_array_len(args));
+	ft_free_malloc_array(args, ft_array_len(args) - 1);
 }
 
 static void	get_map_info(char *map_dir, t_map *map)
@@ -132,9 +111,8 @@ void	load_map(char *map_dir, t_map *map)
 		line = get_next_line(map->fd);
 		if (line == NULL)
 			break ;
-		fill_terrain(line, i, map);
+		fill_terrain(line, i++, map);
 		free(line);
-		i++;
 	}
 	ft_printf("\r ✅ Read a total of %i / %i points \n", map->size, map->size);
 	ft_printf("\n\n\n Opening a windows...\n\n\n\n");
