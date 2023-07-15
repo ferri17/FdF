@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 22:39:23 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/14 19:21:13 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/15 16:30:28 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,27 +16,59 @@
 
 int	mouse_move(int x, int y, void *param)
 {
+	static int	last_x = 0;
+	static int	last_y = 0;
 	t_mlx	*data;
 
 	data = (t_mlx *)param;
 	if (data->key.mid_clicked)
-		ft_printf("%i, %i\n", x, y);
+	{
+		if (data->key.first_mid_click == 1)
+		{
+			data->key.first_mid_click = 0;
+			last_x = x;
+			last_y = y;
+		}
+		data->map.translate[X] += x - last_x;
+		data->map.translate[Y] += y - last_y;
+		last_x = x;
+		last_y = y;
+		init_visualization(data, &data->map);
+	}
 	return (0);
 }
 
-int	key_down(int keycode, void *param)
+int	key_down(int key, void *param)
 {
-	if (keycode == ESC_KEY)
+	if (key == ESC_KEY)
 		close_program(param, EXIT_SUCCESS);
-	if (keycode == PLUS_KEY)
-		zoom_screen(param, 1.2);
-	if (keycode == MINUS_KEY)
-		zoom_screen(param, 0.8);
-	if (keycode == O_KEY)
+	else if (key == PLUS_KEY)
+		zoom_screen(param, ZOOM_IN);
+	else if (key == MINUS_KEY)
+		zoom_screen(param, ZOOM_OUT);
+	else if (key == O_KEY)
 		change_height(param, -1);
-	if (keycode == P_KEY)
+	else if (key == P_KEY)
 		change_height(param, 1);
+	else if (key == A_KEY || key == S_KEY || key == D_KEY || key == W_KEY)
+		move_map(param, key);
 	return (0);
+}
+
+void	move_map(void *param, int key)
+{
+	t_mlx *data;
+
+	data = (t_mlx *)param;
+	if (key == A_KEY)
+		data->map.translate[X] -= TRANSL;
+	if (key == S_KEY)
+		data->map.translate[Y] += TRANSL;
+	if (key == D_KEY)
+		data->map.translate[X] += TRANSL;
+	if (key == W_KEY)
+		data->map.translate[Y] -= TRANSL;
+	init_visualization(data, &data->map);
 }
 
 int	mouse_down(int button, int x, int y, void *param)
@@ -46,9 +78,9 @@ int	mouse_down(int button, int x, int y, void *param)
 	data = (t_mlx *)param;
 	if (button == SCROLL_DOWN)
 		zoom_screen(param, 1.2);
-	if (button == SCROLL_UP)
+	else if (button == SCROLL_UP)
 		zoom_screen(param, 0.8);
-	if (button == MID_CLICK)
+	else if (button == MID_CLICK)
 		data->key.mid_clicked = 1;
 	return (0);
 }
@@ -59,7 +91,10 @@ int	mouse_up(int button, int x, int y, void *param)
 
 	data = (t_mlx *)param;
 	if (button == MID_CLICK)
+	{
+		data->key.first_mid_click = 1;
 		data->key.mid_clicked = 0;
+	}
 	return (0);
 }
 

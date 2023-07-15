@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 00:03:56 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/14 19:17:32 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/15 13:34:33 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	fill_background(t_mlx *data, int color)
 {
 	int	x;
 	int	y;
-
+	
 	if (data->img.pixel_bits != 32)
 		color = mlx_get_color_value(data->mlx, color);
 	y = 0;

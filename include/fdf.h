@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:50:15 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/14 19:01:21 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/15 17:36:16 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,21 @@
 # define WIN_W 1000
 # define WIN_H 700
 
+/*###	UTILS	###*/
+# define ZOOM_IN 1.2
+# define ZOOM_OUT 0.8
+# define TRANSL 10
+
 /*###	KEY MAPPING	###*/
-# define ESC_KEY 53
+# define ESC_KEY 0x35
 # define PLUS_KEY 0x45
 # define MINUS_KEY 0x4E
 # define O_KEY 0x1F
 # define P_KEY 0x23
+# define A_KEY 0x00
+# define S_KEY 0x01
+# define D_KEY 0x02
+# define W_KEY 0x0D
 
 /*###	X11 EVENTS SUPPORTED BY MINILIBX	###*/
 # define KEYDOWN 2
@@ -49,6 +58,13 @@
 # define X 0
 # define Y 1
 
+/*###	GEOMETRY	###*/
+# ifndef M_PI
+#  define M_PI
+# endif
+# define ISO_ANGLE (M_PI/6)
+# define NINETY_DEG (M_PI/2)
+
 /*###	COLORS	###*/
 # define WHITE 0xFFFFFF	
 # define BLACK 0x0
@@ -61,6 +77,7 @@
 typedef struct s_key
 {
 	bool	mid_clicked;
+	bool	first_mid_click;
 }	t_key;
 
 typedef struct s_image
@@ -138,13 +155,14 @@ void	fill_background(t_mlx *data, int color);
 
 
 /*###	EVENTS	###*/
-int		key_down(int keycode, void *param);
+int		key_down(int key, void *param);
 int		mouse_down(int button, int x,int y, void *param);
 int		mouse_up(int button, int x,int y, void *param);
 int		mouse_move(int x, int y, void *param);
 int		close_program(void *param, int exit_code);
 void	change_height(void *param, int delta);
 void	zoom_screen(void *param, float zoom);
+void	move_map(void *param, int key);
 
 /*###	ERRORS	###*/
 void	error_exit(char *mssg);
