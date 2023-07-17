@@ -6,25 +6,28 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:08:24 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/15 13:12:26 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/17 02:30:43 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include "libft.h"
-#include "mlx.h"
 
 void	init_visualization(t_mlx *data, t_map *map)
 {
 	void	*aux_ptr;
+	int		wire_gradient[2];
 
+	print_loaded_map(map);
 	aux_ptr = NULL;
 	if (data->img.ptr != NULL)
 		aux_ptr = data->img.ptr;
 	data->img.ptr = mlx_new_image(data->mlx, WIN_W, WIN_H);
 	data->img.buffer = mlx_get_data_addr(data->img.ptr, &data->img.pixel_bits,
 			&data->img.line_bytes, &data->img.endian);
-	fill_background(data, WHITE);
+	wire_gradient[0] = map->gradient[0];
+	wire_gradient[1] = map->gradient[1];
+	fill_background(data, DARK_GRAY, BLACK);
 	draw_map(data, map);
 	mlx_put_image_to_window(data->mlx, data->mlx_win, data->img.ptr, 0, 0);
 	if (aux_ptr != NULL)
@@ -34,7 +37,7 @@ void	init_visualization(t_mlx *data, t_map *map)
 int	main(int ac, char **av)
 {
 	t_mlx	data;
-
+	
 	if (ac != 2 || compare_str_end(av[1], ".fdf"))
 		error_exit(USAGE);
 	init_data(&data);

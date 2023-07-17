@@ -6,13 +6,12 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 22:39:23 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/15 16:30:28 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/17 01:13:38 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include "libft.h"
-#include "mlx.h"
 
 int	mouse_move(int x, int y, void *param)
 {
@@ -52,6 +51,14 @@ int	key_down(int key, void *param)
 		change_height(param, 1);
 	else if (key == A_KEY || key == S_KEY || key == D_KEY || key == W_KEY)
 		move_map(param, key);
+	else if (key == T_KEY)
+	{
+		t_mlx	*data;
+
+		data = (t_mlx *)param;
+		data->map.rotate[X] += 0.3;
+		init_visualization(data, &data->map);
+	}
 	return (0);
 }
 

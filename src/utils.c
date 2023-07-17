@@ -6,13 +6,12 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 22:21:16 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/15 14:10:24 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/17 01:48:18 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include "libft.h"
-#include "mlx.h"
 
 void	init_data(t_mlx *data)
 {
@@ -25,6 +24,11 @@ void	init_data(t_mlx *data)
 	data->img.ptr = NULL;
 	data->map.translate[X] = 0;
 	data->map.translate[Y] = 0;
+	data->map.rotate[X] = 0;
+	data->map.rotate[Y] = 0;
+	data->map.rotate[Z] = 0;
+	data->map.gradient[0] = ACQUA;
+	data->map.gradient[1] = PINK;
 }
 
 void	free_terrain(t_map *map, int i)
@@ -54,4 +58,11 @@ void	free_and_close(t_mlx *data, t_map *map, t_image *img, int exit_code)
 	if (exit_code != EXIT_SUCCESS)
 		ft_putstr_fd(UNEXPECTED_ERR, 2);
 	close_program(data, exit_code);
+}
+
+void	error_exit(char *mssg)
+{
+	ft_putstr_fd(mssg, STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
+	exit(EXIT_FAILURE);
 }

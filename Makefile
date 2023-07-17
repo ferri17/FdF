@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+         #
+#    By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 19:36:01 by fbosch            #+#    #+#              #
-#    Updated: 2023/07/13 12:31:01 by fbosch           ###   ########.fr        #
+#    Updated: 2023/07/17 01:30:28 by fbosch           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,41 +16,42 @@ COLOUR_BLUE=\033[1;34m
 COLOUR_YELLOW=\x1b[33;01m
 COLOUR_END=\033[0m
 
-NAME = fdf
-BONUS_NAME = fdf_bonus
+NAME			=	fdf
+BONUS_NAME		=	fdf_bonus
 
-LIBFT = libft.a
-LIBFT_DIR = libft/
+LIBFT			=	libft.a
+LIBFT_DIR		=	libft/
 
-SRC = main.c events.c errors.c utils.c map_load.c draw.c bresenham.c
+SRC				=	main.c events.c utils.c map_load.c draw.c bresenham.c \
+					map_load_utils.c draw_utils.c \
 
-BONUS_SRC =
+BONUS_SRC		=
 
-SRC_DIR = src/
+SRC_DIR			=	src/
 
-INCLUDE_DIR = include/
-BUILD_DIR = .build/
+INCLUDE_DIR		=	include/
+BUILD_DIR		=	.build/
 
-MLX = libmlx.a
-MLX_DIR = minilibx_macos/
+MLX				=	libmlx.a
+MLX_DIR			=	minilibx_macos/
 
-SRC_FILES = $(addprefix $(SRC_DIR),$(SRC))
-BONUS_FILES = $(addprefix $(SRC_DIR),$(BONUS_SRC))
+SRC_FILES		=	$(addprefix $(SRC_DIR),$(SRC))
+BONUS_FILES		=	$(addprefix $(SRC_DIR),$(BONUS_SRC))
 
-OBJ = $(patsubst $(SRC_DIR)%.c,$(BUILD_DIR)%.o,$(SRC_FILES))
-BONUS_OBJ = $(patsubst $(SRC_DIR)%.c,$(BUILD_DIR)%.o,$(BONUS_FILES))
+OBJ				=	$(patsubst $(SRC_DIR)%.c,$(BUILD_DIR)%.o,$(SRC_FILES))
+BONUS_OBJ		=	$(patsubst $(SRC_DIR)%.c,$(BUILD_DIR)%.o,$(BONUS_FILES))
 
-DEP = $(OBJ:%.o=%.d) $(BONUS_OBJ:%.o=%.d)
+DEP				=	$(OBJ:%.o=%.d) $(BONUS_OBJ:%.o=%.d)
 
-CC = cc
-CFLAGS = #-Wall -Wextra -Werror
-DEPFLAGS = -I $(INCLUDE_DIR) -I $(MLX_DIR) -MMD -MP
-MLXFLGS = -L$(MLX_DIR) -lmlx -framework OpenGL -framework AppKit
-DIR_DUP = mkdir -p $(@D)
+CC				=	cc
+CFLAGS			=	#-Wall -Wextra -Werror
+DEPFLAGS		=	-I $(INCLUDE_DIR) -I $(MLX_DIR) -MMD -MP
+MLXFLGS			=	-L$(MLX_DIR) -lmlx -framework OpenGL -framework AppKit
+DIR_DUP			=	mkdir -p $(@D)
 
-EXECUTABLES = *.out *.exe
+EXECUTABLES		=	*.out *.exe
 
-RM = /bin/rm -f
+RM				=	/bin/rm -f
 
 all: make_libs $(NAME)
 

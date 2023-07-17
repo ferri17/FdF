@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 22:15:25 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/15 17:20:56 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/17 03:24:41 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ static void	fill_terrain(char *line, int y, t_map *map)
 	{
 		if (ft_strcmp(args[x], "\n") == 0)
 			break ;
-		map->terrain[y][x].z = ft_atoi(args[x]);  //DIVIDE FACTOR TO NORMALIZE HEIGHT MAP
-		ft_printf("\r 🚀 Reading points... %i / %i", ++i + 1, map->size);
+		map->terrain[y][x].z = ft_atoi(args[x]); //DIVIDE FACTOR TO NORMALIZE HEIGHT MAP
+		ft_printf("\r 🚀 Reading points... %i / %i", i++ + 1, map->size);
 		x++;
 	}
 	ft_free_malloc_array(args, ft_array_len(args) - 1);
@@ -90,6 +90,33 @@ static void	get_map_info(char *map_dir, t_map *map)
 	map->size = map->x_size * map->y_size;
 }
 
+void	set_colors(t_map *map)
+{
+	int	len;
+	int	pro;
+	int	x;
+	int	y;
+
+	map->highest = get_highest(map);
+	map->lowest = get_lowest(map);
+	len = map->highest - map->lowest;
+
+	y = 0;
+	while (y < map->y_size)
+	{
+		x = 0;
+		while (x < map->x_size)
+		{
+			pro = map->terrain[y][x].z - map->lowest;
+			map->terrain[y][x].color =\
+				get_color_gradient(map->gradient[0], map->gradient[1], len, pro);
+			ft_printf("0x%x\n", map->terrain[y][x].color);
+			x++;
+		}
+		y++;
+	}
+}
+
 void	load_map(char *map_dir, t_map *map)
 {
 	char	*line;
@@ -114,6 +141,7 @@ void	load_map(char *map_dir, t_map *map)
 		fill_terrain(line, i++, map);
 		free(line);
 	}
+	set_colors(map);
 	ft_printf("\r ✅ Read a total of %i / %i points \n", map->size, map->size);
 	ft_printf("\n\n\n Opening a windows...\n\n\n\n");
 	close(map->fd);

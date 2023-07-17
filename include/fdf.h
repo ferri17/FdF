@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:50:15 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/15 17:36:16 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/17 02:41:43 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@
 # define S_KEY 0x01
 # define D_KEY 0x02
 # define W_KEY 0x0D
+# define T_KEY 0x11
 
 /*###	X11 EVENTS SUPPORTED BY MINILIBX	###*/
 # define KEYDOWN 2
@@ -57,19 +58,30 @@
 
 # define X 0
 # define Y 1
+# define Z 2
 
 /*###	GEOMETRY	###*/
 # ifndef M_PI
 #  define M_PI
 # endif
 # define ISO_ANGLE (M_PI/6)
-# define NINETY_DEG (M_PI/2)
+# define NINETY_DEG (M_PI/8)
 
 /*###	COLORS	###*/
 # define WHITE 0xFFFFFF	
 # define BLACK 0x0
+# define DARK_GRAY 0x262626
 # define ACQUA 0x36FFDD
+# define PINK 0xFFB5FF
 
+/*###	BITSHIFTING	COLOR CHANNELS###*/
+# define A(a) (a) >> 24
+# define R(a) (a) >> 16 & 0xFF
+# define G(a) ((a) >> 8) & 0xFF
+# define B(a) (a) & 0xFF
+# define RGB(a, b, c) ((a) << 16) + ((b) << 8) + (c)
+
+# include "mlx.h"
 # include <fcntl.h>
 # include <math.h> //CHECK IF IT HAS TO BE INCLUDED AS MAKEFILE FLAG
 # include <stdbool.h>
@@ -109,8 +121,13 @@ typedef struct s_map
 	int		x_size;
 	int		y_size;
 	int		size;
+	int		highest;
+	int		lowest;
+	//int		z_norm;
+	int		gradient[2];
 	float	zoom;
 	int		translate[2];
+	float	rotate[3];
 	t_line	line;
 	t_point	**terrain;
 }	t_map;
@@ -126,8 +143,6 @@ typedef struct s_mlx
 
 typedef struct s_bresenh
 {
-	//int	start[2];
-	//int	end[2];
 	int	dx;
 	int	dy;
 	int	sx;
@@ -139,20 +154,25 @@ typedef struct s_bresenh
 /*###   PARSING MAP   ###*/
 void	init_data(t_mlx *data);
 void	load_map(char *map_dir, t_map *map);
+int		get_highest(t_map *map);
+int		get_lowest(t_map *map);
 
 /*###   UTILS   ###*/
 void	free_terrain(t_map *map, int i);
 int		compare_str_end(char *str, char *end);
 void	free_and_close(t_mlx *data, t_map *map, t_image *img, int exit_code);
+void	error_exit(char *mssg);
 
 /*###   DRAW   ###*/
 void	init_visualization(t_mlx *data, t_map *map);
 void	draw_map(t_mlx *data, t_map *map);
-void	bresenham(t_mlx *data, t_line line);
+void	bresenham(t_mlx *data, t_line line, int x_org0, int y_org0, int x_org1, int y_org1);
 int		my_put_pixel(t_image *img, int x, int y, int color);
 void	set_color(t_image *img, int pixel, int color);
-void	fill_background(t_mlx *data, int color);
+void	fill_background(t_mlx *data, int color1, int color2);
 
+/*###   DRAW UTILS  ###*/
+int		get_color_gradient(int startcolor, int endcolor, int len, int progress);
 
 /*###	EVENTS	###*/
 int		key_down(int key, void *param);
@@ -164,11 +184,7 @@ void	change_height(void *param, int delta);
 void	zoom_screen(void *param, float zoom);
 void	move_map(void *param, int key);
 
-/*###	ERRORS	###*/
-void	error_exit(char *mssg);
-
 /*###	UTILS TO BE DELETED	###*/
-void	error_exit(char *mssg);
 void	print_loaded_map(t_map *map);
 
 #endif
