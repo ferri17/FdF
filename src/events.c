@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 22:39:23 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/17 01:13:38 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/17 19:26:23 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ void	iterate_terrain(t_map *map, int delta)
 		x = 0;
 		while (x < map->x_size)
 		{
-			if (map->terrain[y][x].z)
+			if (map->terrain[y][x].z != map->floor)
 				map->terrain[y][x].z += delta;
 			x++;
 		}

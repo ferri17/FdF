@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 21:50:09 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/17 03:27:54 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/17 19:31:36 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static t_bresenh	init_bresenham_variables(t_mlx *data, t_line *line)
 	return (info);
 }
 
-void	bresenham(t_mlx *data, t_line line, int x_org0, int y_org0, int x_org1, int y_org1)
+void	bresenham(t_mlx *data, t_line line, int color0, int color1)
 {
 	t_bresenh	info;
 	int			color;
@@ -91,8 +91,7 @@ void	bresenham(t_mlx *data, t_line line, int x_org0, int y_org0, int x_org1, int
 	k = 0;
 	while ((line.x0 != line.x1 || line.y0 != line.y1))
 	{
-		color = get_color_gradient(data->map.terrain[y_org0][x_org0].color,
-			data->map.terrain[y_org1][x_org1].color, info.dy, k);
+		color = get_color_gradient(color0, color1, info.dy, k);
 		my_put_pixel(&data->img, line.x0, line.y0, color);
 		info.err2 = 2 * info.err;
 		if (info.err2 > -info.dy)

@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 22:15:25 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/17 03:24:41 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/17 19:10:40 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,10 +97,8 @@ void	set_colors(t_map *map)
 	int	x;
 	int	y;
 
-	map->highest = get_highest(map);
-	map->lowest = get_lowest(map);
+	get_heights(map);
 	len = map->highest - map->lowest;
-
 	y = 0;
 	while (y < map->y_size)
 	{

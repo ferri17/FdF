@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 00:03:56 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/17 02:28:15 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/17 19:30:46 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,18 @@ void	draw_map(t_mlx *data, t_map *map)
 		x = 0;
 		while (x < map->x_size)
 		{
-			//ft_printf("aa\n");
-			ft_printf("colors-> 0x%x\n", map->terrain[y][x].color);
 			map->line.x0 = x;
 			map->line.y0 = y;
 			map->line.x1 = x + 1;
 			map->line.y1 = y;
 			if (x != map->x_size - 1)
-				bresenham(data, data->map.line, x, y, x + 1, y);
+				bresenham(data, data->map.line, data->map.terrain[y][x].color,
+					data->map.terrain[y][x + 1].color);
 			map->line.x1 = x;
 			map->line.y1 = y + 1;
 			if (y != map->y_size - 1)
-				bresenham(data, data->map.line, x, y, x, y + 1);
+				bresenham(data, data->map.line, data->map.terrain[y][x].color,
+					data->map.terrain[y + 1][x].color);
 			x++;
 		}
 		y++;

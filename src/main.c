@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:08:24 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/17 02:30:43 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/17 19:27:22 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	init_visualization(t_mlx *data, t_map *map)
 	void	*aux_ptr;
 	int		wire_gradient[2];
 
-	print_loaded_map(map);
+	//print_loaded_map(map);
 	aux_ptr = NULL;
 	if (data->img.ptr != NULL)
 		aux_ptr = data->img.ptr;

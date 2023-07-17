@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:50:15 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/17 02:41:43 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/17 19:31:47 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ typedef struct s_map
 	int		size;
 	int		highest;
 	int		lowest;
+	int		floor;
 	//int		z_norm;
 	int		gradient[2];
 	float	zoom;
@@ -154,8 +155,7 @@ typedef struct s_bresenh
 /*###   PARSING MAP   ###*/
 void	init_data(t_mlx *data);
 void	load_map(char *map_dir, t_map *map);
-int		get_highest(t_map *map);
-int		get_lowest(t_map *map);
+void	get_heights(t_map *map);
 
 /*###   UTILS   ###*/
 void	free_terrain(t_map *map, int i);
@@ -166,7 +166,7 @@ void	error_exit(char *mssg);
 /*###   DRAW   ###*/
 void	init_visualization(t_mlx *data, t_map *map);
 void	draw_map(t_mlx *data, t_map *map);
-void	bresenham(t_mlx *data, t_line line, int x_org0, int y_org0, int x_org1, int y_org1);
+void	bresenham(t_mlx *data, t_line line, int color0, int color1);
 int		my_put_pixel(t_image *img, int x, int y, int color);
 void	set_color(t_image *img, int pixel, int color);
 void	fill_background(t_mlx *data, int color1, int color2);

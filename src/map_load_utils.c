@@ -6,53 +6,39 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 01:27:10 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/17 01:30:10 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/17 19:13:31 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "fdf.h"
 
-int	get_highest(t_map *map)
+void	get_heights(t_map *map)
 {
-	int	highest;
-	int	x;
-	int	y;
+	int		x;
+	int		y;
+	bool	zero;
 
-	highest = INT_MIN;
+	map->highest = INT_MIN;
+	map->lowest = INT_MAX;
 	y = 0;
 	while (y < map->y_size)
 	{
 		x = 0;
 		while (x < map->y_size)
 		{
-			if (map->terrain[y][x].z > highest)
-				highest = map->terrain[y][x].z;
+			if (map->terrain[y][x].z > map->highest)
+				map->highest = map->terrain[y][x].z;
+			if (map->terrain[y][x].z < map->lowest)
+				map->lowest = map->terrain[y][x].z;
+			if (map->terrain[y][x].z == 0)
+				zero = true;
 			x++;
 		}
 		y++;
 	}
-	return (highest);
-}
-
-int	get_lowest(t_map *map)
-{
-	int	lowest;
-	int	x;
-	int	y;
-
-	lowest = INT_MAX;
-	y = 0;
-	while (y < map->y_size)
-	{
-		x = 0;
-		while (x < map->y_size)
-		{
-			if (map->terrain[y][x].z < lowest)
-				lowest = map->terrain[y][x].z;
-			x++;
-		}
-		y++;
-	}
-	return (lowest);
+	map->floor = map->lowest;
+	if (zero)
+		map->floor = 0;
+	
 }
