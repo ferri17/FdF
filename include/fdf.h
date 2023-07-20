@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:50:15 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/17 19:31:47 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/20 17:35:15 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@
 # define Z 2
 
 /*###	GEOMETRY	###*/
+# define MATRIX_SIZE 3
 # ifndef M_PI
 #  define M_PI
 # endif
@@ -103,16 +104,20 @@ typedef struct s_image
 
 typedef struct s_point
 {
-	int z;
-	int	color;
+	float	axis[3];
+	int		color;
 }	t_point;
+
+typedef struct s_line_draw
+{
+	int	start[3];
+	int	end[3];
+}	t_line_draw;
 
 typedef struct s_line
 {
-	int	x0;
-	int	y0;
-	int	x1;
-	int	y1;
+	t_point	start;
+	t_point	end;
 }	t_line;
 
 typedef struct s_map
@@ -124,13 +129,13 @@ typedef struct s_map
 	int		highest;
 	int		lowest;
 	int		floor;
-	//int		z_norm;
 	int		gradient[2];
 	float	zoom;
-	int		translate[2];
-	float	rotate[3];
+	float	translate[2];
+	int		rotate[3];
 	t_line	line;
-	t_point	**terrain;
+	t_point	*terrain;
+	t_point	*obj;
 }	t_map;
 
 typedef struct s_mlx
@@ -144,12 +149,13 @@ typedef struct s_mlx
 
 typedef struct s_bresenh
 {
-	int	dx;
-	int	dy;
-	int	sx;
-	int	sy;
-	int	err;
-	int	err2;
+	t_line_draw	draw;
+	int		dx;
+	int		dy;
+	int		sx;
+	int		sy;
+	int		err;
+	int		err2;
 }	t_bresenh;
 
 /*###   PARSING MAP   ###*/
@@ -158,7 +164,6 @@ void	load_map(char *map_dir, t_map *map);
 void	get_heights(t_map *map);
 
 /*###   UTILS   ###*/
-void	free_terrain(t_map *map, int i);
 int		compare_str_end(char *str, char *end);
 void	free_and_close(t_mlx *data, t_map *map, t_image *img, int exit_code);
 void	error_exit(char *mssg);

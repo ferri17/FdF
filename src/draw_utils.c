@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 01:12:19 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/17 03:27:18 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/20 15:13:35 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,23 +48,17 @@ void	set_color(t_image *img, int pixel, int color)
 		img->buffer[pixel + 3] = 0x0;
 	}
 }
+#include <stdio.h>
 
 void	print_loaded_map(t_map *map)
 {
-	int	x;
-	int	y;
+	int	i;
 
-	y = 0;
-	while (y < map->y_size)
+	i = 0;
+	while (i < map->size)
 	{
-		x = 0;
-		while (x < map->x_size)
-		{
-			ft_printf("%i,%i,%i   ", x, y, map->terrain[y][x].z);
-			x++;
-		}
-		ft_printf("\n");
-		y++;
+			printf("%.1f,%.1f,%.1f   ", map->terrain[i].axis[X], map->terrain[i].axis[Y], map->terrain[i].axis[Z]);
+			i++;
 	}
 	ft_printf("\n");
 }

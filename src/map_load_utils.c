@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 01:27:10 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/17 19:13:31 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/20 15:38:16 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,20 @@
 
 void	get_heights(t_map *map)
 {
-	int		x;
-	int		y;
+	int		i;
 	bool	zero;
 
 	map->highest = INT_MIN;
 	map->lowest = INT_MAX;
-	y = 0;
-	while (y < map->y_size)
+	while (i < map->y_size)
 	{
-		x = 0;
-		while (x < map->y_size)
-		{
-			if (map->terrain[y][x].z > map->highest)
-				map->highest = map->terrain[y][x].z;
-			if (map->terrain[y][x].z < map->lowest)
-				map->lowest = map->terrain[y][x].z;
-			if (map->terrain[y][x].z == 0)
-				zero = true;
-			x++;
-		}
-		y++;
+		if (map->terrain[i].axis[Z] > map->highest)
+			map->highest = map->terrain[i].axis[Z];
+		if (map->terrain[i].axis[Z] < map->lowest)
+			map->lowest = map->terrain[i].axis[Z];
+		if (map->terrain[i].axis[Z] == 0)
+			zero = true;
+		i++;
 	}
 	map->floor = map->lowest;
 	if (zero)

@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 22:15:25 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/17 19:10:40 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/20 15:36:03 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,17 @@ static void	count_width_map(char *line, t_map *map)
 	map->x_size = aux;
 }
 
-static void	fill_terrain(char *line, int y, t_map *map)
+static void	fill_terrain(char *line, int line_n, t_map *map)
 {
 	static int	i = 0;
 	char		**args;
 	int			x;
 
 	args = ft_split_str(line, "\t ");
-	map->terrain[y] = (t_point *)malloc(sizeof(t_point) * map->x_size);
-	if (!map->terrain[y] || !args)
+	if (!args)
 	{
 		free(line);
-		free_terrain(map, y);
+		free(map->terrain);
 		close(map->fd);
 		error_exit(UNEXPECTED_ERR);
 	}
@@ -62,8 +61,11 @@ static void	fill_terrain(char *line, int y, t_map *map)
 	{
 		if (ft_strcmp(args[x], "\n") == 0)
 			break ;
-		map->terrain[y][x].z = ft_atoi(args[x]); //DIVIDE FACTOR TO NORMALIZE HEIGHT MAP
-		ft_printf("\r 🚀 Reading points... %i / %i", i++ + 1, map->size);
+		map->terrain[i].axis[X] = (i % map->x_size) - (map->x_size / 2);
+		map->terrain[i].axis[Y] = line_n - (map->y_size / 2);
+		map->terrain[i].axis[Z] = ft_atoi(args[x]); //DIVIDE FACTOR TO NORMALIZE HEIGHT MAP
+		ft_printf("\r 🚀 Reading points... %i / %i", i + 1, map->size);
+		i++;
 		x++;
 	}
 	ft_free_malloc_array(args, ft_array_len(args) - 1);
@@ -94,24 +96,17 @@ void	set_colors(t_map *map)
 {
 	int	len;
 	int	pro;
-	int	x;
-	int	y;
+	int	i;
 
 	get_heights(map);
 	len = map->highest - map->lowest;
-	y = 0;
-	while (y < map->y_size)
+	i = 0;
+	while (i < map->size)
 	{
-		x = 0;
-		while (x < map->x_size)
-		{
-			pro = map->terrain[y][x].z - map->lowest;
-			map->terrain[y][x].color =\
+			pro = map->terrain[i].axis[Z] - map->lowest;
+			map->terrain[i].color =\
 				get_color_gradient(map->gradient[0], map->gradient[1], len, pro);
-			ft_printf("0x%x\n", map->terrain[y][x].color);
-			x++;
-		}
-		y++;
+			i++;
 	}
 }
 
@@ -124,7 +119,7 @@ void	load_map(char *map_dir, t_map *map)
 	map->fd = open(map_dir, O_RDONLY);
 	if (map->fd < 0)
 		error_exit(FILE_ERROR);
-	map->terrain = (t_point **)malloc(sizeof(t_point *) * map->y_size);
+	map->terrain = (t_point *)malloc(sizeof(t_point) * map->size);
 	if (!map->terrain)
 	{
 		close(map->fd);

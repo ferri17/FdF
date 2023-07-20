@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 22:21:16 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/17 01:48:18 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/20 17:01:20 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	init_data(t_mlx *data)
 	data->map.x_size = 0;
 	data->map.y_size = 0;
 	data->map.size = 0;
-	data->map.zoom = 20;
+	data->map.zoom = 1;
 	data->map.terrain = NULL;
 	data->img.ptr = NULL;
 	data->map.translate[X] = 0;
@@ -29,16 +29,6 @@ void	init_data(t_mlx *data)
 	data->map.rotate[Z] = 0;
 	data->map.gradient[0] = ACQUA;
 	data->map.gradient[1] = PINK;
-}
-
-void	free_terrain(t_map *map, int i)
-{
-	while (i >= 0)
-	{
-		free(map->terrain[i]);
-		i--;
-	}
-	free(map->terrain);
 }
 
 int	compare_str_end(char *str, char *end)

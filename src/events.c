@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 22:39:23 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/17 19:26:23 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/20 17:37:47 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,19 @@ int	mouse_move(int x, int y, void *param)
 		data->map.translate[Y] += y - last_y;
 		last_x = x;
 		last_y = y;
-		init_visualization(data, &data->map);
+		//init_visualization(data, &data->map);
 	}
 	return (0);
+}
+
+void	rotate_x(void *param)
+{
+	t_mlx	*data;
+
+	ft_printf("a");
+	data = (t_mlx *)param;
+	data->map.rotate[X] += 3;
+	init_visualization(data, &data->map);
 }
 
 int	key_down(int key, void *param)
@@ -45,20 +55,14 @@ int	key_down(int key, void *param)
 		zoom_screen(param, ZOOM_IN);
 	else if (key == MINUS_KEY)
 		zoom_screen(param, ZOOM_OUT);
-	else if (key == O_KEY)
-		change_height(param, -1);
-	else if (key == P_KEY)
-		change_height(param, 1);
 	else if (key == A_KEY || key == S_KEY || key == D_KEY || key == W_KEY)
 		move_map(param, key);
-	else if (key == T_KEY)
-	{
-		t_mlx	*data;
-
-		data = (t_mlx *)param;
-		data->map.rotate[X] += 0.3;
-		init_visualization(data, &data->map);
-	}
+	if (key == O_KEY)
+		zoom_screen(param, 0.8);
+	if (key == P_KEY)
+		zoom_screen(param, 1.2);
+	if (key == T_KEY)
+		rotate_x(param);
 	return (0);
 }
 
@@ -89,6 +93,7 @@ int	mouse_down(int button, int x, int y, void *param)
 		zoom_screen(param, 0.8);
 	else if (button == MID_CLICK)
 		data->key.mid_clicked = 1;
+	init_visualization(data, &data->map);
 	return (0);
 }
 
@@ -117,8 +122,8 @@ void	iterate_terrain(t_map *map, int delta)
 		x = 0;
 		while (x < map->x_size)
 		{
-			if (map->terrain[y][x].z != map->floor)
-				map->terrain[y][x].z += delta;
+			//if (map->terrain[y][x].z != map->floor)
+			//	map->terrain[y][x].z += delta;
 			x++;
 		}
 		y++;
@@ -130,8 +135,8 @@ void	change_height(void *param, int delta)
 	t_mlx	*data;
 
 	data = (t_mlx *)param;
-	iterate_terrain(&data->map, delta);
-	init_visualization(data, &data->map);
+	//iterate_terrain(&data->map, delta);
+	//init_visualization(data, &data->map);
 }
 
 void	zoom_screen(void *param, float zoom)
@@ -150,6 +155,6 @@ int	close_program(void *param, int exit_code)
 	data = (t_mlx *)param;
 	mlx_destroy_window(data->mlx, data->mlx_win);
 	mlx_destroy(data->mlx);
-	free_terrain(&data->map, data->map.y_size - 1);
+	free(data->map.terrain);
 	exit(exit_code);
 }
