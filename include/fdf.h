@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:50:15 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/20 17:35:15 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/21 21:12:17 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,20 @@
 # define UNEXPECTED_ERR "Unexpected error, please run the program again."
 /*#define ERROR(number) "Error [" #number "]" */
 
-/*###	WINDOW SIZE	###*/
+/*###	WINDOW SIZES	###*/
 # define WIN_W 1000
 # define WIN_H 700
+# define PAD 50
 
 /*###	UTILS	###*/
 # define ZOOM_IN 1.2
 # define ZOOM_OUT 0.8
 # define TRANSL 10
+
+/*###	MOVEMENTS	###*/
+# define MY_ROTATION 3
+# define MY_TRANSLATION 1
+# define MY_ZOOM 1
 
 /*###	KEY MAPPING	###*/
 # define ESC_KEY 0x35
@@ -41,6 +47,9 @@
 # define D_KEY 0x02
 # define W_KEY 0x0D
 # define T_KEY 0x11
+# define X_KEY 0x07
+# define Y_KEY 0x10
+# define Z_KEY 0x06
 
 /*###	X11 EVENTS SUPPORTED BY MINILIBX	###*/
 # define KEYDOWN 2
@@ -52,6 +61,8 @@
 # define DESTROY 17
 
 /*###	MOUSE EVENTS	###*/
+# define LEFT_CLICK 1
+# define RIGHT_CLICK 2
 # define MID_CLICK 3
 # define SCROLL_UP 4
 # define SCROLL_DOWN 5
@@ -60,13 +71,16 @@
 # define Y 1
 # define Z 2
 
+/*###	MAP MODES	###*/
+# define WIRE 30
+# define DOT 31
+
 /*###	GEOMETRY	###*/
 # define MATRIX_SIZE 3
 # ifndef M_PI
 #  define M_PI
 # endif
-# define ISO_ANGLE (M_PI/6)
-# define NINETY_DEG (M_PI/8)
+# define RADIAN(degree) (degree) * (M_PI / 180)
 
 /*###	COLORS	###*/
 # define WHITE 0xFFFFFF	
@@ -86,11 +100,17 @@
 # include <fcntl.h>
 # include <math.h> //CHECK IF IT HAS TO BE INCLUDED AS MAKEFILE FLAG
 # include <stdbool.h>
+# include <stdio.h> //DELETEEEEE
+# include <stdint.h>
+# include <time.h>
+
 
 typedef struct s_key
 {
-	bool	mid_clicked;
-	bool	first_mid_click;
+	bool	right_clicked;
+	bool	first_right_click;
+	bool	left_clicked;
+	bool	first_left_click;
 }	t_key;
 
 typedef struct s_image
@@ -133,6 +153,8 @@ typedef struct s_map
 	float	zoom;
 	float	translate[2];
 	int		rotate[3];
+	uint8_t	mode;
+	int		t_render;
 	t_line	line;
 	t_point	*terrain;
 	t_point	*obj;
@@ -158,20 +180,21 @@ typedef struct s_bresenh
 	int		err2;
 }	t_bresenh;
 
-/*###   PARSING MAP   ###*/
-void	init_data(t_mlx *data);
+/*###   MAP LOAD   ###*/
 void	load_map(char *map_dir, t_map *map);
-void	get_heights(t_map *map);
+void	map_colors(t_map *map);
 
 /*###   UTILS   ###*/
 int		compare_str_end(char *str, char *end);
 void	free_and_close(t_mlx *data, t_map *map, t_image *img, int exit_code);
 void	error_exit(char *mssg);
+void	init_data(t_mlx *data);
+void	init_image(t_mlx *data);
 
 /*###   DRAW   ###*/
 void	init_visualization(t_mlx *data, t_map *map);
 void	draw_map(t_mlx *data, t_map *map);
-void	bresenham(t_mlx *data, t_line line, int color0, int color1);
+void	bresenham(t_mlx *data, t_line line);
 int		my_put_pixel(t_image *img, int x, int y, int color);
 void	set_color(t_image *img, int pixel, int color);
 void	fill_background(t_mlx *data, int color1, int color2);
@@ -188,6 +211,9 @@ int		close_program(void *param, int exit_code);
 void	change_height(void *param, int delta);
 void	zoom_screen(void *param, float zoom);
 void	move_map(void *param, int key);
+
+/*###	MENU	###*/
+void	draw_menu(t_mlx *data);
 
 /*###	UTILS TO BE DELETED	###*/
 void	print_loaded_map(t_map *map);

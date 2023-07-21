@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 22:39:23 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/20 17:37:47 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/21 21:02:46 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ int	mouse_move(int x, int y, void *param)
 	t_mlx	*data;
 
 	data = (t_mlx *)param;
-	if (data->key.mid_clicked)
+	if (data->key.right_clicked)
 	{
-		if (data->key.first_mid_click == 1)
+		if (data->key.first_right_click == true)
 		{
-			data->key.first_mid_click = 0;
+			data->key.first_right_click = false;
 			last_x = x;
 			last_y = y;
 		}
@@ -32,19 +32,23 @@ int	mouse_move(int x, int y, void *param)
 		data->map.translate[Y] += y - last_y;
 		last_x = x;
 		last_y = y;
-		//init_visualization(data, &data->map);
+		init_visualization(data, &data->map);
+	}
+	if (data->key.left_clicked)
+	{
+		if (data->key.first_left_click == true)
+		{
+			data->key.first_left_click = false;
+			last_x = x;
+			last_y = y;
+		}
+		data->map.rotate[X] -= y - last_y;
+		data->map.rotate[Y] -= x - last_x;
+		last_x = x;
+		last_y = y;
+		init_visualization(data, &data->map);
 	}
 	return (0);
-}
-
-void	rotate_x(void *param)
-{
-	t_mlx	*data;
-
-	ft_printf("a");
-	data = (t_mlx *)param;
-	data->map.rotate[X] += 3;
-	init_visualization(data, &data->map);
 }
 
 int	key_down(int key, void *param)
@@ -61,25 +65,9 @@ int	key_down(int key, void *param)
 		zoom_screen(param, 0.8);
 	if (key == P_KEY)
 		zoom_screen(param, 1.2);
-	if (key == T_KEY)
-		rotate_x(param);
+	//if (key == X_KEY || key == Y_KEY || key == Z_KEY)
+		//rotate_object(param, key);
 	return (0);
-}
-
-void	move_map(void *param, int key)
-{
-	t_mlx *data;
-
-	data = (t_mlx *)param;
-	if (key == A_KEY)
-		data->map.translate[X] -= TRANSL;
-	if (key == S_KEY)
-		data->map.translate[Y] += TRANSL;
-	if (key == D_KEY)
-		data->map.translate[X] += TRANSL;
-	if (key == W_KEY)
-		data->map.translate[Y] -= TRANSL;
-	init_visualization(data, &data->map);
 }
 
 int	mouse_down(int button, int x, int y, void *param)
@@ -91,8 +79,10 @@ int	mouse_down(int button, int x, int y, void *param)
 		zoom_screen(param, 1.2);
 	else if (button == SCROLL_UP)
 		zoom_screen(param, 0.8);
-	else if (button == MID_CLICK)
-		data->key.mid_clicked = 1;
+	else if (button == RIGHT_CLICK)
+		data->key.right_clicked = true;
+	else if (button == LEFT_CLICK)
+		data->key.left_clicked = true;
 	init_visualization(data, &data->map);
 	return (0);
 }
@@ -102,59 +92,15 @@ int	mouse_up(int button, int x, int y, void *param)
 	t_mlx	*data;
 
 	data = (t_mlx *)param;
-	if (button == MID_CLICK)
+	if (button == RIGHT_CLICK)
 	{
-		data->key.first_mid_click = 1;
-		data->key.mid_clicked = 0;
+		data->key.first_right_click = true;
+		data->key.right_clicked = false;
+	}
+	else if (button == LEFT_CLICK)
+	{
+		data->key.first_left_click = true;
+		data->key.left_clicked = false;
 	}
 	return (0);
-}
-
-void	iterate_terrain(t_map *map, int delta)
-{
-	int		x;
-	int		y;
-	float	mult;
-
-	y = 0;
-	while (y < map->y_size)
-	{
-		x = 0;
-		while (x < map->x_size)
-		{
-			//if (map->terrain[y][x].z != map->floor)
-			//	map->terrain[y][x].z += delta;
-			x++;
-		}
-		y++;
-	}
-}
-
-void	change_height(void *param, int delta)
-{
-	t_mlx	*data;
-
-	data = (t_mlx *)param;
-	//iterate_terrain(&data->map, delta);
-	//init_visualization(data, &data->map);
-}
-
-void	zoom_screen(void *param, float zoom)
-{
-	t_mlx	*data;
-
-	data = (t_mlx *)param;
-	data->map.zoom *= zoom;
-	init_visualization(data, &data->map);
-}
-
-int	close_program(void *param, int exit_code)
-{
-	t_mlx	*data;
-
-	data = (t_mlx *)param;
-	mlx_destroy_window(data->mlx, data->mlx_win);
-	mlx_destroy(data->mlx);
-	free(data->map.terrain);
-	exit(exit_code);
 }

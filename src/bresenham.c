@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 21:50:09 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/20 16:58:51 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/21 15:23:09 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,24 +31,25 @@ static t_bresenh	init_bresenham_variables(t_mlx *data, t_line *line)
 	info.dx = abs(info.draw.end[X] - info.draw.start[X]);
 	info.dy = abs(info.draw.end[Y] - info.draw.start[Y]);
 	info.sx = find_biggest(info.draw.start[X], info.draw.end[X]);
-	info.sy = find_biggest(info.draw.start[Y], line->end.axis[Y]);
+	info.sy = find_biggest(info.draw.start[Y], info.draw.end[Y]);
 	info.err = info.dx - info.dy;
 	return (info);
 }
 
-void	bresenham(t_mlx *data, t_line line, int color0, int color1)
+void	bresenham(t_mlx *data, t_line line)
 {
 	t_bresenh	info;
 	int			color;
-	int			k;
+	int			i;
 
+	i = 0;
 	info = init_bresenham_variables(data, &line);
 	while (info.draw.start[X] != info.draw.end[X] || info.draw.start[Y] != info.draw.end[Y])
 	{
-		//ft_printf("dx %i\ndy %i\nsx %i\nsy %i\nerr %i\nerr2 %i\n", info.dx, info.dy, info.sx, info.sy, info.err, info.err2);
-		//ft_printf("%i,%i      ->    %i,%i\n", (int)line.start.axis[X], (int)line.start.axis[Y], (int)line.end.axis[X], (int)line.end.axis[Y]);
-		color = get_color_gradient(color0, color1, info.dy, k);
-		my_put_pixel(&data->img, info.draw.start[X], info.draw.start[Y], WHITE);
+	//	ft_printf("%i,%i,%i   ->   %i,%i,%i\n", info.draw.start[X], info.draw.start[Y],
+		//		info.draw.start[Z], info.draw.end[X], info.draw.end[Y], info.draw.end[Z]);
+		color = get_color_gradient(line.start.color, line.end.color, info.dy, i);
+		my_put_pixel(&data->img, info.draw.start[X], info.draw.start[Y], color);
 		info.err2 = 2 * info.err;
 		if (info.err2 > -info.dy)
 		{
@@ -57,13 +58,13 @@ void	bresenham(t_mlx *data, t_line line, int color0, int color1)
 		}
 		if (info.err2 < info.dx)
 		{
-			k++;
+			i++;
 			info.err += info.dx;
 			info.draw.start[Y] += info.sy;
 		}
 	}
-	//ft_printf("%i,%i      ->    %i,%i\n", (int)line.start.axis[X], (int)line.start.axis[Y], (int)line.end.axis[X], (int)line.end.axis[Y]);
-	//ft_printf("\n\n");
-	my_put_pixel(&data->img, info.draw.end[X], info.draw.end[Y], WHITE);
-		// CHECK IF ITS NEDEED OR IT CREATES DOUBLE LINES
+	//ft_printf("FOUND ==== %i,%i,%i   ->   %i,%i,%i\n", info.draw.start[X], info.draw.start[Y],
+	//			info.draw.start[Z], info.draw.end[X], info.draw.end[Y], info.draw.end[Z]);
+	my_put_pixel(&data->img, info.draw.end[X], info.draw.end[Y], color);
+	//ft_printf("DRAW\n");
 }

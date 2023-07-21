@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 00:03:56 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/20 17:42:22 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/21 16:24:16 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,33 @@
 #include "libft.h"
 
 
+ void	draw_dot(t_image *img, t_point obj)
+{
+	int	x;
+	int	y;
+	int	color;
 
+	x = round((int)obj.axis[X]);
+	y = round((int)obj.axis[Y]);
+	color = round((int)obj.color);
 
-#include <stdio.h>
-
-
-
+	my_put_pixel(img, x, y, color);
+	my_put_pixel(img, x + 2, y, color);
+	my_put_pixel(img, x + 3, y, color);
+	my_put_pixel(img, x + 4, y, color);
+	my_put_pixel(img, x - 1, y, color);
+	my_put_pixel(img, x - 2, y, color);
+	my_put_pixel(img, x - 3, y, color);
+	my_put_pixel(img, x - 4, y, color);
+	my_put_pixel(img, x, y + 1, color);
+	my_put_pixel(img, x, y + 2, color);
+	my_put_pixel(img, x, y + 3, color);
+	my_put_pixel(img, x, y + 4, color);
+	my_put_pixel(img, x, y - 1, color);
+	my_put_pixel(img, x, y - 2, color);
+	my_put_pixel(img, x, y - 3, color);
+	my_put_pixel(img, x, y - 4, color);
+}
 
 void	mult_matrix(t_point *point, float (*matrix)[3])
 {
@@ -47,29 +68,74 @@ void	mult_matrix(t_point *point, float (*matrix)[3])
 	}
 }
 
+void	init_matrix(float	matrix[3][3])
+{
+	matrix[0][0] = 0;
+	matrix[0][1] = 0;
+	matrix[0][2] = 0;
+	matrix[1][0] = 0;
+	matrix[1][1] = 0;
+	matrix[1][2] = 0;
+	matrix[2][0] = 0;
+	matrix[2][1] = 0;
+	matrix[2][2] = 0;
+}
+
+void	init_rotate_x(t_map *map, float rotation_matrix_x[3][3])
+{
+	float	angle_x;
+
+	angle_x = RADIAN(map->rotate[X]);
+	init_matrix(rotation_matrix_x);
+	rotation_matrix_x[0][0] = 1;
+	rotation_matrix_x[1][1] = cos(angle_x);
+	rotation_matrix_x[1][2] = -sin(angle_x);
+	rotation_matrix_x[2][1] = sin(angle_x);
+	rotation_matrix_x[2][2] = cos(angle_x);
+}
+
+void	init_rotate_y(t_map *map, float rotation_matrix_y[3][3])
+{
+	float	angle_y;
+
+	angle_y = RADIAN(map->rotate[Y]);
+	init_matrix(rotation_matrix_y);
+	rotation_matrix_y[0][0] = cos(angle_y);
+	rotation_matrix_y[0][2] = sin(angle_y);
+	rotation_matrix_y[1][1] = 1;
+	rotation_matrix_y[2][0] = -sin(angle_y);
+	rotation_matrix_y[2][2] = cos(angle_y);
+}
+
+void	init_rotate_z(t_map *map, float rotation_matrix_z[3][3])
+{
+	float	angle_z;
+
+	angle_z = RADIAN(map->rotate[Z]);
+	init_matrix(rotation_matrix_z);
+	rotation_matrix_z[0][0] = cos(angle_z);
+	rotation_matrix_z[0][1] = -sin(angle_z);
+	rotation_matrix_z[1][0] = sin(angle_z);
+	rotation_matrix_z[1][1] = cos(angle_z);
+	rotation_matrix_z[2][2] = 1;
+}
+
 void	apply_transformations(t_map *map)
 {
+	float rotation_matrix_x[3][3];
+	float rotation_matrix_y[3][3];
+	float rotation_matrix_z[3][3];
 	int	i;
-	float rotate_x_matrix[3][3];
-	float	angle;
 
-	//ft_printf("rotate x %i\n", map->rotate[X]);
-	angle = map->rotate[X] * (M_PI / 180);
-	rotate_x_matrix[0][0] = 1;
-	rotate_x_matrix[0][1] = 0;
-	rotate_x_matrix[0][2] = 0;
-	rotate_x_matrix[1][0] = 0;
-	rotate_x_matrix[1][1] = cos(angle);
-	rotate_x_matrix[1][2] = -sin(angle);
-	rotate_x_matrix[2][0] = 0;
-	rotate_x_matrix[2][1] = sin(angle);
-	rotate_x_matrix[2][2] = cos(angle);
-
+	init_rotate_x(map, rotation_matrix_x);
+	init_rotate_y(map, rotation_matrix_y);
+	init_rotate_z(map, rotation_matrix_z);
 	i = 0;
-	//printf("y %.2f\n\n", map->obj[i].axis[Y]);
 	while (i < map->size)
 	{
-		mult_matrix(&map->obj[i], rotate_x_matrix);
+		mult_matrix(&map->obj[i], rotation_matrix_x);
+		mult_matrix(&map->obj[i], rotation_matrix_y);
+		mult_matrix(&map->obj[i], rotation_matrix_z);
 		map->obj[i].axis[X] *= map->zoom;
 		map->obj[i].axis[Y] *= map->zoom;
 		map->obj[i].axis[Z] *= map->zoom;
@@ -92,18 +158,22 @@ void	draw_map(t_mlx *data, t_map *map)
 	i = 0;
 	while (i < map->size)
 	{
-		map->line.start.axis[X] = map->obj[i].axis[X];
-		map->line.start.axis[Y] = map->obj[i].axis[Y];
-		map->line.end.axis[X] = map->obj[i + 1].axis[X];
-		map->line.end.axis[Y] = map->obj[i].axis[Y];
-		if (i % map->x_size < map->x_size -1)
-			bresenham(data, data->map.line, data->map.terrain[i].color,
-				data->map.terrain[i + 1].color);
-		map->line.end.axis[X] = map->obj[i].axis[X];
-		map->line.end.axis[Y] = map->obj[i + map->x_size].axis[Y];
-		if (i < map->size - map->x_size)
-			bresenham(data, data->map.line, data->map.terrain[i].color,
-				data->map.terrain[i+ 1].color);
+		if (map->mode == WIRE)
+		{
+			map->line.start = map->obj[i];
+			if (i % map->x_size < map->x_size -1)
+			{
+				map->line.end = map->obj[i + 1];
+				bresenham(data, data->map.line);
+			}
+			if (i < map->size - map->x_size)
+			{
+				map->line.end = map->obj[i + map->x_size];
+				bresenham(data, data->map.line);
+			}
+		}
+		else
+			draw_dot(&data->img, map->obj[i]);
 		i++;
 	}
 }

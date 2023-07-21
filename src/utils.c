@@ -6,12 +6,19 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 22:21:16 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/20 17:01:20 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/21 21:12:06 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include "libft.h"
+
+void	init_image(t_mlx *data)
+{
+	data->img.ptr = mlx_new_image(data->mlx, WIN_W, WIN_H);
+		data->img.buffer = mlx_get_data_addr(data->img.ptr, &data->img.pixel_bits,
+			&data->img.line_bytes, &data->img.endian);
+}
 
 void	init_data(t_mlx *data)
 {
@@ -20,6 +27,9 @@ void	init_data(t_mlx *data)
 	data->map.y_size = 0;
 	data->map.size = 0;
 	data->map.zoom = 1;
+	data->map.obj = NULL;
+	data->map.mode = WIRE;
+	data->map.t_render = 0;
 	data->map.terrain = NULL;
 	data->img.ptr = NULL;
 	data->map.translate[X] = 0;

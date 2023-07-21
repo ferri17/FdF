@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 01:12:19 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/20 15:13:35 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/21 10:22:41 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,5 @@ void	print_loaded_map(t_map *map)
 			printf("%.1f,%.1f,%.1f   ", map->terrain[i].axis[X], map->terrain[i].axis[Y], map->terrain[i].axis[Z]);
 			i++;
 	}
-	ft_printf("\n");
+	ft_printf("==============\n\n\n");
 }
