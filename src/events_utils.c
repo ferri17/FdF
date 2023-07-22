@@ -6,32 +6,50 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 18:46:50 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/21 21:17:05 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/22 03:54:59 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include "libft.h"
 
-void	rotate_object(void *param, int key)
+void	change_theme(t_mlx *data, int key)
 {
-	t_mlx	*data;
-
-	data = (t_mlx *)param;
-	if (key == X_KEY)
-		data->map.rotate[X] += MY_ROTATION;
-	else if (key == Y_KEY)
-		data->map.rotate[Y] += MY_ROTATION;
-	else if (key == Z_KEY)
-		data->map.rotate[Z] += MY_ROTATION;
-	init_visualization(data, &data->map);
+	if (key == ONE_KEY)
+	{
+		data->map.theme[BG_C] = BLACK;
+		data->map.theme[OBJ1_C] = ORANGE;
+		data->map.theme[OBJ2_C] = WHITE;
+	}
+	else if (key == TWO_KEY)
+	{
+		data->map.theme[BG_C] = BLACK;
+		data->map.theme[OBJ1_C] = PINK;
+		data->map.theme[OBJ2_C] = GREEN;
+	}
+	else if (key == THREE_KEY)
+	{
+		data->map.theme[BG_C] = WHITE;
+		data->map.theme[OBJ1_C] = BLUE_DARK;
+		data->map.theme[OBJ2_C] = BROWN;
+	}
+	map_colors(&data->map);
+	init_visualization(data);
 }
 
-void	move_map(void *param, int key)
+void	rotate_object(t_mlx *data, int key)
 {
-	t_mlx *data;
+	if (key == X_KEY)
+		data->map.rotate[X] += ROTATION;
+	else if (key == Y_KEY)
+		data->map.rotate[Y] += ROTATION;
+	else if (key == Z_KEY)
+		data->map.rotate[Z] += ROTATION;
+	init_visualization(data);
+}
 
-	data = (t_mlx *)param;
+void	move_map(t_mlx *data, int key)
+{
 	if (key == A_KEY)
 		data->map.translate[X] -= TRANSL;
 	if (key == S_KEY)
@@ -40,55 +58,44 @@ void	move_map(void *param, int key)
 		data->map.translate[X] += TRANSL;
 	if (key == W_KEY)
 		data->map.translate[Y] -= TRANSL;
-	init_visualization(data, &data->map);
+	init_visualization(data);
 }
 
-void	iterate_terrain(t_map *map, int delta)
+void	change_height(t_mlx *data, int key)
 {
-	int		x;
-	int		y;
-	float	mult;
+	float	height;
 
-	y = 0;
-	while (y < map->y_size)
-	{
-		x = 0;
-		while (x < map->x_size)
-		{
-			//if (map->terrain[y][x].z != map->floor)
-			//	map->terrain[y][x].z += delta;
-			x++;
-		}
-		y++;
-	}
+	if (key == M_KEY)
+		height = HEIGHT_UP;
+	else
+		height = HEIGHT_DOWN;
+	data->map.z_resize *= height;
+	init_visualization(data);
 }
 
-void	change_height(void *param, int delta)
+void	zoom_screen(t_mlx *data, int button)
 {
-	t_mlx	*data;
+	float	zoom;
 
-	data = (t_mlx *)param;
-	//iterate_terrain(&data->map, delta);
-	//init_visualization(data, &data->map);
-}
-
-void	zoom_screen(void *param, float zoom)
-{
-	t_mlx	*data;
-
-	data = (t_mlx *)param;
+	if (button == SCROLL_DOWN)
+		zoom = ZOOM_IN;
+	else
+		zoom = ZOOM_OUT;
 	data->map.zoom *= zoom;
-	init_visualization(data, &data->map);
+	init_visualization(data);
 }
 
-int	close_program(void *param, int exit_code)
+int	close_program(t_mlx *data, int exit_code)
 {
-	t_mlx	*data;
-
-	data = (t_mlx *)param;
 	mlx_destroy_image(data->mlx, data->img.ptr);
 	mlx_destroy_window(data->mlx, data->mlx_win);
 	mlx_destroy(data->mlx);
 	free(data->map.terrain);
 	exit(exit_code);
+}
+
+void	change_mode(t_mlx *data)
+{
+	data->map.mode = ((data->map.mode + 1) % 2) + 30;
+	init_visualization(data);
 }

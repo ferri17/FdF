@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 01:12:19 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/21 10:22:41 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/22 00:44:15 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,14 @@ void	set_color(t_image *img, int pixel, int color)
 }
 #include <stdio.h>
 
-void	print_loaded_map(t_map *map)
+void	print_loaded_map(t_map *map, t_point *terrain)
 {
 	int	i;
 
 	i = 0;
 	while (i < map->size)
 	{
-			printf("%.1f,%.1f,%.1f   ", map->terrain[i].axis[X], map->terrain[i].axis[Y], map->terrain[i].axis[Z]);
+			printf("%.1f,%.1f,%.1f   ", terrain[i].axis[X], terrain[i].axis[Y], terrain[i].axis[Z]);
 			i++;
 	}
 	ft_printf("==============\n\n\n");

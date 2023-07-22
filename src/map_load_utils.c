@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 01:27:10 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/21 18:43:10 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/22 03:21:26 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,6 @@ static void	get_heights(t_map *map)
 			zero = true;
 		i++;
 	}
-	map->floor = map->lowest;
-	if (zero)
-		map->floor = 0;
 }
 
 void	map_colors(t_map *map)
@@ -48,8 +45,8 @@ void	map_colors(t_map *map)
 	while (i < map->size)
 	{
 			pro = map->terrain[i].axis[Z] - map->lowest;
-			map->terrain[i].color = get_color_gradient(map->gradient[0],\
-				map->gradient[1], len, pro);
+			map->terrain[i].color = get_color_gradient(map->theme[OBJ1_C],\
+				map->theme[OBJ2_C], len, pro);
 			i++;
 	}
 }

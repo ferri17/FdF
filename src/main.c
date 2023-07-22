@@ -6,14 +6,14 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:08:24 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/21 21:14:29 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/22 03:57:00 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include "libft.h"
 
-void	init_visualization(t_mlx *data, t_map *map)
+void	init_visualization(t_mlx *data)
 {
 	void	*aux_ptr;
 	t_point	*temp_obj;
@@ -27,8 +27,8 @@ void	init_visualization(t_mlx *data, t_map *map)
 	if (data->map.obj != NULL)
 		temp_obj = data->map.obj;
 	init_image(data);
-	fill_background(data, DARK_GRAY, BLACK);
-	draw_map(data, map);
+	fill_background(data, data->map.theme[BG_C]);
+	draw_map(data, &data->map);
 	mlx_put_image_to_window(data->mlx, data->mlx_win, data->img.ptr, 0, 0);
 	if (aux_ptr != NULL)
 		mlx_destroy_image(data->mlx, aux_ptr);
@@ -48,7 +48,7 @@ int	main(int ac, char **av)
 	load_map(av[1], &data.map);
 	data.mlx = mlx_init();
 	data.mlx_win = mlx_new_window(data.mlx, WIN_W, WIN_H, av[1]);
-	init_visualization(&data, &data.map);
+	init_visualization(&data);
 	mlx_hook(data.mlx_win, KEYDOWN, 0, key_down, (void *)&data);
 	mlx_hook(data.mlx_win, MOUSEDOWN, 0, mouse_down, (void *)&data);
 	mlx_hook(data.mlx_win, MOUSEUP, 0, mouse_up, (void *)&data);

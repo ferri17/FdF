@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:50:15 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/21 21:12:17 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/22 03:54:35 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,24 +22,25 @@
 /*#define ERROR(number) "Error [" #number "]" */
 
 /*###	WINDOW SIZES	###*/
-# define WIN_W 1000
-# define WIN_H 700
+# define WIN_W 1400
+# define WIN_H 750
 # define PAD 50
 
-/*###	UTILS	###*/
+/*###	MOVEMENTS	###*/
 # define ZOOM_IN 1.2
 # define ZOOM_OUT 0.8
+# define HEIGHT_UP 1.2
+# define HEIGHT_DOWN 0.8
 # define TRANSL 10
-
-/*###	MOVEMENTS	###*/
-# define MY_ROTATION 3
-# define MY_TRANSLATION 1
-# define MY_ZOOM 1
+# define ROTATION 3
 
 /*###	KEY MAPPING	###*/
 # define ESC_KEY 0x35
 # define PLUS_KEY 0x45
 # define MINUS_KEY 0x4E
+# define ONE_KEY 0x12
+# define TWO_KEY 0x13
+# define THREE_KEY 0x14
 # define O_KEY 0x1F
 # define P_KEY 0x23
 # define A_KEY 0x00
@@ -50,6 +51,10 @@
 # define X_KEY 0x07
 # define Y_KEY 0x10
 # define Z_KEY 0x06
+# define N_KEY 0x2D
+# define M_KEY 0x2E
+# define G_KEY 0x05
+# define C_KEY 0x08
 
 /*###	X11 EVENTS SUPPORTED BY MINILIBX	###*/
 # define KEYDOWN 2
@@ -85,9 +90,19 @@
 /*###	COLORS	###*/
 # define WHITE 0xFFFFFF	
 # define BLACK 0x0
-# define DARK_GRAY 0x262626
+# define GRAY_DARK 0x262626
 # define ACQUA 0x36FFDD
-# define PINK 0xFFB5FF
+# define PINK 0xFF19A7
+# define ORANGE 0xE03E00
+# define GREEN 0x12D42A
+# define ACQUA_DARK 0x05828E
+# define BLUE_DARK 0x04018F
+# define BROWN 0x8F7027
+
+/*###	MAP THEMES	###*/
+# define BG_C 0
+# define OBJ1_C 1
+# define OBJ2_C 2
 
 /*###	BITSHIFTING	COLOR CHANNELS###*/
 # define A(a) (a) >> 24
@@ -148,9 +163,9 @@ typedef struct s_map
 	int		size;
 	int		highest;
 	int		lowest;
-	int		floor;
-	int		gradient[2];
+	int		theme[3];
 	float	zoom;
+	float	z_resize;
 	float	translate[2];
 	int		rotate[3];
 	uint8_t	mode;
@@ -192,12 +207,12 @@ void	init_data(t_mlx *data);
 void	init_image(t_mlx *data);
 
 /*###   DRAW   ###*/
-void	init_visualization(t_mlx *data, t_map *map);
+void	init_visualization(t_mlx *data);
 void	draw_map(t_mlx *data, t_map *map);
 void	bresenham(t_mlx *data, t_line line);
 int		my_put_pixel(t_image *img, int x, int y, int color);
 void	set_color(t_image *img, int pixel, int color);
-void	fill_background(t_mlx *data, int color1, int color2);
+void	fill_background(t_mlx *data, int color);
 
 /*###   DRAW UTILS  ###*/
 int		get_color_gradient(int startcolor, int endcolor, int len, int progress);
@@ -207,15 +222,19 @@ int		key_down(int key, void *param);
 int		mouse_down(int button, int x,int y, void *param);
 int		mouse_up(int button, int x,int y, void *param);
 int		mouse_move(int x, int y, void *param);
-int		close_program(void *param, int exit_code);
-void	change_height(void *param, int delta);
-void	zoom_screen(void *param, float zoom);
-void	move_map(void *param, int key);
+
+/*###	EVENT UTILS	###*/
+int		close_program(t_mlx *map, int exit_code);
+void	change_height(t_mlx *map, int key);
+void	zoom_screen(t_mlx *data, int button);
+void	move_map(t_mlx *map, int key);
+void	change_mode(t_mlx *data);
+void	change_theme(t_mlx *data, int key);
 
 /*###	MENU	###*/
 void	draw_menu(t_mlx *data);
 
 /*###	UTILS TO BE DELETED	###*/
-void	print_loaded_map(t_map *map);
+void	print_loaded_map(t_map *map, t_point *terrain);
 
 #endif

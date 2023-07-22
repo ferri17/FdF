@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 18:23:46 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/21 18:26:11 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/22 00:20:29 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,17 @@ static void	draw_performance(t_mlx *data)
 	time = ft_itoa(data->map.t_render);
 	if (!time)
 	{
-		mlx_string_put(data->mlx, data->mlx_win, WIN_W - (PAD * 2), PAD, WHITE, "error");
+		mlx_string_put(data->mlx, data->mlx_win, WIN_W - (PAD * 2), PAD / 2, WHITE, "error");
 		return ;
 	}
 	render_t = ft_strjoin(time, " ms");
 	if (!render_t)
 	{
 		free (time);
-		mlx_string_put(data->mlx, data->mlx_win, WIN_W - (PAD * 2), PAD, WHITE, "error");
+		mlx_string_put(data->mlx, data->mlx_win, WIN_W - (PAD * 2), PAD / 2, WHITE, "error");
 		return ;
 	}
-	mlx_string_put(data->mlx, data->mlx_win, WIN_W - (PAD * 2), PAD, WHITE, render_t);
+	mlx_string_put(data->mlx, data->mlx_win, WIN_W - (PAD * 2), PAD / 2, WHITE, render_t);
 	free (time);
 	free (render_t);
 }

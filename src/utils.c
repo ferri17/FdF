@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 22:21:16 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/21 21:12:06 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/22 03:54:30 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	init_data(t_mlx *data)
 	data->map.y_size = 0;
 	data->map.size = 0;
 	data->map.zoom = 1;
+	data->map.z_resize = 1;
 	data->map.obj = NULL;
 	data->map.mode = WIRE;
 	data->map.t_render = 0;
@@ -37,8 +38,9 @@ void	init_data(t_mlx *data)
 	data->map.rotate[X] = 0;
 	data->map.rotate[Y] = 0;
 	data->map.rotate[Z] = 0;
-	data->map.gradient[0] = ACQUA;
-	data->map.gradient[1] = PINK;
+	data->map.theme[BG_C] = BLACK;
+	data->map.theme[OBJ1_C] = ORANGE;
+	data->map.theme[OBJ2_C] = WHITE;
 }
 
 int	compare_str_end(char *str, char *end)

@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 00:03:56 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/21 16:24:16 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/22 03:53:30 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ void	apply_transformations(t_map *map)
 	i = 0;
 	while (i < map->size)
 	{
+		map->obj[i].axis[Z] *= map->z_resize;
 		mult_matrix(&map->obj[i], rotation_matrix_x);
 		mult_matrix(&map->obj[i], rotation_matrix_y);
 		mult_matrix(&map->obj[i], rotation_matrix_z);
@@ -161,7 +162,7 @@ void	draw_map(t_mlx *data, t_map *map)
 		if (map->mode == WIRE)
 		{
 			map->line.start = map->obj[i];
-			if (i % map->x_size < map->x_size -1)
+			if (i % map->x_size < map->x_size - 1)
 			{
 				map->line.end = map->obj[i + 1];
 				bresenham(data, data->map.line);
@@ -178,29 +179,21 @@ void	draw_map(t_mlx *data, t_map *map)
 	}
 }
 
-void	fill_background(t_mlx *data, int color1, int color2)
+void	fill_background(t_mlx *data, int color)
 {
 	int	x;
 	int	y;
-	int	k;
-	int	color;
 	
 	if (data->img.pixel_bits != 32)
-	{
-		color1 = mlx_get_color_value(data->mlx, color1);
-		color2 = mlx_get_color_value(data->mlx, color2);
-	}
-	k = 0;
+		color = mlx_get_color_value(data->mlx, color);
 	y = 0;
 	while (y < WIN_H)
 	{
 		x = 0;
 		while (x < WIN_W)
 		{
-			color = get_color_gradient(color1, color2, WIN_W * WIN_H, k);
 			my_put_pixel(&data->img, x, y, color);
 			x++;
-			k++;
 		}
 		y++;
 	}
