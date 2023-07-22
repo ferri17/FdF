@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 21:50:09 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/21 15:23:09 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/22 15:13:04 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,8 @@ void	bresenham(t_mlx *data, t_line line)
 	info = init_bresenham_variables(data, &line);
 	while (info.draw.start[X] != info.draw.end[X] || info.draw.start[Y] != info.draw.end[Y])
 	{
-	//	ft_printf("%i,%i,%i   ->   %i,%i,%i\n", info.draw.start[X], info.draw.start[Y],
-		//		info.draw.start[Z], info.draw.end[X], info.draw.end[Y], info.draw.end[Z]);
 		color = get_color_gradient(line.start.color, line.end.color, info.dy, i);
-		my_put_pixel(&data->img, info.draw.start[X], info.draw.start[Y], color);
+		my_put_pixel(data, info.draw.start[X], info.draw.start[Y], color);
 		info.err2 = 2 * info.err;
 		if (info.err2 > -info.dy)
 		{
@@ -63,8 +61,5 @@ void	bresenham(t_mlx *data, t_line line)
 			info.draw.start[Y] += info.sy;
 		}
 	}
-	//ft_printf("FOUND ==== %i,%i,%i   ->   %i,%i,%i\n", info.draw.start[X], info.draw.start[Y],
-	//			info.draw.start[Z], info.draw.end[X], info.draw.end[Y], info.draw.end[Z]);
-	my_put_pixel(&data->img, info.draw.end[X], info.draw.end[Y], color);
-	//ft_printf("DRAW\n");
+	my_put_pixel(data, info.draw.end[X], info.draw.end[Y], color);
 }

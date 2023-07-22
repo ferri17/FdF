@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 01:12:19 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/22 00:44:15 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/22 15:36:02 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	set_color(t_image *img, int pixel, int color)
 {
 	if (img->endian == 1)
 	{
-		img->buffer[pixel + 0] = 0x0;
+		img->buffer[pixel + 0] = A(color);
 		img->buffer[pixel + 1] = R(color);
 		img->buffer[pixel + 2] = G(color);
 		img->buffer[pixel + 3] = B(color);
@@ -45,7 +45,7 @@ void	set_color(t_image *img, int pixel, int color)
 		img->buffer[pixel + 0] = B(color);
 		img->buffer[pixel + 1] = G(color);
 		img->buffer[pixel + 2] = R(color);
-		img->buffer[pixel + 3] = 0x0;
+		img->buffer[pixel + 3] = A(color);
 	}
 }
 #include <stdio.h>

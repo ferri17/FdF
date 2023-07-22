@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 22:39:23 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/22 03:32:41 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/22 16:52:15 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,12 @@ int	mouse_move(int x, int y, void *param)
 			last_x = x;
 			last_y = y;
 		}
-		data->map.rotate[X] -= y - last_y;
-		data->map.rotate[Y] -= x - last_x;
+		if (!data->key.axis_locked[Y] && !data->key.axis_locked[Z])
+			data->map.rotate[X] -= y - last_y;
+		if (!data->key.axis_locked[X] && !data->key.axis_locked[Z])
+			data->map.rotate[Y] -= x - last_x;
+		if (data->key.axis_locked[Z])
+			data->map.rotate[Z] -= x - last_x;
 		last_x = x;
 		last_y = y;
 		init_visualization(data);
@@ -67,8 +71,23 @@ int	key_down(int key, void *param)
 		change_mode(data);
 	else if (key == ONE_KEY || key == TWO_KEY || key == THREE_KEY)
 		change_theme(data, key);
-	//else if (key == X_KEY || key == Y_KEY || key == Z_KEY)
-		//rotate_object(data, key);
+	else if (key == X_KEY || key == Y_KEY || key == Z_KEY)
+		lock_rotation_axis(data, key);
+	return (0);
+}
+
+int	key_up(int key, void *param)
+{
+	t_mlx	*data;
+
+	data = (t_mlx *)param;
+	
+	if (key == X_KEY)
+		data->key.axis_locked[X] = false;
+	else if (key == Y_KEY)
+		data->key.axis_locked[Y] = false;
+	else if (key == Z_KEY)
+		data->key.axis_locked[Z] = false;
 	return (0);
 }
 

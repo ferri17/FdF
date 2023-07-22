@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 00:03:56 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/22 03:53:30 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/22 16:01:55 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "libft.h"
 
 
- void	draw_dot(t_image *img, t_point obj)
+void	draw_dot(t_mlx *data, t_point obj)
 {
 	int	x;
 	int	y;
@@ -24,22 +24,22 @@
 	y = round((int)obj.axis[Y]);
 	color = round((int)obj.color);
 
-	my_put_pixel(img, x, y, color);
-	my_put_pixel(img, x + 2, y, color);
-	my_put_pixel(img, x + 3, y, color);
-	my_put_pixel(img, x + 4, y, color);
-	my_put_pixel(img, x - 1, y, color);
-	my_put_pixel(img, x - 2, y, color);
-	my_put_pixel(img, x - 3, y, color);
-	my_put_pixel(img, x - 4, y, color);
-	my_put_pixel(img, x, y + 1, color);
-	my_put_pixel(img, x, y + 2, color);
-	my_put_pixel(img, x, y + 3, color);
-	my_put_pixel(img, x, y + 4, color);
-	my_put_pixel(img, x, y - 1, color);
-	my_put_pixel(img, x, y - 2, color);
-	my_put_pixel(img, x, y - 3, color);
-	my_put_pixel(img, x, y - 4, color);
+	my_put_pixel(data, x, y, color);
+	my_put_pixel(data, x + 2, y, color);
+	my_put_pixel(data, x + 3, y, color);
+	my_put_pixel(data, x + 4, y, color);
+	my_put_pixel(data, x - 1, y, color);
+	my_put_pixel(data, x - 2, y, color);
+	my_put_pixel(data, x - 3, y, color);
+	my_put_pixel(data, x - 4, y, color);
+	my_put_pixel(data, x, y + 1, color);
+	my_put_pixel(data, x, y + 2, color);
+	my_put_pixel(data, x, y + 3, color);
+	my_put_pixel(data, x, y + 4, color);
+	my_put_pixel(data, x, y - 1, color);
+	my_put_pixel(data, x, y - 2, color);
+	my_put_pixel(data, x, y - 3, color);
+	my_put_pixel(data, x, y - 4, color);
 }
 
 void	mult_matrix(t_point *point, float (*matrix)[3])
@@ -59,9 +59,7 @@ void	mult_matrix(t_point *point, float (*matrix)[3])
 		j = 0;
 		while (j < MATRIX_SIZE)
 		{
-			//printf("before %.2f\n", point.axis[i]);
 			point->axis[i] += temp[j] * matrix[i][j];
-			//printf("after %.2f\n\n", point.axis[i]);
 			j++;
 		}
 		i++;
@@ -174,38 +172,60 @@ void	draw_map(t_mlx *data, t_map *map)
 			}
 		}
 		else
-			draw_dot(&data->img, map->obj[i]);
+			draw_dot(data, map->obj[i]);
 		i++;
 	}
 }
 
-void	fill_background(t_mlx *data, int color)
+void	fill_background(t_mlx *data, int bg_color)
 {
 	int	x;
 	int	y;
 	
-	if (data->img.pixel_bits != 32)
-		color = mlx_get_color_value(data->mlx, color);
 	y = 0;
 	while (y < WIN_H)
 	{
 		x = 0;
 		while (x < WIN_W)
 		{
-			my_put_pixel(&data->img, x, y, color);
+			my_put_pixel(data, x, y, bg_color);
 			x++;
 		}
 		y++;
 	}
 }
 
-int	my_put_pixel(t_image *img, int x, int y, int color)
+void	fill_background_menu(t_mlx *data, int menu_color)
+{
+	int	x;
+	int	y;
+	int	transparency;
+
+	transparency = 127 << 24;
+	
+	menu_color = menu_color | transparency;
+	y = 0;
+	while (y < WIN_H)
+	{
+		x = 0;
+		while (x < MENU_W)
+		{
+			my_put_pixel(data, x, y, menu_color);
+			x++;
+		}
+		y++;
+	}
+}
+
+int	my_put_pixel(t_mlx *data, int x, int y, int color)
 {
 	int	pixel;
 
+	if (data->img.pixel_bits != 32)
+		color = mlx_get_color_value(data->mlx, color);
 	if (x >= WIN_W || y >= WIN_H || x < 0 || y < 0)
 		return (1);
-	pixel = (img->line_bytes * y) + (x * img->pixel_bits / 8);
-	set_color(img, pixel, color);
+	pixel = (data->img.line_bytes * y) + (x * data->img.pixel_bits / 8);
+	set_color(&data->img, pixel, color);
 	return (0);
 }

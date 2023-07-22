@@ -6,12 +6,19 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 01:27:10 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/22 03:21:26 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/22 13:42:17 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "fdf.h"
+
+void	calculate_start_position(t_mlx *data)
+{
+	data->map.translate[X] = WIN_W / 2;
+	data->map.translate[Y] = WIN_H / 2;
+	data->map.zoom *= ((WIN_W / 2) / data->map.x_size) + 1;
+}
 
 static void	get_heights(t_map *map)
 {

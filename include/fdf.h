@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:50:15 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/22 03:54:35 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/22 16:40:45 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 /*###	WINDOW SIZES	###*/
 # define WIN_W 1400
 # define WIN_H 750
+# define MENU_W 300
 # define PAD 50
 
 /*###	MOVEMENTS	###*/
@@ -90,7 +91,7 @@
 /*###	COLORS	###*/
 # define WHITE 0xFFFFFF	
 # define BLACK 0x0
-# define GRAY_DARK 0x262626
+# define GRAY_DARK 0x1A1A1A
 # define ACQUA 0x36FFDD
 # define PINK 0xFF19A7
 # define ORANGE 0xE03E00
@@ -103,6 +104,7 @@
 # define BG_C 0
 # define OBJ1_C 1
 # define OBJ2_C 2
+# define MENU 3
 
 /*###	BITSHIFTING	COLOR CHANNELS###*/
 # define A(a) (a) >> 24
@@ -126,6 +128,7 @@ typedef struct s_key
 	bool	first_right_click;
 	bool	left_clicked;
 	bool	first_left_click;
+	bool	axis_locked[3];
 }	t_key;
 
 typedef struct s_image
@@ -163,7 +166,7 @@ typedef struct s_map
 	int		size;
 	int		highest;
 	int		lowest;
-	int		theme[3];
+	int		theme[4];
 	float	zoom;
 	float	z_resize;
 	float	translate[2];
@@ -198,6 +201,7 @@ typedef struct s_bresenh
 /*###   MAP LOAD   ###*/
 void	load_map(char *map_dir, t_map *map);
 void	map_colors(t_map *map);
+void	calculate_start_position(t_mlx *data);
 
 /*###   UTILS   ###*/
 int		compare_str_end(char *str, char *end);
@@ -210,14 +214,16 @@ void	init_image(t_mlx *data);
 void	init_visualization(t_mlx *data);
 void	draw_map(t_mlx *data, t_map *map);
 void	bresenham(t_mlx *data, t_line line);
-int		my_put_pixel(t_image *img, int x, int y, int color);
+int		my_put_pixel(t_mlx *data, int x, int y, int color);
 void	set_color(t_image *img, int pixel, int color);
-void	fill_background(t_mlx *data, int color);
+void	fill_background(t_mlx *data, int bg_color);
+void	fill_background_menu(t_mlx *data, int menu_color);
 
 /*###   DRAW UTILS  ###*/
 int		get_color_gradient(int startcolor, int endcolor, int len, int progress);
 
 /*###	EVENTS	###*/
+int		key_up(int key, void *param);
 int		key_down(int key, void *param);
 int		mouse_down(int button, int x,int y, void *param);
 int		mouse_up(int button, int x,int y, void *param);
@@ -230,6 +236,7 @@ void	zoom_screen(t_mlx *data, int button);
 void	move_map(t_mlx *map, int key);
 void	change_mode(t_mlx *data);
 void	change_theme(t_mlx *data, int key);
+void	lock_rotation_axis(t_mlx *data, int key);
 
 /*###	MENU	###*/
 void	draw_menu(t_mlx *data);
