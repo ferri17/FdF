@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 01:27:10 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/22 13:42:17 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/23 12:12:17 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,12 @@
 
 void	calculate_start_position(t_mlx *data)
 {
-	data->map.translate[X] = WIN_W / 2;
-	data->map.translate[Y] = WIN_H / 2;
+	data->map.translate[X] = WIN_W / 2 + PAD * 2;
+	data->map.translate[Y] = WIN_H / 2 + PAD;
 	data->map.zoom *= ((WIN_W / 2) / data->map.x_size) + 1;
+	data->map.rotate[X] = 30;
+	data->map.rotate[Y] = 330;
+	data->map.rotate[Z] = 30;
 }
 
 static void	get_heights(t_map *map)
@@ -52,7 +55,7 @@ void	map_colors(t_map *map)
 	while (i < map->size)
 	{
 			pro = map->terrain[i].axis[Z] - map->lowest;
-			map->terrain[i].color = get_color_gradient(map->theme[OBJ1_C],\
+			map->terrain[i].color = get_color_gradient(map->theme[OBJ1_C], \
 				map->theme[OBJ2_C], len, pro);
 			i++;
 	}

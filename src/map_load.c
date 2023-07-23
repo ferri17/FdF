@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 22:15:25 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/22 01:36:45 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/23 12:09:55 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void	fill_terrain(char *line, int line_n, t_map *map)
 			break ;
 		map->terrain[i].axis[X] = (i % map->x_size) - (map->x_size / 2);
 		map->terrain[i].axis[Y] = line_n - (map->y_size / 2);
-		map->terrain[i].axis[Z] = ft_atoi(args[x]); //DIVIDE FACTOR TO NORMALIZE HEIGHT MAP
+		map->terrain[i].axis[Z] = ft_atoi(args[x]);
 		i++;
 		x++;
 	}

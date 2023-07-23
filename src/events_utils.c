@@ -6,58 +6,27 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 18:46:50 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/22 16:52:30 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/23 12:02:43 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include "libft.h"
 
-void	lock_rotation_axis(t_mlx *data, int key)
-{
-	if (key == X_KEY)
-		data->key.axis_locked[X] = true;
-	else if (key == Y_KEY)
-		data->key.axis_locked[Y] = true;
-	else if (key == Z_KEY)
-		data->key.axis_locked[Z] = true;
-}
-
-void	change_theme(t_mlx *data, int key)
-{
-	if (key == ONE_KEY)
-	{
-		data->map.theme[BG_C] = GRAY_DARK;
-		data->map.theme[OBJ1_C] = ORANGE;
-		data->map.theme[OBJ2_C] = WHITE;
-		data->map.theme[MENU] = BLACK;
-	}
-	else if (key == TWO_KEY)
-	{
-		data->map.theme[BG_C] = GRAY_DARK;
-		data->map.theme[OBJ1_C] = PINK;
-		data->map.theme[OBJ2_C] = GREEN;
-		data->map.theme[MENU] = BLACK;
-	}
-	else if (key == THREE_KEY)
-	{
-		data->map.theme[BG_C] = WHITE;
-		data->map.theme[OBJ1_C] = BLACK;
-		data->map.theme[OBJ2_C] = BLUE_DARK;
-		data->map.theme[MENU] = BLACK;
-	}
-	map_colors(&data->map);
-	init_visualization(data);
-}
-
 void	rotate_object(t_mlx *data, int key)
 {
-	if (key == X_KEY)
-		data->map.rotate[X] += ROTATION;
-	else if (key == Y_KEY)
-		data->map.rotate[Y] += ROTATION;
-	else if (key == Z_KEY)
-		data->map.rotate[Z] += ROTATION;
+	if (key == I_KEY)
+	{
+		data->map.rotate[X] = 30;
+		data->map.rotate[Y] = 330;
+		data->map.rotate[Z] = 30;
+	}
+	if (key == P_KEY)
+	{
+		data->map.rotate[X] = 90;
+		data->map.rotate[Y] = 0;
+		data->map.rotate[Z] = 0;
+	}
 	init_visualization(data);
 }
 
@@ -104,6 +73,7 @@ int	close_program(t_mlx *data, int exit_code)
 	mlx_destroy_window(data->mlx, data->mlx_win);
 	mlx_destroy(data->mlx);
 	free(data->map.terrain);
+	free(data->map.obj);
 	exit(exit_code);
 }
 

@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 21:50:09 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/22 15:13:04 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/23 12:00:55 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,16 @@ static t_bresenh	init_bresenham_variables(t_mlx *data, t_line *line)
 void	bresenham(t_mlx *data, t_line line)
 {
 	t_bresenh	info;
-	int			color;
+	int			col;
 	int			i;
 
 	i = 0;
 	info = init_bresenham_variables(data, &line);
-	while (info.draw.start[X] != info.draw.end[X] || info.draw.start[Y] != info.draw.end[Y])
+	while (info.draw.start[X] != info.draw.end[X]
+		|| info.draw.start[Y] != info.draw.end[Y])
 	{
-		color = get_color_gradient(line.start.color, line.end.color, info.dy, i);
-		my_put_pixel(data, info.draw.start[X], info.draw.start[Y], color);
+		col = get_color_gradient(line.start.color, line.end.color, info.dy, i);
+		my_put_pixel(data, info.draw.start[X], info.draw.start[Y], col);
 		info.err2 = 2 * info.err;
 		if (info.err2 > -info.dy)
 		{
@@ -61,5 +62,5 @@ void	bresenham(t_mlx *data, t_line line)
 			info.draw.start[Y] += info.sy;
 		}
 	}
-	my_put_pixel(data, info.draw.end[X], info.draw.end[Y], color);
+	my_put_pixel(data, info.draw.end[X], info.draw.end[Y], col);
 }

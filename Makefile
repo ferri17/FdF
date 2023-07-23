@@ -6,7 +6,7 @@
 #    By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 19:36:01 by fbosch            #+#    #+#              #
-#    Updated: 2023/07/21 20:58:20 by fbosch           ###   ########.fr        #
+#    Updated: 2023/07/23 11:53:39 by fbosch           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ LIBFT_DIR		=	libft/
 
 SRC				=	main.c events.c events_utils.c utils.c map_load.c draw.c \
 					bresenham.c map_load_utils.c draw_utils.c menu.c \
+					events_utils_2.c matrix.c\
 
 BONUS_SRC		=
 

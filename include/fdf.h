@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:50:15 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/22 16:40:45 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/23 12:14:49 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@
 # define M_KEY 0x2E
 # define G_KEY 0x05
 # define C_KEY 0x08
+# define I_KEY 0x22
 
 /*###	X11 EVENTS SUPPORTED BY MINILIBX	###*/
 # define KEYDOWN 2
@@ -99,6 +100,11 @@
 # define ACQUA_DARK 0x05828E
 # define BLUE_DARK 0x04018F
 # define BROWN 0x8F7027
+
+/*###	PROJECTIONS	###*/
+# define ISO 50
+# define PARAL 51
+# define CUSTOM 52
 
 /*###	MAP THEMES	###*/
 # define BG_C 0
@@ -166,6 +172,7 @@ typedef struct s_map
 	int		size;
 	int		highest;
 	int		lowest;
+	int		projection;
 	int		theme[4];
 	float	zoom;
 	float	z_resize;
@@ -215,12 +222,20 @@ void	init_visualization(t_mlx *data);
 void	draw_map(t_mlx *data, t_map *map);
 void	bresenham(t_mlx *data, t_line line);
 int		my_put_pixel(t_mlx *data, int x, int y, int color);
-void	set_color(t_image *img, int pixel, int color);
 void	fill_background(t_mlx *data, int bg_color);
 void	fill_background_menu(t_mlx *data, int menu_color);
 
 /*###   DRAW UTILS  ###*/
 int		get_color_gradient(int startcolor, int endcolor, int len, int progress);
+void	set_color(t_image *img, int pixel, int color);
+void	draw_dot(t_mlx *data, t_point obj);
+
+/*###   MATRIX  ###*/
+void	mult_matrix(t_point *point, float (*matrix)[3]);
+void	init_matrix(float	matrix[3][3]);
+void	init_rotate_x(t_map *map, float rotation_matrix_x[3][3]);
+void	init_rotate_y(t_map *map, float rotation_matrix_y[3][3]);
+void	init_rotate_z(t_map *map, float rotation_matrix_z[3][3]);
 
 /*###	EVENTS	###*/
 int		key_up(int key, void *param);
@@ -237,6 +252,10 @@ void	move_map(t_mlx *map, int key);
 void	change_mode(t_mlx *data);
 void	change_theme(t_mlx *data, int key);
 void	lock_rotation_axis(t_mlx *data, int key);
+void	rotate_object(t_mlx *data, int key);
+void	snap_orto_projection(t_mlx *data);
+void	translate_map_mouse(t_mlx *data, int x, int y);
+void	rotate_map_mouse(t_mlx *data, int x, int y);
 
 /*###	MENU	###*/
 void	draw_menu(t_mlx *data);

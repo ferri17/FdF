@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:08:24 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/22 16:51:26 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/23 12:09:27 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ int	main(int ac, char **av)
 	load_map(av[1], &data.map);
 	data.mlx = mlx_init();
 	data.mlx_win = mlx_new_window(data.mlx, WIN_W, WIN_H, av[1]);
-
-	ft_printf("->	Controls	<-\n");
 	ft_printf("Move map: Right click + drag || A,S,D,W\n");
 	ft_printf("Rotate map: Left click + drag\n");
 	ft_printf("Lock rotation axis: Hold X,Y,Z\n");
 	ft_printf("Change color theme: 1,2,3\n");
 	ft_printf("Switch line/dot mode: G\n");
 	ft_printf("Change height map: N,M\n");
+	ft_printf("Snap orto projection: Hold S\n");
+	ft_printf("Change projection: I,P\n");
 	calculate_start_position(&data);
 	init_visualization(&data);
 	mlx_hook(data.mlx_win, KEYDOWN, 0, key_down, (void *)&data);
@@ -41,6 +41,7 @@ int	main(int ac, char **av)
 	mlx_hook(data.mlx_win, DESTROY, 0, close_program, (void *)&data);
 	mlx_loop(data.mlx);
 }
+
 void	init_visualization(t_mlx *data)
 {
 	void	*aux_ptr;
@@ -66,4 +67,3 @@ void	init_visualization(t_mlx *data)
 	data->map.t_render = ((double)t) / CLOCKS_PER_SEC * 1000;
 	draw_menu(data);
 }
-

@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 01:12:19 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/22 15:36:02 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/23 12:06:53 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,30 @@ void	set_color(t_image *img, int pixel, int color)
 		img->buffer[pixel + 3] = A(color);
 	}
 }
-#include <stdio.h>
 
-void	print_loaded_map(t_map *map, t_point *terrain)
+void	draw_dot(t_mlx *data, t_point obj)
 {
-	int	i;
+	int	x;
+	int	y;
+	int	color;
 
-	i = 0;
-	while (i < map->size)
-	{
-			printf("%.1f,%.1f,%.1f   ", terrain[i].axis[X], terrain[i].axis[Y], terrain[i].axis[Z]);
-			i++;
-	}
-	ft_printf("==============\n\n\n");
+	x = round((int)obj.axis[X]);
+	y = round((int)obj.axis[Y]);
+	color = round((int)obj.color);
+	my_put_pixel(data, x, y, color);
+	my_put_pixel(data, x + 2, y, color);
+	my_put_pixel(data, x + 3, y, color);
+	my_put_pixel(data, x + 4, y, color);
+	my_put_pixel(data, x - 1, y, color);
+	my_put_pixel(data, x - 2, y, color);
+	my_put_pixel(data, x - 3, y, color);
+	my_put_pixel(data, x - 4, y, color);
+	my_put_pixel(data, x, y + 1, color);
+	my_put_pixel(data, x, y + 2, color);
+	my_put_pixel(data, x, y + 3, color);
+	my_put_pixel(data, x, y + 4, color);
+	my_put_pixel(data, x, y - 1, color);
+	my_put_pixel(data, x, y - 2, color);
+	my_put_pixel(data, x, y - 3, color);
+	my_put_pixel(data, x, y - 4, color);
 }
