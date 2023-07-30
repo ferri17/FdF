@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 18:46:50 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/23 12:02:43 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/30 23:44:17 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,18 +52,6 @@ void	change_height(t_mlx *data, int key)
 	else
 		height = HEIGHT_DOWN;
 	data->map.z_resize *= height;
-	init_visualization(data);
-}
-
-void	zoom_screen(t_mlx *data, int button)
-{
-	float	zoom;
-
-	if (button == SCROLL_DOWN)
-		zoom = ZOOM_IN;
-	else
-		zoom = ZOOM_OUT;
-	data->map.zoom *= zoom;
 	init_visualization(data);
 }
 

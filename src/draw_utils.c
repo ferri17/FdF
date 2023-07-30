@@ -6,12 +6,37 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 01:12:19 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/23 12:06:53 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/30 23:37:06 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include "libft.h"
+
+void	draw_map_mode(t_mlx *data, t_map *map, int i)
+{
+	if (map->mode == WIRE)
+	{
+		map->line.start = map->obj[i];
+		if (i % map->x_size < map->x_size - 1)
+		{
+			map->line.end = map->obj[i + 1];
+			bresenham(data, data->map.line);
+		}
+		if (i < map->size - map->x_size)
+		{
+			map->line.end = map->obj[i + map->x_size];
+			bresenham(data, data->map.line);
+		}
+	}
+	else
+		draw_dot(data, map->obj[i]);
+}
+
+void	my_string_put(t_mlx *data, int x, int y, char *text)
+{
+	mlx_string_put(data->mlx, data->mlx_win, x, y, TEXT_COL, text);
+}
 
 int	get_color_gradient(int startcolor, int endcolor, int len, int progress)
 {

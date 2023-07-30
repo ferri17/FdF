@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:45:17 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/23 12:08:42 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/29 17:18:58 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ void	change_theme(t_mlx *data, int key)
 	{
 		data->map.theme[BG_C] = WHITE;
 		data->map.theme[OBJ1_C] = BLACK;
-		data->map.theme[OBJ2_C] = BLUE_DARK;
+		data->map.theme[OBJ2_C] = ORANGE;
 		data->map.theme[MENU] = BLACK;
 	}
 	map_colors(&data->map);

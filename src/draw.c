@@ -6,14 +6,14 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 00:03:56 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/23 12:02:58 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/30 23:38:25 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include "libft.h"
 
-void	apply_transformations(t_map *map)
+static void	apply_transformations(t_map *map)
 {
 	float	rotation_matrix_x[3][3];
 	float	rotation_matrix_y[3][3];
@@ -51,22 +51,7 @@ void	draw_map(t_mlx *data, t_map *map)
 	i = 0;
 	while (i < map->size)
 	{
-		if (map->mode == WIRE)
-		{
-			map->line.start = map->obj[i];
-			if (i % map->x_size < map->x_size - 1)
-			{
-				map->line.end = map->obj[i + 1];
-				bresenham(data, data->map.line);
-			}
-			if (i < map->size - map->x_size)
-			{
-				map->line.end = map->obj[i + map->x_size];
-				bresenham(data, data->map.line);
-			}
-		}
-		else
-			draw_dot(data, map->obj[i]);
+		draw_map_mode(data, map, i);
 		i++;
 	}
 }

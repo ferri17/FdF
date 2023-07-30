@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 22:39:23 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/23 12:07:46 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/30 23:44:12 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	key_down(int key, void *param)
 		lock_rotation_axis(data, key);
 	else if (key == I_KEY || key == P_KEY)
 		rotate_object(data, key);
-	else if (key == O_KEY)
+	else if (key == H_KEY)
 		snap_orto_projection(data);
 	return (0);
 }
@@ -58,7 +58,7 @@ int	key_up(int key, void *param)
 		data->key.axis_locked[Y] = false;
 	else if (key == Y_KEY)
 		data->key.axis_locked[X] = false;
-	else if (key == Z_KEY || key == O_KEY)
+	else if (key == Z_KEY || key == H_KEY)
 	{
 		data->key.axis_locked[X] = false;
 		data->key.axis_locked[Y] = false;
@@ -74,9 +74,9 @@ int	mouse_down(int button, int x, int y, void *param)
 
 	data = (t_mlx *)param;
 	if (button == SCROLL_DOWN)
-		zoom_screen(data, button);
+		data->map.zoom *= ZOOM_IN;
 	else if (button == SCROLL_UP)
-		zoom_screen(data, button);
+		data->map.zoom *= ZOOM_OUT;
 	else if (button == RIGHT_CLICK)
 		data->key.right_clicked = true;
 	else if (button == LEFT_CLICK)

@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:50:15 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/23 12:14:49 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/30 23:44:25 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@
 # define G_KEY 0x05
 # define C_KEY 0x08
 # define I_KEY 0x22
+# define H_KEY 0x04
 
 /*###	X11 EVENTS SUPPORTED BY MINILIBX	###*/
 # define KEYDOWN 2
@@ -100,6 +101,7 @@
 # define ACQUA_DARK 0x05828E
 # define BLUE_DARK 0x04018F
 # define BROWN 0x8F7027
+# define TEXT_COL 0xFFFFFF
 
 /*###	PROJECTIONS	###*/
 # define ISO 50
@@ -228,7 +230,9 @@ void	fill_background_menu(t_mlx *data, int menu_color);
 /*###   DRAW UTILS  ###*/
 int		get_color_gradient(int startcolor, int endcolor, int len, int progress);
 void	set_color(t_image *img, int pixel, int color);
+void	draw_map_mode(t_mlx *data, t_map *map, int i);
 void	draw_dot(t_mlx *data, t_point obj);
+void	my_string_put(t_mlx *data, int x, int y, char *text);
 
 /*###   MATRIX  ###*/
 void	mult_matrix(t_point *point, float (*matrix)[3]);
@@ -247,7 +251,6 @@ int		mouse_move(int x, int y, void *param);
 /*###	EVENT UTILS	###*/
 int		close_program(t_mlx *map, int exit_code);
 void	change_height(t_mlx *map, int key);
-void	zoom_screen(t_mlx *data, int button);
 void	move_map(t_mlx *map, int key);
 void	change_mode(t_mlx *data);
 void	change_theme(t_mlx *data, int key);
@@ -259,8 +262,5 @@ void	rotate_map_mouse(t_mlx *data, int x, int y);
 
 /*###	MENU	###*/
 void	draw_menu(t_mlx *data);
-
-/*###	UTILS TO BE DELETED	###*/
-void	print_loaded_map(t_map *map, t_point *terrain);
 
 #endif

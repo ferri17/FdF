@@ -736,7 +736,6 @@ int     mlx_destroy_window(mlx_ptr_t *mlx_ptr, mlx_win_list_t *win_to_del)
       win = win->next;
     }
   mlx_ptr->win_list = first.next;
-
   if (win_to_del->pixmgt)
     {
       [(id)(win_to_del->winid) selectGLContext];

@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 22:15:25 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/23 12:09:55 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/07/30 23:40:59 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,5 @@ void	load_map(char *map_dir, t_map *map)
 	}
 	map_colors(map);
 	ft_printf("Read a total of %i points \n", map->size);
-	ft_printf("\n\n\n Opening a windows...\n\n\n\n");
 	close(map->fd);
 }
