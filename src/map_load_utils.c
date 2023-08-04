@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 01:27:10 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/23 12:12:17 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/08/04 02:33:44 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,14 @@ void	calculate_start_position(t_mlx *data)
 	data->map.translate[X] = WIN_W / 2 + PAD * 2;
 	data->map.translate[Y] = WIN_H / 2 + PAD;
 	data->map.zoom *= ((WIN_W / 2) / data->map.x_size) + 1;
-	data->map.rotate[X] = 30;
-	data->map.rotate[Y] = 330;
-	data->map.rotate[Z] = 30;
+	data->map.rotate[X] = 63;
+	data->map.rotate[Y] = -39;
+	data->map.rotate[Z] = 24;
 }
 
 static void	get_heights(t_map *map)
 {
 	int		i;
-	bool	zero;
 
 	map->highest = INT_MIN;
 	map->lowest = INT_MAX;
@@ -37,8 +36,6 @@ static void	get_heights(t_map *map)
 			map->highest = map->terrain[i].axis[Z];
 		if (map->terrain[i].axis[Z] < map->lowest)
 			map->lowest = map->terrain[i].axis[Z];
-		if (map->terrain[i].axis[Z] == 0)
-			zero = true;
 		i++;
 	}
 }

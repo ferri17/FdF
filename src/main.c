@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:08:24 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/30 23:22:24 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/08/05 01:27:17 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	main(int ac, char **av)
 	data.mlx = mlx_init();
 	data.mlx_win = mlx_new_window(data.mlx, WIN_W, WIN_H, av[1]);
 	calculate_start_position(&data);
+	init_rotation_matrix(&data.map);
 	init_visualization(&data);
 	mlx_hook(data.mlx_win, KEYDOWN, 0, key_down, (void *)&data);
 	mlx_hook(data.mlx_win, KEYUP, 0, key_up, (void *)&data);
@@ -44,14 +45,19 @@ void	init_visualization(t_mlx *data)
 	temp_img_ptr = data->img.ptr;
 	temp_obj = data->map.obj;
 	init_image(data);
+	calculate_rotation_matrix(data->map.r_matrix.x, data->map.rotate[X], X);
+	calculate_rotation_matrix(data->map.r_matrix.y, data->map.rotate[Y], Y);
+	calculate_rotation_matrix(data->map.r_matrix.z, data->map.rotate[Z], Z);
 	fill_background(data, data->map.theme[BG_C]);
 	draw_map(data, &data->map);
-	fill_background_menu(data, data->map.theme[MENU]);
+	draw_cube(data);
+	if (data->key.left_clicked == true)
+		draw_rotation_sphere(data, 50);
 	mlx_put_image_to_window(data->mlx, data->mlx_win, data->img.ptr, 0, 0);
 	if (temp_img_ptr != NULL)
 		mlx_destroy_image(data->mlx, temp_img_ptr);
 	free(temp_obj);
 	t = clock() - t;
 	data->map.t_render = ((double)t) / CLOCKS_PER_SEC * 1000;
-	//draw_menu(data);
+	draw_menu(data);
 }

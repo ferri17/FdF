@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 18:23:46 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/30 23:29:03 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/08/04 02:24:44 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,32 +53,38 @@ void	draw_coordinates(t_mlx *data)
 	char	*x;
 	char	*y;
 
-	my_string_put(data, MENU_W + PAD, PAD / 2, "X:");
-	my_string_put(data, MENU_W + PAD * 3, PAD / 2, "Y:");
+	my_string_put(data, MENU_W + PAD, WIN_H - PAD, "X:");
+	my_string_put(data, MENU_W + PAD * 3, WIN_H - PAD, "Y:");
 	x = ft_itoa(data->map.translate[X]);
 	if (!x)
-		my_string_put(data, MENU_W + PAD / 2 * 3, PAD / 2, "???");
+		my_string_put(data, MENU_W + PAD / 2 * 3, WIN_H - PAD, "???");
 	else
-		my_string_put(data, MENU_W + PAD / 2 * 3, PAD / 2, x);
+		my_string_put(data, MENU_W + PAD / 2 * 3, WIN_H - PAD, x);
 	y = ft_itoa(data->map.translate[Y]);
 	if (!y)
-		my_string_put(data, MENU_W + PAD / 2 * 7, PAD / 2, "???");
+		my_string_put(data, MENU_W + PAD / 2 * 7, WIN_H - PAD, "???");
 	else
-		my_string_put(data, MENU_W + PAD / 2 * 7, PAD / 2, y);
+		my_string_put(data, MENU_W + PAD / 2 * 7, WIN_H - PAD, y);
 	free(x);
 	free(y);
+
+
+	my_string_put(data, MENU_W + PAD / 2 * 10, WIN_H - PAD, ft_strjoin("X:", ft_itoa(data->map.rotate[X])));
+	my_string_put(data, MENU_W + PAD / 2 * 12, WIN_H - PAD, ft_strjoin("Y:", ft_itoa(data->map.rotate[Y])));
+	my_string_put(data, MENU_W + PAD / 2 * 14, WIN_H - PAD, ft_strjoin("Z:", ft_itoa(data->map.rotate[Z])));
+
 }
 
 static void	draw_controls(t_mlx *data)
 {
-	my_string_put(data, PAD / 2, PAD / 2, "#####   CONTROLS   #####");
-	my_string_put(data, PAD / 2, PAD * 3, "Move: Right click + drag");
-	my_string_put(data, PAD / 2, PAD * 4, "Lock rotation: Hold X,Y,Z");
-	my_string_put(data, PAD / 2, PAD * 5, "Theme color: 1,2,3");
-	my_string_put(data, PAD / 2, PAD * 6, "Change height: N,M");
-	my_string_put(data, PAD / 2, PAD * 7, "Line/dot mode: G");
-	my_string_put(data, PAD / 2, PAD * 8, "Snap angle: Hold H");
-	my_string_put(data, PAD / 2, PAD * 9, "Change projection: I,P");
+	my_string_put(data, PAD / 2, WIN_H - PAD * 9, "#####   CONTROLS   #####");
+	my_string_put(data, PAD / 2, WIN_H - PAD * 7, "Move: Right click + drag");
+	my_string_put(data, PAD / 2, WIN_H - PAD * 6, "Lock rotation: Hold X,Y,Z");
+	my_string_put(data, PAD / 2, WIN_H - PAD * 5, "Theme color: 1,2,3");
+	my_string_put(data, PAD / 2, WIN_H - PAD * 4, "Change height: N,M");
+	my_string_put(data, PAD / 2, WIN_H - PAD * 3, "Line/dot mode: G");
+	my_string_put(data, PAD / 2, WIN_H - PAD * 2, "Snap angle: Hold H");
+	my_string_put(data, PAD / 2, WIN_H - PAD, "Change projection: I,P");
 }
 
 void	draw_menu(t_mlx *data)

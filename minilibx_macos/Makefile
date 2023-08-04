@@ -40,7 +40,7 @@ $(NAME)::
 	@echo -n
 
 clean	:
-	rm -rf $(OBJ_DIR) *~
+	@rm -rf $(OBJ_DIR) *~
 	@rm -f mlx_app
 	@echo "$(RED)MLX OBJS DELETED$(NC)"
 

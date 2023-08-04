@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:50:15 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/30 23:44:25 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/08/05 01:39:30 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@
 #  define M_PI
 # endif
 # define RADIAN(degree) (degree) * (M_PI / 180)
+# define CUBE_VERTEX 8
+# define TOLERANCE 50
 
 /*###	COLORS	###*/
 # define WHITE 0xFFFFFF	
@@ -101,18 +103,20 @@
 # define ACQUA_DARK 0x05828E
 # define BLUE_DARK 0x04018F
 # define BROWN 0x8F7027
-# define TEXT_COL 0xFFFFFF
-
-/*###	PROJECTIONS	###*/
-# define ISO 50
-# define PARAL 51
-# define CUSTOM 52
+# define RED 0xFA2828
+# define LIGHT_GRAY 0xC7C7C7
 
 /*###	MAP THEMES	###*/
 # define BG_C 0
 # define OBJ1_C 1
 # define OBJ2_C 2
-# define MENU 3
+# define TEXT 3
+
+/*###	AXIS COLOR	###*/
+
+# define COL_AXIS_X RED
+# define COL_AXIS_Y GREEN
+# define COL_AXIS_Z ACQUA
 
 /*###	BITSHIFTING	COLOR CHANNELS###*/
 # define A(a) (a) >> 24
@@ -166,6 +170,14 @@ typedef struct s_line
 	t_point	end;
 }	t_line;
 
+typedef struct rotation_matrix
+{
+	float	x[3][3];
+	float	y[3][3];
+	float	z[3][3];
+}	r_mtx;
+
+
 typedef struct s_map
 {
 	int		fd;
@@ -174,12 +186,13 @@ typedef struct s_map
 	int		size;
 	int		highest;
 	int		lowest;
-	int		projection;
 	int		theme[4];
+	int		col_axis[3];
 	float	zoom;
 	float	z_resize;
 	float	translate[2];
 	int		rotate[3];
+	r_mtx	r_matrix;
 	uint8_t	mode;
 	int		t_render;
 	t_line	line;
@@ -213,8 +226,8 @@ void	map_colors(t_map *map);
 void	calculate_start_position(t_mlx *data);
 
 /*###   UTILS   ###*/
+void	init_rotation_matrix(t_map *map);
 int		compare_str_end(char *str, char *end);
-void	free_and_close(t_mlx *data, t_map *map, t_image *img, int exit_code);
 void	error_exit(char *mssg);
 void	init_data(t_mlx *data);
 void	init_image(t_mlx *data);
@@ -225,7 +238,6 @@ void	draw_map(t_mlx *data, t_map *map);
 void	bresenham(t_mlx *data, t_line line);
 int		my_put_pixel(t_mlx *data, int x, int y, int color);
 void	fill_background(t_mlx *data, int bg_color);
-void	fill_background_menu(t_mlx *data, int menu_color);
 
 /*###   DRAW UTILS  ###*/
 int		get_color_gradient(int startcolor, int endcolor, int len, int progress);
@@ -237,15 +249,13 @@ void	my_string_put(t_mlx *data, int x, int y, char *text);
 /*###   MATRIX  ###*/
 void	mult_matrix(t_point *point, float (*matrix)[3]);
 void	init_matrix(float	matrix[3][3]);
-void	init_rotate_x(t_map *map, float rotation_matrix_x[3][3]);
-void	init_rotate_y(t_map *map, float rotation_matrix_y[3][3]);
-void	init_rotate_z(t_map *map, float rotation_matrix_z[3][3]);
+void	calculate_rotation_matrix(float	(*matrix)[3], float angle, uint8_t axis);
 
 /*###	EVENTS	###*/
 int		key_up(int key, void *param);
 int		key_down(int key, void *param);
-int		mouse_down(int button, int x,int y, void *param);
-int		mouse_up(int button, int x,int y, void *param);
+int		mouse_down(int button, int x, int y, void *param);
+int		mouse_up(int button, int x, int y, void *param);
 int		mouse_move(int x, int y, void *param);
 
 /*###	EVENT UTILS	###*/
@@ -262,5 +272,11 @@ void	rotate_map_mouse(t_mlx *data, int x, int y);
 
 /*###	MENU	###*/
 void	draw_menu(t_mlx *data);
+
+/*###	CUBE	###*/
+void 	draw_cube(t_mlx *data);
+
+/*###	ROTATION SPHERE	###*/
+void	draw_rotation_sphere(t_mlx *data, int radius);
 
 #endif

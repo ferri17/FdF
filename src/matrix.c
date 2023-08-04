@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:50:53 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/23 12:13:08 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/08/04 23:03:30 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	mult_matrix(t_point *point, float (*matrix)[3])
 {
 	int		i;
 	int		j;
-	int		size;
 	float	temp[3];
 
 	temp[X] = point->axis[X];
@@ -50,41 +49,30 @@ void	init_matrix(float matrix[3][3])
 	matrix[2][2] = 0;
 }
 
-void	init_rotate_x(t_map *map, float rotation_matrix_x[3][3])
+void	calculate_rotation_matrix(float	(*matrix)[3], float angle, uint8_t axis)
 {
-	float	angle_x;
-
-	angle_x = RADIAN(map->rotate[X]);
-	init_matrix(rotation_matrix_x);
-	rotation_matrix_x[0][0] = 1;
-	rotation_matrix_x[1][1] = cos(angle_x);
-	rotation_matrix_x[1][2] = -sin(angle_x);
-	rotation_matrix_x[2][1] = sin(angle_x);
-	rotation_matrix_x[2][2] = cos(angle_x);
-}
-
-void	init_rotate_y(t_map *map, float rotation_matrix_y[3][3])
-{
-	float	angle_y;
-
-	angle_y = RADIAN(map->rotate[Y]);
-	init_matrix(rotation_matrix_y);
-	rotation_matrix_y[0][0] = cos(angle_y);
-	rotation_matrix_y[0][2] = sin(angle_y);
-	rotation_matrix_y[1][1] = 1;
-	rotation_matrix_y[2][0] = -sin(angle_y);
-	rotation_matrix_y[2][2] = cos(angle_y);
-}
-
-void	init_rotate_z(t_map *map, float rotation_matrix_z[3][3])
-{
-	float	angle_z;
-
-	angle_z = RADIAN(map->rotate[Z]);
-	init_matrix(rotation_matrix_z);
-	rotation_matrix_z[0][0] = cos(angle_z);
-	rotation_matrix_z[0][1] = -sin(angle_z);
-	rotation_matrix_z[1][0] = sin(angle_z);
-	rotation_matrix_z[1][1] = cos(angle_z);
-	rotation_matrix_z[2][2] = 1;
+	if (axis == X)
+	{
+		matrix[0][0] = 1;
+		matrix[1][1] = cos(RADIAN(angle));
+		matrix[1][2] = -sin(RADIAN(angle));
+		matrix[2][1] = sin(RADIAN(angle));
+		matrix[2][2] = cos(RADIAN(angle));
+	}
+	else if (axis == Y)
+	{
+		matrix[0][0] = cos(RADIAN(angle));
+		matrix[0][2] = sin(RADIAN(angle));
+		matrix[1][1] = 1;
+		matrix[2][0] = -sin(RADIAN(angle));
+		matrix[2][2] = cos(RADIAN(angle));
+	}
+	else if (axis == Z)
+	{
+		matrix[0][0] = cos(RADIAN(angle));
+		matrix[0][1] = -sin(RADIAN(angle));
+		matrix[1][0] = sin(RADIAN(angle));
+		matrix[1][1] = cos(RADIAN(angle));
+		matrix[2][2] = 1;
+	}
 }

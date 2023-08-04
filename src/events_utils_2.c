@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:45:17 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/29 17:18:58 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/08/03 19:53:11 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,17 +82,24 @@ void	lock_rotation_axis(t_mlx *data, int key)
 	{
 		data->key.axis_locked[Y] = true;
 		data->key.axis_locked[Z] = true;
+		data->map.col_axis[Y] = LIGHT_GRAY;
+		data->map.col_axis[Z] = LIGHT_GRAY;
+
 	}
 	else if (key == Y_KEY)
 	{
 		data->key.axis_locked[X] = true;
 		data->key.axis_locked[Z] = true;
+		data->map.col_axis[X] = LIGHT_GRAY;
+		data->map.col_axis[Z] = LIGHT_GRAY;
 	}
 	else if (key == Z_KEY)
 	{
 		data->key.axis_locked[X] = true;
 		data->key.axis_locked[Y] = true;
 		data->key.axis_locked[Z] = false;
+		data->map.col_axis[X] = LIGHT_GRAY;
+		data->map.col_axis[Y] = LIGHT_GRAY;
 	}
 	init_visualization(data);
 }
@@ -104,21 +111,21 @@ void	change_theme(t_mlx *data, int key)
 		data->map.theme[BG_C] = GRAY_DARK;
 		data->map.theme[OBJ1_C] = ORANGE;
 		data->map.theme[OBJ2_C] = WHITE;
-		data->map.theme[MENU] = BLACK;
+		data->map.theme[TEXT] = WHITE;
 	}
 	else if (key == TWO_KEY)
 	{
 		data->map.theme[BG_C] = GRAY_DARK;
 		data->map.theme[OBJ1_C] = PINK;
 		data->map.theme[OBJ2_C] = GREEN;
-		data->map.theme[MENU] = BLACK;
+		data->map.theme[TEXT] = WHITE;
 	}
 	else if (key == THREE_KEY)
 	{
 		data->map.theme[BG_C] = WHITE;
 		data->map.theme[OBJ1_C] = BLACK;
 		data->map.theme[OBJ2_C] = ORANGE;
-		data->map.theme[MENU] = BLACK;
+		data->map.theme[TEXT] = BLACK;
 	}
 	map_colors(&data->map);
 	init_visualization(data);

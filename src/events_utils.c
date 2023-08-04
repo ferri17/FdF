@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 18:46:50 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/30 23:44:17 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/08/04 02:34:42 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ void	rotate_object(t_mlx *data, int key)
 {
 	if (key == I_KEY)
 	{
-		data->map.rotate[X] = 30;
-		data->map.rotate[Y] = 330;
-		data->map.rotate[Z] = 30;
+		data->map.rotate[X] = 63;
+		data->map.rotate[Y] = -39;
+		data->map.rotate[Z] = 24;
 	}
 	if (key == P_KEY)
 	{

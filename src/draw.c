@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 00:03:56 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/30 23:38:25 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/08/04 23:27:54 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,15 @@
 
 static void	apply_transformations(t_map *map)
 {
-	float	rotation_matrix_x[3][3];
-	float	rotation_matrix_y[3][3];
-	float	rotation_matrix_z[3][3];
 	int		i;
 
-	init_rotate_x(map, rotation_matrix_x);
-	init_rotate_y(map, rotation_matrix_y);
-	init_rotate_z(map, rotation_matrix_z);
 	i = 0;
 	while (i < map->size)
 	{
 		map->obj[i].axis[Z] *= map->z_resize;
-		mult_matrix(&map->obj[i], rotation_matrix_x);
-		mult_matrix(&map->obj[i], rotation_matrix_y);
-		mult_matrix(&map->obj[i], rotation_matrix_z);
+		mult_matrix(&map->obj[i], map->r_matrix.x);
+		mult_matrix(&map->obj[i], map->r_matrix.z);
+		mult_matrix(&map->obj[i], map->r_matrix.y);
 		map->obj[i].axis[X] *= map->zoom;
 		map->obj[i].axis[Y] *= map->zoom;
 		map->obj[i].axis[Z] *= map->zoom;
@@ -68,24 +62,6 @@ void	fill_background(t_mlx *data, int bg_color)
 		while (x < WIN_W)
 		{
 			my_put_pixel(data, x, y, bg_color);
-			x++;
-		}
-		y++;
-	}
-}
-
-void	fill_background_menu(t_mlx *data, int menu_color)
-{
-	int	x;
-	int	y;
-
-	y = 0;
-	while (y < WIN_H)
-	{
-		x = 0;
-		while (x < MENU_W)
-		{
-			my_put_pixel(data, x, y, menu_color);
 			x++;
 		}
 		y++;

@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 01:12:19 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/30 23:37:06 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/08/03 02:56:57 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ void	draw_map_mode(t_mlx *data, t_map *map, int i)
 		draw_dot(data, map->obj[i]);
 }
 
-void	my_string_put(t_mlx *data, int x, int y, char *text)
+void	my_string_put(t_mlx *data, int x, int y, char *txt)
 {
-	mlx_string_put(data->mlx, data->mlx_win, x, y, TEXT_COL, text);
+	mlx_string_put(data->mlx, data->mlx_win, x, y, data->map.theme[TEXT], txt);
 }
 
 int	get_color_gradient(int startcolor, int endcolor, int len, int progress)
@@ -43,7 +43,7 @@ int	get_color_gradient(int startcolor, int endcolor, int len, int progress)
 	double	increment[3];
 	int		new[3];
 	int		newcolor;
-
+	
 	if (len == 0)
 		len++;
 	increment[0] = (double)((R(endcolor)) - (R(startcolor))) / (double)len;

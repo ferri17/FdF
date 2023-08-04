@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 22:39:23 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/30 23:44:12 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/08/03 19:20:14 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,12 @@ int	key_up(int key, void *param)
 		data->key.axis_locked[Y] = false;
 		data->key.axis_locked[Z] = true;
 	}
+	if (key == X_KEY || key == Y_KEY || key == Z_KEY)
+	{
+		data->map.col_axis[X] = COL_AXIS_X;
+		data->map.col_axis[Y] = COL_AXIS_Y;
+		data->map.col_axis[Z] = COL_AXIS_Z;
+	}
 	init_visualization(data);
 	return (0);
 }
@@ -99,6 +105,7 @@ int	mouse_up(int button, int x, int y, void *param)
 	{
 		data->key.first_left_click = true;
 		data->key.left_clicked = false;
+		init_visualization(data);
 	}
 	return (0);
 }

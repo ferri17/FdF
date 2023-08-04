@@ -6,15 +6,16 @@
 #    By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/03 23:08:40 by fbosch            #+#    #+#              #
-#    Updated: 2023/07/06 23:47:10 by fbosch           ###   ########.fr        #
+#    Updated: 2023/08/02 00:41:19 by fbosch           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-COLOUR_GREEN=\033[1;32m
-COLOUR_RED=\033[1;31m
-COLOUR_BLUE=\033[1;34m
-COLOUR_YELLOW=\x1b[33;01m
-COLOUR_END=\033[0m
+GREEN=\033[1;32m
+RED=\033[1;31m
+BLUE=\033[1;34m
+YELLOW=\x1b[33;01m
+END=\033[0m
+CL_LINE=\033[K
 
 SRC_LIBFT = ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c\
 ft_isprint.c ft_strlen.c ft_memset.c ft_bzero.c ft_memcpy.c\
@@ -64,26 +65,24 @@ all: $(NAME)
 
 ### CREATE LIBRARY ###
 $(NAME): $(OBJ)
-	@printf "$(COLOUR_GREEN)Linking...\n$(COLOUR_END)"
 	@$(LIB) $(NAME) $(OBJ)
-	@printf "$(LIB) $(NAME) $(patsubst $(BUILD_DIR)%,%,$(OBJ))\n"
-	@printf "$(COLOUR_GREEN)Compilation libft done!\xE2\x9C\x85\n$(COLOUR_END)"
+	@printf "\n$(GREEN)LIBFT COMPILED\n$(END)"
 
 ### CREATE ALL OBJECT FILES FROM SOURCE FILES ###
 $(BUILD_DIR)%.o: %.c
-	@printf "$(COLOUR_YELLOW)Compiling... $(COLOUR_END)$(patsubst $(BUILD_DIR)%,%,$@)\n"
+	@printf "\r$(CL_LINE)$(YELLOW)Compiling... $(END)$(patsubst $(BUILD_DIR)%,%,$@)"
 	@$(DIR_DUP)
 	@$(CC) $(CFLAGS) $(DEPFLAGS) -c $< -o $@
 
 -include $(DEP)
 
 clean:
-	@printf "$(COLOUR_RED)Deleting...\xE2\x9D\x97\\xE2\x9D\x97\\xE2\x9D\x97\n$(COLOUR_END)"
-	$(RM) $(OBJ) $(DEP) $(EXECUTABLES)
+	@printf "$(RED)$(NAME) OBJECTS DELETED\n$(END)"
+	@$(RM) $(OBJ) $(DEP) $(EXECUTABLES)
 
 fclean: clean
-	@printf "$(COLOUR_RED)Deleting...\xE2\x9D\x97\\xE2\x9D\x97\\xE2\x9D\x97\n$(COLOUR_END)"
-	$(RM) $(NAME)		
-	$(RM) -r $(BUILD_DIR)
+	@printf "$(RED)$(NAME) DELETED\n$(END)"
+	@$(RM) $(NAME)		
+	@$(RM) -r $(BUILD_DIR)
 
 re: fclean all
