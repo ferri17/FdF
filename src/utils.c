@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 22:21:16 by fbosch            #+#    #+#             */
-/*   Updated: 2023/08/04 21:35:31 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/08/05 11:08:50 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	init_rotation_matrix(t_map *map)
 	init_matrix(map->r_matrix.y);
 	init_matrix(map->r_matrix.z);
 }
+
 void	init_image(t_mlx *data)
 {
 	data->img.ptr = mlx_new_image(data->mlx, WIN_W, WIN_H);

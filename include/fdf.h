@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:50:15 by fbosch            #+#    #+#             */
-/*   Updated: 2023/08/05 01:39:30 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/08/05 11:12:38 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,10 +101,12 @@
 # define ORANGE 0xE03E00
 # define GREEN 0x12D42A
 # define ACQUA_DARK 0x05828E
+# define BLUE 0x2286F5
 # define BLUE_DARK 0x04018F
 # define BROWN 0x8F7027
 # define RED 0xFA2828
-# define LIGHT_GRAY 0xC7C7C7
+# define GRAY_LIGHT 0xC7C7C7
+# define YELLOW 0xF4DD5B
 
 /*###	MAP THEMES	###*/
 # define BG_C 0
@@ -116,7 +118,7 @@
 
 # define COL_AXIS_X RED
 # define COL_AXIS_Y GREEN
-# define COL_AXIS_Z ACQUA
+# define COL_AXIS_Z BLUE
 
 /*###	BITSHIFTING	COLOR CHANNELS###*/
 # define A(a) (a) >> 24

@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 01:12:19 by fbosch            #+#    #+#             */
-/*   Updated: 2023/08/03 02:56:57 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/08/05 11:07:08 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	get_color_gradient(int startcolor, int endcolor, int len, int progress)
 	double	increment[3];
 	int		new[3];
 	int		newcolor;
-	
+
 	if (len == 0)
 		len++;
 	increment[0] = (double)((R(endcolor)) - (R(startcolor))) / (double)len;

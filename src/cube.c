@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 12:52:40 by fbosch            #+#    #+#             */
-/*   Updated: 2023/08/04 21:25:15 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/08/05 11:27:19 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void	init_cube(t_mlx *data, t_point *cube)
 
 static void	apply_transformations_cube(t_map *map, t_point cube[CUBE_VERTEX])
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while (i < CUBE_VERTEX)
@@ -91,40 +91,45 @@ static void	draw_axis(t_mlx *data, t_point *cube)
 	bresenham(data, line);
 }
 
-void 	draw_cube(t_mlx *data)
+static void	draw_edge_cube(t_mlx *data, t_line line, t_point *cube, int i)
+{
+	if (i == 0 || i == 2 || i == 4 || i == 6)
+	{
+		line.start = cube[i];
+		line.end = cube[i + 1];
+		bresenham(data, line);
+		if (i == 0 || i == 4)
+		{
+			line.start = cube[i];
+			line.end = cube[i + 3];
+		}
+		else
+		{
+			line.start = cube[i];
+			line.end = cube[i - 1];
+		}
+		bresenham(data, line);
+	}
+	if (i == 0 || i == 1 || i == 2 || i == 3)
+	{
+		line.start = cube[i];
+		line.end = cube[i + 4];
+		bresenham(data, line);
+	}
+}
+
+void	draw_cube(t_mlx *data)
 {
 	t_point	cube[CUBE_VERTEX];
 	t_line	line;
-	int	i;
+	int		i;
 
 	init_cube(data, cube);
 	apply_transformations_cube(&data->map, cube);
 	i = 0;
 	while (i < CUBE_VERTEX)
 	{
-		if (i == 0 || i == 2 || i == 4 || i == 6)
-		{
-			line.start = cube[i];
-			line.end = cube[i + 1];
-			bresenham(data, line);
-			if (i == 0 || i == 4)
-			{
-				line.start = cube[i];
-				line.end = cube[i + 3];
-			}
-			else
-			{
-				line.start = cube[i];
-				line.end = cube[i - 1];
-			}
-			bresenham(data, line);
-		}
-		if (i == 0 || i == 1 || i == 2 || i == 3)
-		{
-			line.start = cube[i];
-			line.end = cube[i + 4];
-			bresenham(data, line);
-		}
+		draw_edge_cube(data, line, cube, i);
 		i++;
 	}
 	draw_axis(data, cube);

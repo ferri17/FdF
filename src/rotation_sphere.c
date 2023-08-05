@@ -6,14 +6,15 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 17:47:06 by fbosch            #+#    #+#             */
-/*   Updated: 2023/08/05 02:39:26 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/08/05 11:06:11 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include "libft.h"
 
-static void	apply_transformations_circle(t_map *map, t_point *point, uint8_t axis)
+static void	apply_transformations_circle(t_map *map, t_point *point,
+		uint8_t axis)
 {
 	float	angle;
 	float	x_matrix[3][3];
@@ -59,30 +60,44 @@ static t_point	return_right_axis(int x, int y, uint8_t axis)
 	}
 	return (aux);
 }
+
+static bool	dotted_line(int *counter, int limit)
+{
+	(*counter)++;
+	if (*counter > limit - 1)
+		*counter = -limit;
+	if (*counter >= 0)
+		return (true);
+	else
+		return (false);
+}
+
 void	draw_rotation_axis(t_mlx *data, int radius, uint8_t axis)
 {
-	int	x;
-	int	y;
-	int		distance;
+	int		x;
+	int		y;
+	int		counter;
 	t_point	aux;
 
+	counter = 0;
 	y = -radius;
 	while (y <= radius)
 	{
 		x = -radius;
 		while (x <= radius)
 		{
-			distance = (x * x) + (y * y);
-			if (abs(distance - radius * radius) <= TOLERANCE)
+			if (abs((x * x) + (y * y) - radius * radius) <= TOLERANCE)
 			{
 				aux = return_right_axis(x, y, axis);
 				apply_transformations_circle(&data->map, &aux, axis);
-				my_put_pixel(data, aux.axis[X], aux.axis[Y], get_color_gradient(WHITE, data->map.col_axis[axis], radius * 2, abs(y))); //MIRAR AQUEST GRADIENT
+				if (dotted_line(&counter, 20))
+					my_put_pixel(data, aux.axis[X], aux.axis[Y],
+						data->map.col_axis[axis]);
 			}
 			x++;
 		}
 		y++;
-	} 
+	}
 }
 
 void	draw_rotation_sphere(t_mlx *data, int radius)

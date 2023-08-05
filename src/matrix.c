@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:50:53 by fbosch            #+#    #+#             */
-/*   Updated: 2023/08/04 23:03:30 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/08/05 11:09:31 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	init_matrix(float matrix[3][3])
 	matrix[2][2] = 0;
 }
 
-void	calculate_rotation_matrix(float	(*matrix)[3], float angle, uint8_t axis)
+void	calculate_rotation_matrix(float (*matrix)[3], float angle, uint8_t axis)
 {
 	if (axis == X)
 	{

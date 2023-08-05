@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 18:23:46 by fbosch            #+#    #+#             */
-/*   Updated: 2023/08/04 02:24:44 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/08/05 11:10:05 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,6 @@ void	draw_coordinates(t_mlx *data)
 		my_string_put(data, MENU_W + PAD / 2 * 7, WIN_H - PAD, y);
 	free(x);
 	free(y);
-
-
-	my_string_put(data, MENU_W + PAD / 2 * 10, WIN_H - PAD, ft_strjoin("X:", ft_itoa(data->map.rotate[X])));
-	my_string_put(data, MENU_W + PAD / 2 * 12, WIN_H - PAD, ft_strjoin("Y:", ft_itoa(data->map.rotate[Y])));
-	my_string_put(data, MENU_W + PAD / 2 * 14, WIN_H - PAD, ft_strjoin("Z:", ft_itoa(data->map.rotate[Z])));
-
 }
 
 static void	draw_controls(t_mlx *data)
