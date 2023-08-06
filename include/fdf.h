@@ -6,26 +6,28 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:50:15 by fbosch            #+#    #+#             */
-/*   Updated: 2023/08/05 11:12:38 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/08/07 01:55:59 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
+/*###	ERROR MESSAGES	###*/
 # define USAGE "Invalid arguments: USAGE [./fdf] [*.fdf]"
 # define FILE_ERROR "Error, couldn't open file."
 # define ERROR_MAP "Error reading map, make sure it's a valid map."
 # define ERROR_MAP_SIZE "Error reading map, minimum width and height is 2."
 # define ERROR_MAP_LENGTH "Error reading map, lines have different lengths."
 # define UNEXPECTED_ERR "Unexpected error, please run the program again."
-/*#define ERROR(number) "Error [" #number "]" */
 
 /*###	WINDOW SIZES	###*/
 # define WIN_W 1400
 # define WIN_H 750
-# define MENU_W 300
 # define PAD 50
+
+# define WIN_W2 500  //DELETEEE
+# define WIN_H2 500   //DELETEEEE
 
 /*###	MOVEMENTS	###*/
 # define ZOOM_IN 1.2
@@ -115,7 +117,6 @@
 # define TEXT 3
 
 /*###	AXIS COLOR	###*/
-
 # define COL_AXIS_X RED
 # define COL_AXIS_Y GREEN
 # define COL_AXIS_Z BLUE
@@ -162,8 +163,8 @@ typedef struct s_point
 
 typedef struct s_line_draw
 {
-	int	start[3];
-	int	end[3];
+	int	start[2];
+	int	end[2];
 }	t_line_draw;
 
 typedef struct s_line
@@ -221,6 +222,18 @@ typedef struct s_bresenh
 	int		err;
 	int		err2;
 }	t_bresenh;
+
+typedef struct s_cohen
+{
+	int	x;
+	int	y;
+	int	slope;
+	int code_start;
+	int code_end;
+	int code_out;
+	bool accept;
+}	t_cohen;
+
 
 /*###   MAP LOAD   ###*/
 void	load_map(char *map_dir, t_map *map);
@@ -280,5 +293,8 @@ void 	draw_cube(t_mlx *data);
 
 /*###	ROTATION SPHERE	###*/
 void	draw_rotation_sphere(t_mlx *data, int radius);
+
+/*###	COHEN SUTHERLAND	###*/
+void	cohen_sutherland_clipping(int start[2], int end[2]);
 
 #endif

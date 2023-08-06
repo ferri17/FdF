@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 00:03:56 by fbosch            #+#    #+#             */
-/*   Updated: 2023/08/04 23:27:54 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/08/05 22:33:25 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,10 @@ void	fill_background(t_mlx *data, int bg_color)
 		x = 0;
 		while (x < WIN_W)
 		{
-			my_put_pixel(data, x, y, bg_color);
+			if (x < WIN_W2 && y < WIN_H2)  //DELTEEEEEEEEEEEEEEE
+				my_put_pixel(data, x, y, BLUE_DARK);
+			else
+				my_put_pixel(data, x, y, bg_color);
 			x++;
 		}
 		y++;

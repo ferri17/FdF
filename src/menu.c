@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 18:23:46 by fbosch            #+#    #+#             */
-/*   Updated: 2023/08/05 11:10:05 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/08/06 21:41:04 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void	draw_axis_lock(t_mlx *data)
 		my_string_put(data, WIN_W - (PAD * 4), WIN_H - PAD, "NO AXIS LOCKED");
 }
 
-void	draw_coordinates(t_mlx *data)
+/* void	draw_coordinates(t_mlx *data)
 {
 	char	*x;
 	char	*y;
@@ -67,7 +67,7 @@ void	draw_coordinates(t_mlx *data)
 		my_string_put(data, MENU_W + PAD / 2 * 7, WIN_H - PAD, y);
 	free(x);
 	free(y);
-}
+} */
 
 static void	draw_controls(t_mlx *data)
 {
@@ -84,7 +84,7 @@ static void	draw_controls(t_mlx *data)
 void	draw_menu(t_mlx *data)
 {
 	draw_controls(data);
-	draw_coordinates(data);
+	//draw_coordinates(data);
 	draw_performance(data);
 	draw_axis_lock(data);
 }
