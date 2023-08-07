@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:08:24 by fbosch            #+#    #+#             */
-/*   Updated: 2023/08/05 01:27:17 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/08/08 03:17:11 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,10 @@ void	init_visualization(t_mlx *data)
 	temp_img_ptr = data->img.ptr;
 	temp_obj = data->map.obj;
 	init_image(data);
-	calculate_rotation_matrix(data->map.r_matrix.x, data->map.rotate[X], X);
-	calculate_rotation_matrix(data->map.r_matrix.y, data->map.rotate[Y], Y);
-	calculate_rotation_matrix(data->map.r_matrix.z, data->map.rotate[Z], Z);
+	calculate_all_rotation_matrix(data);
 	fill_background(data, data->map.theme[BG_C]);
 	draw_map(data, &data->map);
-	draw_cube(data);
-	if (data->key.left_clicked == true)
-		draw_rotation_sphere(data, 50);
+	draw_extras(data);
 	mlx_put_image_to_window(data->mlx, data->mlx_win, data->img.ptr, 0, 0);
 	if (temp_img_ptr != NULL)
 		mlx_destroy_image(data->mlx, temp_img_ptr);

@@ -6,28 +6,15 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 12:52:40 by fbosch            #+#    #+#             */
-/*   Updated: 2023/08/05 11:27:19 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/08/08 03:13:16 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include "libft.h"
 
-static void	set_color_cube(t_mlx *data, t_point *cube)
-{
-	int	i;
-
-	i = 0;
-	while (i < CUBE_VERTEX)
-	{
-		cube[i].color = data->map.theme[TEXT];
-		i++;
-	}
-}
-
 static void	init_cube(t_mlx *data, t_point *cube)
 {
-	set_color_cube(data, cube);
 	cube[0].axis[X] = -30;
 	cube[0].axis[Y] = -30;
 	cube[0].axis[Z] = 30;
@@ -61,6 +48,7 @@ static void	apply_transformations_cube(t_map *map, t_point cube[CUBE_VERTEX])
 	i = 0;
 	while (i < CUBE_VERTEX)
 	{
+		cube[i].color = map->theme[TEXT];
 		mult_matrix(&cube[i], map->r_matrix.x);
 		mult_matrix(&cube[i], map->r_matrix.z);
 		mult_matrix(&cube[i], map->r_matrix.y);
@@ -118,7 +106,7 @@ static void	draw_edge_cube(t_mlx *data, t_line line, t_point *cube, int i)
 	}
 }
 
-void	draw_cube(t_mlx *data)
+void	draw_extras(t_mlx *data)
 {
 	t_point	cube[CUBE_VERTEX];
 	t_line	line;
@@ -133,4 +121,6 @@ void	draw_cube(t_mlx *data)
 		i++;
 	}
 	draw_axis(data, cube);
+	if (data->key.left_clicked == true)
+		draw_rotation_sphere(data, 50);
 }

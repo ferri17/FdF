@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:50:15 by fbosch            #+#    #+#             */
-/*   Updated: 2023/08/07 01:55:59 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/08/08 03:15:35 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@
 # define WIN_H 750
 # define PAD 50
 
-# define WIN_W2 500  //DELETEEE
-# define WIN_H2 500   //DELETEEEE
+# define WIN_W2 500 // DELETEEE
+# define WIN_H2 500 // DELETEEEE
 
 /*###	MOVEMENTS	###*/
 # define ZOOM_IN 1.2
@@ -88,14 +88,15 @@
 /*###	GEOMETRY	###*/
 # define MATRIX_SIZE 3
 # ifndef M_PI
-#  define M_PI
+#  define M_PI 3.14159
 # endif
 # define RADIAN(degree) (degree) * (M_PI / 180)
 # define CUBE_VERTEX 8
 # define TOLERANCE 50
+# define LEN_DOT 4
 
 /*###	COLORS	###*/
-# define WHITE 0xFFFFFF	
+# define WHITE 0xFFFFFF
 # define BLACK 0x0
 # define GRAY_DARK 0x1A1A1A
 # define ACQUA 0x36FFDD
@@ -132,169 +133,170 @@
 # include <fcntl.h>
 # include <math.h> //CHECK IF IT HAS TO BE INCLUDED AS MAKEFILE FLAG
 # include <stdbool.h>
-# include <stdio.h> //DELETEEEEE
 # include <stdint.h>
+# include <stdio.h> //DELETEEEEE
 # include <time.h>
-
 
 typedef struct s_key
 {
-	bool	right_clicked;
-	bool	first_right_click;
-	bool	left_clicked;
-	bool	first_left_click;
-	bool	axis_locked[3];
-}	t_key;
+	bool		right_clicked;
+	bool		first_right_click;
+	bool		left_clicked;
+	bool		first_left_click;
+	bool		axis_locked[3];
+}				t_key;
 
 typedef struct s_image
 {
-	void	*ptr;
-	int		pixel_bits;
-	int		line_bytes;
-	int		endian;
-	char	*buffer;
-}	t_image;
+	void		*ptr;
+	int			pixel_bits;
+	int			line_bytes;
+	int			endian;
+	char		*buffer;
+}				t_image;
 
 typedef struct s_point
 {
-	float	axis[3];
-	int		color;
-}	t_point;
+	float		axis[3];
+	int			color;
+}				t_point;
 
 typedef struct s_line_draw
 {
-	int	start[2];
-	int	end[2];
-}	t_line_draw;
+	int			start[2];
+	int			end[2];
+}				t_line_draw;
 
 typedef struct s_line
 {
-	t_point	start;
-	t_point	end;
-}	t_line;
+	t_point		start;
+	t_point		end;
+}				t_line;
 
 typedef struct rotation_matrix
 {
-	float	x[3][3];
-	float	y[3][3];
-	float	z[3][3];
-}	r_mtx;
-
+	float		x[3][3];
+	float		y[3][3];
+	float		z[3][3];
+}				r_mtx;
 
 typedef struct s_map
 {
-	int		fd;
-	int		x_size;
-	int		y_size;
-	int		size;
-	int		highest;
-	int		lowest;
-	int		theme[4];
-	int		col_axis[3];
-	float	zoom;
-	float	z_resize;
-	float	translate[2];
-	int		rotate[3];
-	r_mtx	r_matrix;
-	uint8_t	mode;
-	int		t_render;
-	t_line	line;
-	t_point	*terrain;
-	t_point	*obj;
-}	t_map;
+	int			fd;
+	int			x_size;
+	int			y_size;
+	int			size;
+	int			highest;
+	int			lowest;
+	int			theme[4];
+	int			col_axis[3];
+	double		zoom;
+	float		z_resize;
+	float		translate[2];
+	int			rotate[3];
+	r_mtx		r_matrix;
+	uint8_t		mode;
+	int			t_render;
+	t_line		line;
+	t_point		*terrain;
+	t_point		*obj;
+}				t_map;
 
 typedef struct s_mlx
 {
-	void	*mlx;
-	void	*mlx_win;
-	t_map	map;
-	t_image	img;
-	t_key	key;
-}	t_mlx;
+	void		*mlx;
+	void		*mlx_win;
+	t_map		map;
+	t_image		img;
+	t_key		key;
+}				t_mlx;
 
 typedef struct s_bresenh
 {
 	t_line_draw	draw;
-	int		dx;
-	int		dy;
-	int		sx;
-	int		sy;
-	int		err;
-	int		err2;
-}	t_bresenh;
+	int			dx;
+	int			dy;
+	int			sx;
+	int			sy;
+	int			err;
+	int			err2;
+	bool		accept;
+}				t_bresenh;
 
 typedef struct s_cohen
 {
-	int	x;
-	int	y;
-	int	slope;
-	int code_start;
-	int code_end;
-	int code_out;
-	bool accept;
-}	t_cohen;
-
+	int			x;
+	int			y;
+	int			code_start;
+	int			code_end;
+	int			code_out;
+	bool		accept;
+}				t_cohen;
 
 /*###   MAP LOAD   ###*/
-void	load_map(char *map_dir, t_map *map);
-void	map_colors(t_map *map);
-void	calculate_start_position(t_mlx *data);
+void			load_map(char *map_dir, t_map *map);
+void			map_colors(t_map *map);
+void			calculate_start_position(t_mlx *data);
 
 /*###   UTILS   ###*/
-void	init_rotation_matrix(t_map *map);
-int		compare_str_end(char *str, char *end);
-void	error_exit(char *mssg);
-void	init_data(t_mlx *data);
-void	init_image(t_mlx *data);
+void			init_rotation_matrix(t_map *map);
+int				compare_str_end(char *str, char *end);
+void			error_exit(char *mssg);
+void			init_data(t_mlx *data);
+void			init_image(t_mlx *data);
 
 /*###   DRAW   ###*/
-void	init_visualization(t_mlx *data);
-void	draw_map(t_mlx *data, t_map *map);
-void	bresenham(t_mlx *data, t_line line);
-int		my_put_pixel(t_mlx *data, int x, int y, int color);
-void	fill_background(t_mlx *data, int bg_color);
+void			init_visualization(t_mlx *data);
+void			draw_map(t_mlx *data, t_map *map);
+void			bresenham(t_mlx *data, t_line line);
+int				my_put_pixel(t_mlx *data, int x, int y, int color);
+void			fill_background(t_mlx *data, int bg_color);
 
 /*###   DRAW UTILS  ###*/
-int		get_color_gradient(int startcolor, int endcolor, int len, int progress);
-void	set_color(t_image *img, int pixel, int color);
-void	draw_map_mode(t_mlx *data, t_map *map, int i);
-void	draw_dot(t_mlx *data, t_point obj);
-void	my_string_put(t_mlx *data, int x, int y, char *text);
+int				get_color_gradient(int startcolor, int endcolor, int len,
+					int progress);
+void			set_color(t_image *img, int pixel, int color);
+void			draw_map_mode(t_mlx *data, t_map *map, int i);
+void			draw_dot(t_mlx *data, t_point obj);
+void			my_string_put(t_mlx *data, int x, int y, char *text);
 
 /*###   MATRIX  ###*/
-void	mult_matrix(t_point *point, float (*matrix)[3]);
-void	init_matrix(float	matrix[3][3]);
-void	calculate_rotation_matrix(float	(*matrix)[3], float angle, uint8_t axis);
+void			mult_matrix(t_point *point, float (*matrix)[3]);
+void			init_matrix(float matrix[3][3]);
+void			calculate_rotation_matrix(float (*matrix)[3], float angle,
+					uint8_t axis);
+void			calculate_all_rotation_matrix(t_mlx *data);
+
 
 /*###	EVENTS	###*/
-int		key_up(int key, void *param);
-int		key_down(int key, void *param);
-int		mouse_down(int button, int x, int y, void *param);
-int		mouse_up(int button, int x, int y, void *param);
-int		mouse_move(int x, int y, void *param);
+int				key_up(int key, void *param);
+int				key_down(int key, void *param);
+int				mouse_down(int button, int x, int y, void *param);
+int				mouse_up(int button, int x, int y, void *param);
+int				mouse_move(int x, int y, void *param);
 
 /*###	EVENT UTILS	###*/
-int		close_program(t_mlx *map, int exit_code);
-void	change_height(t_mlx *map, int key);
-void	move_map(t_mlx *map, int key);
-void	change_mode(t_mlx *data);
-void	change_theme(t_mlx *data, int key);
-void	lock_rotation_axis(t_mlx *data, int key);
-void	rotate_object(t_mlx *data, int key);
-void	snap_orto_projection(t_mlx *data);
-void	translate_map_mouse(t_mlx *data, int x, int y);
-void	rotate_map_mouse(t_mlx *data, int x, int y);
+int				close_program(t_mlx *map, int exit_code);
+void			change_height(t_mlx *map, int key);
+void			move_map(t_mlx *map, int key);
+void			change_mode(t_mlx *data);
+void			change_theme(t_mlx *data, int key);
+void			lock_rotation_axis(t_mlx *data, int key);
+void			rotate_object(t_mlx *data, int key);
+void			snap_orto_projection(t_mlx *data);
+void			translate_map_mouse(t_mlx *data, int x, int y);
+void			rotate_map_mouse(t_mlx *data, int x, int y);
 
 /*###	MENU	###*/
-void	draw_menu(t_mlx *data);
+void			draw_menu(t_mlx *data);
 
 /*###	CUBE	###*/
-void 	draw_cube(t_mlx *data);
+void			draw_extras(t_mlx *data);
 
 /*###	ROTATION SPHERE	###*/
-void	draw_rotation_sphere(t_mlx *data, int radius);
+void			draw_rotation_sphere(t_mlx *data, int radius);
 
 /*###	COHEN SUTHERLAND	###*/
-void	cohen_sutherland_clipping(int start[2], int end[2]);
+bool			cohen_sutherland_clipping(float start[3], float end[3]);
 
 #endif

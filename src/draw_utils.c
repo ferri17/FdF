@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 01:12:19 by fbosch            #+#    #+#             */
-/*   Updated: 2023/08/05 11:07:08 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/08/08 02:55:26 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	set_color(t_image *img, int pixel, int color)
 
 void	draw_dot(t_mlx *data, t_point obj)
 {
+	int	i;
 	int	x;
 	int	y;
 	int	color;
@@ -83,20 +84,10 @@ void	draw_dot(t_mlx *data, t_point obj)
 	x = round((int)obj.axis[X]);
 	y = round((int)obj.axis[Y]);
 	color = round((int)obj.color);
-	my_put_pixel(data, x, y, color);
-	my_put_pixel(data, x + 2, y, color);
-	my_put_pixel(data, x + 3, y, color);
-	my_put_pixel(data, x + 4, y, color);
-	my_put_pixel(data, x - 1, y, color);
-	my_put_pixel(data, x - 2, y, color);
-	my_put_pixel(data, x - 3, y, color);
-	my_put_pixel(data, x - 4, y, color);
-	my_put_pixel(data, x, y + 1, color);
-	my_put_pixel(data, x, y + 2, color);
-	my_put_pixel(data, x, y + 3, color);
-	my_put_pixel(data, x, y + 4, color);
-	my_put_pixel(data, x, y - 1, color);
-	my_put_pixel(data, x, y - 2, color);
-	my_put_pixel(data, x, y - 3, color);
-	my_put_pixel(data, x, y - 4, color);
+	i = 0;
+	while (i - LEN_DOT < LEN_DOT)
+		my_put_pixel(data, x + (i++ - LEN_DOT), y, color);
+	i = 0;
+	while (i - LEN_DOT < LEN_DOT)
+		my_put_pixel(data, x, y + (i++ - LEN_DOT), color);
 }

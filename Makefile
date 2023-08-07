@@ -6,7 +6,7 @@
 #    By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 19:36:01 by fbosch            #+#    #+#              #
-#    Updated: 2023/08/06 21:15:51 by fbosch           ###   ########.fr        #
+#    Updated: 2023/08/08 03:16:52 by fbosch           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,7 @@ BONUS_OBJ		=	$(patsubst $(SRC_DIR)%.c,$(BUILD_DIR)%.o,$(BONUS_FILES))
 DEP				=	$(OBJ:%.o=%.d) $(BONUS_OBJ:%.o=%.d)
 
 CC				=	cc #-fsanitize=address
-CFLAGS			=	#-Wall -Wextra -Werror
+CFLAGS			=	-Wall -Wextra -Werror
 DEPFLAGS		=	-I $(INCLUDE_DIR) -I $(MLX_DIR) -MMD -MP
 MLXFLGS			=	-L$(MLX_DIR) -lmlx -framework OpenGL -framework AppKit
 DIR_DUP			=	mkdir -p $(@D)

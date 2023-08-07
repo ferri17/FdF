@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 18:23:46 by fbosch            #+#    #+#             */
-/*   Updated: 2023/08/06 21:41:04 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/08/08 00:58:49 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,27 +48,6 @@ static void	draw_axis_lock(t_mlx *data)
 		my_string_put(data, WIN_W - (PAD * 4), WIN_H - PAD, "NO AXIS LOCKED");
 }
 
-/* void	draw_coordinates(t_mlx *data)
-{
-	char	*x;
-	char	*y;
-
-	my_string_put(data, MENU_W + PAD, WIN_H - PAD, "X:");
-	my_string_put(data, MENU_W + PAD * 3, WIN_H - PAD, "Y:");
-	x = ft_itoa(data->map.translate[X]);
-	if (!x)
-		my_string_put(data, MENU_W + PAD / 2 * 3, WIN_H - PAD, "???");
-	else
-		my_string_put(data, MENU_W + PAD / 2 * 3, WIN_H - PAD, x);
-	y = ft_itoa(data->map.translate[Y]);
-	if (!y)
-		my_string_put(data, MENU_W + PAD / 2 * 7, WIN_H - PAD, "???");
-	else
-		my_string_put(data, MENU_W + PAD / 2 * 7, WIN_H - PAD, y);
-	free(x);
-	free(y);
-} */
-
 static void	draw_controls(t_mlx *data)
 {
 	my_string_put(data, PAD / 2, WIN_H - PAD * 9, "#####   CONTROLS   #####");
@@ -84,7 +63,6 @@ static void	draw_controls(t_mlx *data)
 void	draw_menu(t_mlx *data)
 {
 	draw_controls(data);
-	//draw_coordinates(data);
 	draw_performance(data);
 	draw_axis_lock(data);
 }

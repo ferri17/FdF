@@ -6,12 +6,19 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:50:53 by fbosch            #+#    #+#             */
-/*   Updated: 2023/08/05 11:09:31 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/08/08 03:14:54 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include "libft.h"
+
+void	calculate_all_rotation_matrix(t_mlx *data)
+{
+	calculate_rotation_matrix(data->map.r_matrix.x, data->map.rotate[X], X);
+	calculate_rotation_matrix(data->map.r_matrix.y, data->map.rotate[Y], Y);
+	calculate_rotation_matrix(data->map.r_matrix.z, data->map.rotate[Z], Z);
+}
 
 void	mult_matrix(t_point *point, float (*matrix)[3])
 {
