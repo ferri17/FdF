@@ -1,17 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   fdf_bonus.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:50:15 by fbosch            #+#    #+#             */
-/*   Updated: 2023/08/08 03:15:35 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/08/08 15:36:06 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
+
+/*###	LIBRARIES	###*/
+# include "mlx.h"
+# include <fcntl.h>
+# include <math.h> //CHECK IF IT HAS TO BE INCLUDED AS MAKEFILE FLAG
+# include <stdbool.h>
+# include <stdint.h>
+# include <time.h>
 
 /*###	ERROR MESSAGES	###*/
 # define USAGE "Invalid arguments: USAGE [./fdf] [*.fdf]"
@@ -25,9 +33,6 @@
 # define WIN_W 1400
 # define WIN_H 750
 # define PAD 50
-
-# define WIN_W2 500 // DELETEEE
-# define WIN_H2 500 // DELETEEEE
 
 /*###	MOVEMENTS	###*/
 # define ZOOM_IN 1.2
@@ -90,7 +95,6 @@
 # ifndef M_PI
 #  define M_PI 3.14159
 # endif
-# define RADIAN(degree) (degree) * (M_PI / 180)
 # define CUBE_VERTEX 8
 # define TOLERANCE 50
 # define LEN_DOT 4
@@ -121,21 +125,6 @@
 # define COL_AXIS_X RED
 # define COL_AXIS_Y GREEN
 # define COL_AXIS_Z BLUE
-
-/*###	BITSHIFTING	COLOR CHANNELS###*/
-# define A(a) (a) >> 24
-# define R(a) (a) >> 16 & 0xFF
-# define G(a) ((a) >> 8) & 0xFF
-# define B(a) (a) & 0xFF
-# define RGB(a, b, c) ((a) << 16) + ((b) << 8) + (c)
-
-# include "mlx.h"
-# include <fcntl.h>
-# include <math.h> //CHECK IF IT HAS TO BE INCLUDED AS MAKEFILE FLAG
-# include <stdbool.h>
-# include <stdint.h>
-# include <stdio.h> //DELETEEEEE
-# include <time.h>
 
 typedef struct s_key
 {
@@ -178,7 +167,7 @@ typedef struct rotation_matrix
 	float		x[3][3];
 	float		y[3][3];
 	float		z[3][3];
-}				r_mtx;
+}				t_mtx;
 
 typedef struct s_map
 {
@@ -194,7 +183,7 @@ typedef struct s_map
 	float		z_resize;
 	float		translate[2];
 	int			rotate[3];
-	r_mtx		r_matrix;
+	t_mtx		r_matrix;
 	uint8_t		mode;
 	int			t_render;
 	t_line		line;
@@ -250,7 +239,7 @@ void			init_visualization(t_mlx *data);
 void			draw_map(t_mlx *data, t_map *map);
 void			bresenham(t_mlx *data, t_line line);
 int				my_put_pixel(t_mlx *data, int x, int y, int color);
-void			fill_background(t_mlx *data, int bg_color);
+void			draw_background(t_mlx *data, int bg_color);
 
 /*###   DRAW UTILS  ###*/
 int				get_color_gradient(int startcolor, int endcolor, int len,
@@ -266,7 +255,6 @@ void			init_matrix(float matrix[3][3]);
 void			calculate_rotation_matrix(float (*matrix)[3], float angle,
 					uint8_t axis);
 void			calculate_all_rotation_matrix(t_mlx *data);
-
 
 /*###	EVENTS	###*/
 int				key_up(int key, void *param);

@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 21:50:09 by fbosch            #+#    #+#             */
-/*   Updated: 2023/08/08 03:05:50 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/08/08 21:24:11 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	find_biggest(float n1, float n2)
 	return (-1);
 }
 
-static t_bresenh	init_bresenham_variables(t_mlx *data, t_line *line)
+static t_bresenh	init_bresenham_variables(t_line *line)
 {
 	t_bresenh	info;
 
@@ -60,7 +60,7 @@ void	bresenham(t_mlx *data, t_line line)
 	int			i;
 
 	i = 0;
-	info = init_bresenham_variables(data, &line);
+	info = init_bresenham_variables(&line);
 	if (!info.accept)
 		return ;
 	while (info.draw.start[X] != info.draw.end[X]

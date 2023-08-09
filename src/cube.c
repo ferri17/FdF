@@ -6,14 +6,14 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 12:52:40 by fbosch            #+#    #+#             */
-/*   Updated: 2023/08/08 03:13:16 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/08/08 21:24:20 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include "libft.h"
 
-static void	init_cube(t_mlx *data, t_point *cube)
+static void	init_cube(t_point *cube)
 {
 	cube[0].axis[X] = -30;
 	cube[0].axis[Y] = -30;
@@ -79,8 +79,10 @@ static void	draw_axis(t_mlx *data, t_point *cube)
 	bresenham(data, line);
 }
 
-static void	draw_edge_cube(t_mlx *data, t_line line, t_point *cube, int i)
+static void	draw_edge_cube(t_mlx *data, t_point *cube, int i)
 {
+	t_line	line;
+
 	if (i == 0 || i == 2 || i == 4 || i == 6)
 	{
 		line.start = cube[i];
@@ -109,15 +111,14 @@ static void	draw_edge_cube(t_mlx *data, t_line line, t_point *cube, int i)
 void	draw_extras(t_mlx *data)
 {
 	t_point	cube[CUBE_VERTEX];
-	t_line	line;
 	int		i;
 
-	init_cube(data, cube);
+	init_cube(cube);
 	apply_transformations_cube(&data->map, cube);
 	i = 0;
 	while (i < CUBE_VERTEX)
 	{
-		draw_edge_cube(data, line, cube, i);
+		draw_edge_cube(data, cube, i);
 		i++;
 	}
 	draw_axis(data, cube);

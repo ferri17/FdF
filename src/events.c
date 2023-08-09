@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 22:39:23 by fbosch            #+#    #+#             */
-/*   Updated: 2023/08/08 02:46:05 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/08/08 21:24:45 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ int	mouse_down(int button, int x, int y, void *param)
 {
 	t_mlx	*data;
 
+	(void)x;
+	(void)y;
 	data = (t_mlx *)param;
 	if (button == SCROLL_DOWN)
 		data->map.zoom *= ZOOM_IN;
@@ -95,6 +97,8 @@ int	mouse_up(int button, int x, int y, void *param)
 {
 	t_mlx	*data;
 
+	(void)x;
+	(void)y;
 	data = (t_mlx *)param;
 	if (button == RIGHT_CLICK)
 	{

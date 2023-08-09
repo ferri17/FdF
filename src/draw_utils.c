@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 01:12:19 by fbosch            #+#    #+#             */
-/*   Updated: 2023/08/08 02:55:26 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/08/08 21:24:24 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,21 +38,21 @@ void	my_string_put(t_mlx *data, int x, int y, char *txt)
 	mlx_string_put(data->mlx, data->mlx_win, x, y, data->map.theme[TEXT], txt);
 }
 
-int	get_color_gradient(int startcolor, int endcolor, int len, int progress)
+int	get_color_gradient(int strt, int end, int len, int progress)
 {
-	double	increment[3];
+	double	delta[3];
 	int		new[3];
 	int		newcolor;
 
 	if (len == 0)
 		len++;
-	increment[0] = (double)((R(endcolor)) - (R(startcolor))) / (double)len;
-	increment[1] = (double)((G(endcolor)) - (G(startcolor))) / (double)len;
-	increment[2] = (double)((B(endcolor)) - (B(startcolor))) / (double)len;
-	new[0] = (R(startcolor)) + round(progress * increment[0]);
-	new[1] = (G(startcolor)) + round(progress * increment[1]);
-	new[2] = (B(startcolor)) + round(progress * increment[2]);
-	newcolor = RGB(new[0], new[1], new[2]);
+	delta[0] = (double)((end >> 16 & 0xFF) - (strt >> 16 & 0xFF)) / (double)len;
+	delta[1] = (double)((end >> 8 & 0xFF) - (strt >> 8 & 0xFF)) / (double)len;
+	delta[2] = (double)((end & 0xFF) - (strt & 0xFF)) / (double)len;
+	new[0] = (strt >> 16 & 0xFF) + round(progress * delta[0]);
+	new[1] = (strt >> 8 & 0xFF) + round(progress * delta[1]);
+	new[2] = (strt & 0xFF) + round(progress * delta[2]);
+	newcolor = (new[0] << 16) + (new[1] << 8) + new[2];
 	return (newcolor);
 }
 
@@ -60,17 +60,17 @@ void	set_color(t_image *img, int pixel, int color)
 {
 	if (img->endian == 1)
 	{
-		img->buffer[pixel + 0] = A(color);
-		img->buffer[pixel + 1] = R(color);
-		img->buffer[pixel + 2] = G(color);
-		img->buffer[pixel + 3] = B(color);
+		img->buffer[pixel + 0] = color >> 24;
+		img->buffer[pixel + 1] = color >> 16 & 0xFF;
+		img->buffer[pixel + 2] = color >> 8 & 0xFF;
+		img->buffer[pixel + 3] = color & 0xFF;
 	}
 	else if (img->endian == 0)
 	{
-		img->buffer[pixel + 0] = B(color);
-		img->buffer[pixel + 1] = G(color);
-		img->buffer[pixel + 2] = R(color);
-		img->buffer[pixel + 3] = A(color);
+		img->buffer[pixel + 0] = color & 0xFF;
+		img->buffer[pixel + 1] = color >> 8 & 0xFF;
+		img->buffer[pixel + 2] = color >> 16 & 0xFF;
+		img->buffer[pixel + 3] = color >> 24;
 	}
 }
 

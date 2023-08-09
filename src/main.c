@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:08:24 by fbosch            #+#    #+#             */
-/*   Updated: 2023/08/08 03:17:11 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/08/08 21:59:04 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	init_visualization(t_mlx *data)
 	temp_obj = data->map.obj;
 	init_image(data);
 	calculate_all_rotation_matrix(data);
-	fill_background(data, data->map.theme[BG_C]);
+	draw_background(data, data->map.theme[BG_C]);
 	draw_map(data, &data->map);
 	draw_extras(data);
 	mlx_put_image_to_window(data->mlx, data->mlx_win, data->img.ptr, 0, 0);

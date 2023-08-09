@@ -13,6 +13,8 @@
 		"unordered_map": "c",
 		"vector": "c",
 		"string": "c",
-		"string_view": "c"
+		"string_view": "c",
+		"fdf.h": "c",
+		"stdint.h": "c"
 	}
 }

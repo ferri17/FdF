@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 00:03:56 by fbosch            #+#    #+#             */
-/*   Updated: 2023/08/08 00:55:31 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/08/08 21:58:27 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	draw_map(t_mlx *data, t_map *map)
 	}
 }
 
-void	fill_background(t_mlx *data, int bg_color)
+void	draw_background(t_mlx *data, int bg_color)
 {
 	int	x;
 	int	y;

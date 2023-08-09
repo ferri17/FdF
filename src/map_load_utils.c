@@ -6,12 +6,12 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 01:27:10 by fbosch            #+#    #+#             */
-/*   Updated: 2023/08/04 02:33:44 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/08/08 21:24:54 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "fdf.h"
+#include "libft.h"
 
 void	calculate_start_position(t_mlx *data)
 {

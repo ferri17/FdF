@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 18:23:46 by fbosch            #+#    #+#             */
-/*   Updated: 2023/08/08 00:58:49 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/08/08 21:28:22 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	draw_controls(t_mlx *data)
 	my_string_put(data, PAD / 2, WIN_H - PAD * 6, "Lock rotation: Hold X,Y,Z");
 	my_string_put(data, PAD / 2, WIN_H - PAD * 5, "Theme color: 1,2,3");
 	my_string_put(data, PAD / 2, WIN_H - PAD * 4, "Change height: N,M");
-	my_string_put(data, PAD / 2, WIN_H - PAD * 3, "Line/dot mode: G");
+	my_string_put(data, PAD / 2, WIN_H - PAD * 3, "Edge/Vertex mode: G");
 	my_string_put(data, PAD / 2, WIN_H - PAD * 2, "Snap angle: Hold H");
 	my_string_put(data, PAD / 2, WIN_H - PAD, "Change projection: I,P");
 }
