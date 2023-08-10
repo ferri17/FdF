@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   menu.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 18:23:46 by fbosch            #+#    #+#             */
-/*   Updated: 2023/08/08 21:28:22 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/08/10 19:27:20 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,9 @@ static void	draw_axis_lock(t_mlx *data)
 
 static void	draw_controls(t_mlx *data)
 {
-	my_string_put(data, PAD / 2, WIN_H - PAD * 9, "#####   CONTROLS   #####");
-	my_string_put(data, PAD / 2, WIN_H - PAD * 7, "Move: Right click + drag");
+	my_string_put(data, PAD / 2, WIN_H - PAD * 10, "#####   CONTROLS   #####");
+	my_string_put(data, PAD / 2, WIN_H - PAD * 8, "Move: Right click + drag");
+	my_string_put(data, PAD / 2, WIN_H - PAD * 7, "Rotate: Left click + drag");
 	my_string_put(data, PAD / 2, WIN_H - PAD * 6, "Lock rotation: Hold X,Y,Z");
 	my_string_put(data, PAD / 2, WIN_H - PAD * 5, "Theme color: 1,2,3");
 	my_string_put(data, PAD / 2, WIN_H - PAD * 4, "Change height: N,M");
