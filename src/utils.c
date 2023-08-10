@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 22:21:16 by fbosch            #+#    #+#             */
-/*   Updated: 2023/08/08 21:25:20 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/08/10 12:06:24 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	init_rotation_matrix(t_map *map)
 void	init_image(t_mlx *data)
 {
 	data->img.ptr = mlx_new_image(data->mlx, WIN_W, WIN_H);
-		data->img.buffer = mlx_get_data_addr(data->img.ptr,
+	data->img.buffer = mlx_get_data_addr(data->img.ptr,
 			&data->img.pixel_bits, &data->img.line_bytes, &data->img.endian);
 }
 

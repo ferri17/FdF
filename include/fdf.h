@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_bonus.h                                        :+:      :+:    :+:   */
+/*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:50:15 by fbosch            #+#    #+#             */
-/*   Updated: 2023/08/08 15:36:06 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/08/10 13:20:23 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 /*###	LIBRARIES	###*/
 # include "mlx.h"
 # include <fcntl.h>
-# include <math.h> //CHECK IF IT HAS TO BE INCLUDED AS MAKEFILE FLAG
+# include <math.h>
 # include <stdbool.h>
 # include <stdint.h>
 # include <time.h>

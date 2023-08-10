@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+         #
+#    By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 19:36:01 by fbosch            #+#    #+#              #
-#    Updated: 2023/08/08 21:42:16 by fbosch           ###   ########.fr        #
+#    Updated: 2023/08/10 13:20:26 by fbosch           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,8 @@ NAME			=	fdf
 
 LIBFT			=	libft.a
 LIBFT_DIR		=	libft/
+
+FILE_MAKE		=	Makefile
 
 SRC				=	main.c events.c events_utils.c utils.c map_load.c draw.c \
 					bresenham.c map_load_utils.c draw_utils.c menu.c matrix.c \
@@ -44,7 +46,7 @@ DEP				=	$(OBJ:%.o=%.d) $(BONUS_OBJ:%.o=%.d)
 CC				=	cc
 CFLAGS			=	-Wall -Wextra -Werror
 DEPFLAGS		=	-I $(INCLUDE_DIR) -I $(MLX_DIR) -MMD -MP
-MLXFLGS			=	-L$(MLX_DIR) -lmlx -framework OpenGL -framework AppKit
+MLXFLGS			=	-L$(MLX_DIR) -lmlx -lm -framework OpenGL -framework AppKit
 DIR_DUP			=	mkdir -p $(@D)
 
 EXECUTABLES		=	*.out *.exe
@@ -55,15 +57,15 @@ all: make_libs $(NAME)
 
 make_libs:
 	@printf "$(YELLOW)COMPILING LIBFT...\n$(END)"
-	@$(MAKE) -C $(LIBFT_DIR)
+	@$(MAKE) -C $(LIBFT_DIR) --no-print-directory
 	@printf "$(YELLOW)COMPILING MINILIBX...\n$(END)"
-	@$(MAKE) -C $(MLX_DIR)
+	@$(MAKE) -C $(MLX_DIR) --no-print-directory
 
 $(NAME): $(OBJ) $(LIBFT_DIR)$(LIBFT) $(MLX_DIR)$(MLX)
 		@$(CC) $(CFLAGS) $(OBJ) $(LIBFT_DIR)$(LIBFT) $(MLX_DIR)$(MLX) $(MLXFLGS) -o $(NAME)
 		@printf "\n$(GREEN)$(NAME) COMPILED!\n$(END)"
 
-$(BUILD_DIR)%.o: $(SRC_DIR)%.c $(LIBFT_DIR)$(LIBFT) $(MLX_DIR)$(MLX)
+$(BUILD_DIR)%.o: $(SRC_DIR)%.c $(LIBFT_DIR)$(LIBFT) $(MLX_DIR)$(MLX) $(FILE_MAKE)
 	@printf "\r$(CL_LINE)$(YELLOW)Compiling... $(END)$(patsubst $(BUILD_DIR)%,%,$@)"
 	@$(DIR_DUP)
 	@$(CC) $(CFLAGS) $(DEPFLAGS) -c $< -o $@
@@ -72,14 +74,14 @@ norm:
 	norminette
 	
 clean:
-	@$(MAKE) -C $(LIBFT_DIR) clean
-	@$(MAKE) -C $(MLX_DIR) clean
+	@$(MAKE) -C $(LIBFT_DIR) clean --no-print-directory
+	@$(MAKE) -C $(MLX_DIR) clean --no-print-directory
 	@$(RM) $(OBJ) $(DEP) $(EXECUTABLES)
 	@printf "$(RED)$(NAME) OBJECTS DELETED\n$(END)"
 
 fclean: clean
-	@$(MAKE) -C $(LIBFT_DIR) fclean
-	@$(MAKE) -C $(MLX_DIR) fclean
+	@$(MAKE) -C $(LIBFT_DIR) fclean --no-print-directory
+	@$(MAKE) -C $(MLX_DIR) fclean --no-print-directory
 	@$(RM) $(NAME)
 	@$(RM) -r $(BUILD_DIR)
 	@printf "$(RED)$(NAME) DELETED\n$(END)"

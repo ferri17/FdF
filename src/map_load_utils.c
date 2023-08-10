@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_load_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 01:27:10 by fbosch            #+#    #+#             */
-/*   Updated: 2023/08/08 21:24:54 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/08/10 12:05:53 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ void	map_colors(t_map *map)
 	i = 0;
 	while (i < map->size)
 	{
-			pro = map->terrain[i].axis[Z] - map->lowest;
-			map->terrain[i].color = get_color_gradient(map->theme[OBJ1_C], \
-				map->theme[OBJ2_C], len, pro);
-			i++;
+		pro = map->terrain[i].axis[Z] - map->lowest;
+		map->terrain[i].color = get_color_gradient(map->theme[OBJ1_C], \
+			map->theme[OBJ2_C], len, pro);
+		i++;
 	}
 }
