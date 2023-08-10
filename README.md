@@ -43,15 +43,19 @@ Each number represents a point in space:
 ## Getting Started
 In order to run the program first clone the repository:
 ```bash
-$ git clone git@github.com:ferri17/FdF.git
+git clone git@github.com:ferri17/FdF.git
+```
+Open the folder:
+```bash
+cd FdF/
 ```
 Compile the program:
 ```bash
-$ make
+make
 ```
 Run the program with a valid map as argument(test maps can be found in /maps)
 ```bash
-$ ./fdf maps/42.fdf
+./fdf maps/42.fdf
 ```
 
 <!-- Controls -->
@@ -75,3 +79,28 @@ $ ./fdf maps/42.fdf
 
 <!-- Resources -->
 ## Resources
+
+**Minilibx**
+
+Really good guides to start using minilibx functions.
+* https://gontjarow.github.io/MiniLibX/mlx-tutorial-create-image.html
+* https://harm-smits.github.io/42docs/libs/minilibx/images.html
+
+**How to draw a line in a pixel map**
+* https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm
+
+**How to represent a 3D figure in a 2D space**
+* https://www.youtube.com/watch?v=p4Iz0XJY-Qk
+* https://en.wikipedia.org/wiki/Rotation_matrix
+* https://clintbellanger.net/articles/isometric_math/
+  
+**Gradients**
+
+Best walkthrough to understand how to calculate a gradient between 2 points
+* https://dev.to/freerangepixels/a-probably-terrible-way-to-render-gradients-1p3n
+  
+**Virtual keys macOS**
+* https://stackoverflow.com/questions/3202629/where-can-i-find-a-list-of-mac-virtual-key-codes
+
+**Clipping lines to optimise render with Cohen-Sutherland algorithm**
+* https://www.geeksforgeeks.org/line-clipping-set-1-cohen-sutherland-algorithm/
