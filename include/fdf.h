@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:50:15 by fbosch            #+#    #+#             */
-/*   Updated: 2023/08/10 13:20:23 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/08/11 11:54:40 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,13 @@
 # define COL_AXIS_Y GREEN
 # define COL_AXIS_Z BLUE
 
+/*###	BITSHIFTING	COLOR CHANNELS###*/
+# define A(a) (a) >> 24
+# define R(a) (a) >> 16 & 0xFF
+# define G(a) ((a) >> 8) & 0xFF
+# define B(a) (a) & 0xFF
+# define RGB(a, b, c) ((a) << 16) + ((b) << 8) + (c)
+
 typedef struct s_key
 {
 	bool		right_clicked;
@@ -242,7 +249,7 @@ int				my_put_pixel(t_mlx *data, int x, int y, int color);
 void			draw_background(t_mlx *data, int bg_color);
 
 /*###   DRAW UTILS  ###*/
-int				get_color_gradient(int startcolor, int endcolor, int len,
+int				get_color_gradient(int start_color, int end_color, int len,
 					int progress);
 void			set_color(t_image *img, int pixel, int color);
 void			draw_map_mode(t_mlx *data, t_map *map, int i);

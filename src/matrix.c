@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:50:53 by fbosch            #+#    #+#             */
-/*   Updated: 2023/08/08 21:25:03 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/08/11 11:48:34 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,28 +58,31 @@ void	init_matrix(float matrix[3][3])
 
 void	calculate_rotation_matrix(float (*matrix)[3], float angle, uint8_t axis)
 {
+	float	rad;
+
+	rad = angle * M_PI / 180;
 	if (axis == X)
 	{
 		matrix[0][0] = 1;
-		matrix[1][1] = cos(angle * M_PI / 180);
-		matrix[1][2] = -sin(angle * M_PI / 180);
-		matrix[2][1] = sin(angle * M_PI / 180);
-		matrix[2][2] = cos(angle * M_PI / 180);
+		matrix[1][1] = cos(rad);
+		matrix[1][2] = -sin(rad);
+		matrix[2][1] = sin(rad);
+		matrix[2][2] = cos(rad);
 	}
 	else if (axis == Y)
 	{
-		matrix[0][0] = cos(angle * M_PI / 180);
-		matrix[0][2] = sin(angle * M_PI / 180);
+		matrix[0][0] = cos(rad);
+		matrix[0][2] = sin(rad);
 		matrix[1][1] = 1;
-		matrix[2][0] = -sin(angle * M_PI / 180);
-		matrix[2][2] = cos(angle * M_PI / 180);
+		matrix[2][0] = -sin(rad);
+		matrix[2][2] = cos(rad);
 	}
 	else if (axis == Z)
 	{
-		matrix[0][0] = cos(angle * M_PI / 180);
-		matrix[0][1] = -sin(angle * M_PI / 180);
-		matrix[1][0] = sin(angle * M_PI / 180);
-		matrix[1][1] = cos(angle * M_PI / 180);
+		matrix[0][0] = cos(rad);
+		matrix[0][1] = -sin(rad);
+		matrix[1][0] = sin(rad);
+		matrix[1][1] = cos(rad);
 		matrix[2][2] = 1;
 	}
 }
