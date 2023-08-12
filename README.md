@@ -3,12 +3,13 @@
 	<img alt="GitHub top language" src="https://img.shields.io/github/languages/top/ferri17/FdF" />
 	<img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/ferri17/FdF?color=red" />
 	<img alt="GitHub last commit (by committer)" src="https://img.shields.io/github/last-commit/ferri17/FdF" />
+	<img alt="MacOS compatibility" src="https://img.shields.io/badge/macOS-compatible-brightgreen.svg" />
 </p>
 
 <h3 align="center">FdF 42 school project</h3>
 
   <p align="center">
-    This project is about creating a simple wireframe model representation of a 3D landscape by linking various points (x, y, z) thanks to line segments (edges).
+    This project is about creating a simple wireframe model representation of a 3D landscape by linking various points (x, y, z) thanks to line segments (edges). (Only compatible with macOS)
     <br />
   </p>
 </div>
