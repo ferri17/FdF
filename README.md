@@ -63,8 +63,8 @@ Run the program with a valid map as argument(test maps can be found in /maps)
 ## Controls
 | Action                          | Key                      |
 | :---                          | :----:                     |
-| Mouse right click + drag      | Move map                   |
-| Mouse left click + drag       | Rotate map                 |
+| Move map                      | Mouse right click + drag   |
+| Rotate map                    | Mouse left click + drag    |
 | Lock rotation axis            | Hold X,Y,Z while rotating  |
 | Color themes                  | 1, 2, 3                    |
 | Change map heights            | N,M                        |
